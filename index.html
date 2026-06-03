@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - JAICLUB</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: var(--bg-color);
+        }
+
+        .balance-pill {
+            background: transparent !important;
+            border: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            box-shadow: none !important;
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--accent-color);
+        }
+
+        .header-main {
+            text-align: center;
+            padding: 10px 0;
+            background: var(--bg-color);
+        }
+
+        .header-logo {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            color: var(--text-secondary);
+        }
+
+        .banner-section {
+            padding: 0 15px;
+            margin-bottom: 20px;
+        }
+
+        .main-banner {
+            width: 100%;
+            height: 180px;
+            border-radius: 20px;
+            background: linear-gradient(45deg, #1a1a3a, #2a2a5a);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .banner-content h2 {
+            font-size: 26px;
+            margin-bottom: 5px;
+        }
+
+        .banner-tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .notice-bar {
+            background: var(--card-bg);
+            margin: 0 15px 20px 15px;
+            padding: 10px 15px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+        }
+
+        .category-scroll {
+            display: flex;
+            gap: 15px;
+            padding: 0 15px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            scrollbar-width: none;
+        }
+
+        .category-pill {
+            padding: 10px 20px;
+            background: var(--card-bg);
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+
+        .category-pill.active {
+            background: var(--primary-gradient);
+        }
+
+        .game-section-title {
+            padding: 0 15px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .game-grid-refined {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding: 0 15px;
+        }
+
+        .game-card-refined {
+            aspect-ratio: 0.8;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            background: var(--card-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 10px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .floating-icons {
+            position: fixed;
+            right: 15px;
+            bottom: 100px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .floating-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="purple-home__nav-placeholder" style="height: 60px;"></div>
+    <div class="purple-home__nav"
+        style="position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 450px; height: 60px; background: #17182e; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; z-index: 1000; border-bottom: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 4px 15px rgba(0,0,0,0.3); overflow: hidden;">
+        <img src="./images/navBg.webp" class="purple-home__nav-bg"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; pointer-events: none;">
+        <!-- Left (Balance chip) -->
+        <div class="purple-home__nav-left balance-pill" onclick="location.href='wallet.html'"
+            style="cursor: pointer; position: relative; z-index: 1; padding: 0; height: 38px; display: flex; align-items: center; margin-left: -5px; flex-shrink: 0; width: 100px; min-width: 100px;">
+            <div class="purple-home__nav-chip"
+                style="display: flex; align-items: center; gap: 8px; background: transparent; height: 100%; padding: 0 10px 0 12px; border-radius: 20px; border: none; white-space: nowrap;">
+                <span class="purple-home__nav-chip__amount"
+                    style="font-size: 14px; font-weight: bold; color: #f1c40f; white-space: nowrap;">₹<span>3.61</span></span>
+                <div
+                    style="background: #f1c40f; color: #17182e; font-weight: 900; width: 18px; min-width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0;">
+                    +</div>
+            </div>
+        </div>
+
+        <!-- Center (Logo) -->
+        <div class="purple-home__nav-center"
+            style="display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; height: 44px; flex: 1; min-width: 0;">
+            <img src="./images/logo.png" alt="logo" class="purple-home__nav-logo"
+                style="height: 100%; object-fit: contain;">
+        </div>
+
+        <!-- Right (Download + Language) -->
+        <div class="purple-home__nav-right"
+            style="display: flex; align-items: center; position: relative; z-index: 1; height: 38px; margin-right: -5px; flex-shrink: 0; width: 110px; min-width: 110px; justify-content: flex-end;">
+            <div
+                style="display: flex; align-items: center; gap: 10px; background: transparent; height: 100%; padding: 0 12px; border-radius: 20px; border: none; white-space: nowrap;">
+                <div class="purple-home__nav-download" id="header-download-btn"
+                    style="cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        style="min-width: 18px; min-height: 18px;">
+                        <path d="M19 15V17C19 18.1046 18.1046 19 17 19H7C5.89543 19 5 18.1046 5 17V15" stroke="#f1c40f"
+                            stroke-width="2.5" stroke-linecap="round" />
+                        <path d="M12 3V14M12 14L8 10M12 14L16 10" stroke="#2ecc71" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <div
+                    style="display: flex; align-items: center; gap: 4px; font-size: 13px; flex-shrink: 0; white-space: nowrap;">
+                    <img id="country-flag" src="https://flagcdn.com/w20/us.png" width="18" alt="EN"
+                        style="border-radius: 2px; object-fit: cover; min-width: 18px;">
+                    <select id="country-select"
+                        style="background: transparent; border: none; color: white; font-size: 13px; outline: none; cursor: pointer; font-weight: bold; padding: 0;">
+                        <option value="EN" data-flag="us" style="background: #17182e; color: white;">EN</option>
+                        <option value="IN" data-flag="in" style="background: #17182e; color: white;">IN</option>
+                        <option value="ID" data-flag="id" style="background: #17182e; color: white;">ID</option>
+                        <option value="BR" data-flag="br" style="background: #17182e; color: white;">BR</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="banner-section">
+        <div class="slider-container">
+            <div class="slider-wrapper" style="width: 900%;">
+                <div class="main-banner active-slide"
+                    style="width: 11.111%; padding: 0; background: none; border: none; cursor: pointer;">
+                    <img src="https://ossimg.jaiclubpay.com/jaiclub/banner/Banner_20260328165751seps.jpg"
+                        style="width: 100%; height: 180px; object-fit: fill; border-radius: 20px;" alt="Banner 1">
+                </div>
+                <div class="main-banner"
+                    style="width: 11.111%; padding: 0; background: none; border: none; cursor: pointer;">
+                    <img src="https://ossimg.jaiclubpay.com/jaiclub/banner/Banner_20260328165613cgpq.jpg"
+                        style="width: 100%; height: 180px; object-fit: fill; border-radius: 20px;" alt="Banner 2">
+                </div>
+                <div class="main-banner"
+                    style="width: 11.111%; padding: 0; background: none; border: none; cursor: pointer;">
+                    <img src="https://ossimg.jaiclubpay.com/jaiclub/banner/Banner_20260504224421ym1u.jpg"
+                        style="width: 100%; height: 180px; object-fit: fill; border-radius: 20px;" alt="Banner 3">
+                </div>
+                <div class="main-banner"
+                    style="width: 11.111%; padding: 0; background: none; border: none; cursor: pointer;">
+                    <img src="https://ossimg.jaiclubpay.com/jaiclub/banner/Banner_20260328165737pj8m.jpg"
+                        style="width: 100%; height: 180px; object-fit: fill; border-radius: 20px;" alt="Banner 4">
+                </div>
+                <div class="main-banner"
+                    style="width: 11.111%; padding: 0; background: none; border: none; cursor: pointer;">
+                    <img src="https://ossimg.jaiclubpay.com/jaiclub/banner/Banner_2026032922084392lt.jpg"
+                        style="width: 100%; height: 180px; object-fit: fill; border-radius: 20px;" alt="Banner 5">
+                </div>
+                <div class="main-banner"
+                    style="width: 11.111%; padding: 0; background: none; border: none; cursor: pointer;">
+                    <img src="https://ossimg.jaiclubpay.com/jaiclub/banner/Banner_202603292214229onc.jpg"
+                        style="width: 100%; height: 180px; object-fit: fill; border-radius: 20px;" alt="Banner 6">
+                </div>
+                <div class="main-banner"
+                    style="width: 11.111%; padding: 0; background: none; border: none; cursor: pointer;">
+                    <img src="https://ossimg.jaiclubpay.com/jaiclub/banner/Banner_2026032922212632fe.jpg"
+                        style="width: 100%; height: 180px; object-fit: fill; border-radius: 20px;" alt="Banner 7">
+                </div>
+                <div class="main-banner"
+                    style="width: 11.111%; padding: 0; background: none; border: none; cursor: pointer;">
+                    <img src="https://ossimg.jaiclubpay.com/jaiclub/banner/Banner_20260329222202iyvc.jpg"
+                        style="width: 100%; height: 180px; object-fit: fill; border-radius: 20px;" alt="Banner 8">
+                </div>
+                <div class="main-banner"
+                    style="width: 11.111%; padding: 0; background: none; border: none; cursor: pointer;">
+                    <img src="https://ossimg.jaiclubpay.com/jaiclub/banner/Banner_202604232203507sx7.jpg"
+                        style="width: 100%; height: 180px; object-fit: fill; border-radius: 20px;" alt="Banner 9">
+                </div>
+            </div>
+            <!-- Slide Dots -->
+            <div class="slider-dots">
+                <span class="slider-dot active" onclick="setSlide(0)"></span>
+                <span class="slider-dot" onclick="setSlide(1)"></span>
+                <span class="slider-dot" onclick="setSlide(2)"></span>
+                <span class="slider-dot" onclick="setSlide(3)"></span>
+                <span class="slider-dot" onclick="setSlide(4)"></span>
+                <span class="slider-dot" onclick="setSlide(5)"></span>
+                <span class="slider-dot" onclick="setSlide(6)"></span>
+                <span class="slider-dot" onclick="setSlide(7)"></span>
+                <span class="slider-dot" onclick="setSlide(8)"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="notice-bar">
+        <i class="fas fa-volume-up" style="color: var(--accent-color);"></i>
+        <marquee behavior="scroll" direction="left" style="cursor: pointer;"
+            onclick="document.querySelector('.notice-bar button').click()">Welcome to join the Jaiclub platform. We
+            provide a brand new gaming
+            experience...</marquee>
+        <button class="btn btn-primary" style="padding: 4px 12px; font-size: 11px; border-radius: 12px;">Detail</button>
+    </div>
+
+    <div class="category-scroll">
+        <div class="category-pill active" data-category="popular">
+            <i class="fas fa-fire"></i>
+            <span>Popular</span>
+        </div>
+        <div class="category-pill" data-category="lottery">
+            <i class="fas fa-dice"></i>
+            <span>Lottery</span>
+        </div>
+        <div class="category-pill" data-category="minigames">
+            <i class="fas fa-rocket"></i>
+            <span>Mini games</span>
+        </div>
+    </div>
+
+    <div class="game-section-title">
+        <span id="category-title-text"
+            style="font-weight: bold; border-left: 3px solid var(--accent-color); padding-left: 10px;">Popular</span>
+        <span style="font-size: 12px; color: var(--text-secondary);">All <i class="fas fa-chevron-right"></i></span>
+    </div>
+
+    <!-- Popular Grid -->
+    <div id="grid-popular" class="category-game-grid"
+        style="display: flex; flex-direction: column; gap: 15px; padding: 0 15px;">
+        <!-- Popular Games Grid (Top level) -->
+        <div class="game-grid-refined" style="padding: 0; width: 100%;">
+            <div class="game-card-refined"
+                style="background-image: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.75)), url('./images/s.jpg');">
+                <span style="font-weight: bold; text-transform: uppercase;">Wingo</span>
+            </div>
+            <div class="game-card-refined"
+                style="background-image: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.75)), url('./images/800.png');">
+                <span style="font-weight: bold; text-transform: uppercase;">Aviator</span>
+            </div>
+            <div class="game-card-refined"
+                style="background-image: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.75)), url('./images/810.png');">
+                <span style="font-weight: bold; text-transform: uppercase;">Cricket</span>
+            </div>
+            <div class="game-card-refined"
+                style="background-image: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.75)), url('./images/910.png');">
+                <span style="font-weight: bold; text-transform: uppercase;">Pubg 1Min</span>
+            </div>
+            <div class="game-card-refined"
+                style="background-image: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.75)), url('./images/804.png');">
+                <span style="font-weight: bold; text-transform: uppercase;">Aviator</span>
+            </div>
+            <div class="game-card-refined"
+                style="background-image: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.75)), url('./images/124.png');">
+                <span style="font-weight: bold; text-transform: uppercase;">Vortex</span>
+            </div>
+        </div>
+
+        <!-- Recommended Games Container -->
+        <div
+            style="border-radius: 12px; overflow: hidden; background: #17182e; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 4px 20px rgba(0,0,0,0.25);">
+            <div class="rec-section-header"
+                style="background: #20213d; height: 36px; display: flex; align-items: center; padding: 0;">
+                <div
+                    style="background: linear-gradient(90deg, #4b3ca3 0%, #7c52d8 100%); height: 100%; display: flex; align-items: center; padding: 0 25px 0 15px; border-radius: 8px 25px 0 0; position: relative;">
+                    <span style="font-size: 13px; font-weight: bold; color: #fff; white-space: nowrap;">Recommended
+                        Games</span>
+                </div>
+            </div>
+
+            <div class="rec-game-grid"
+                style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 12px;">
+                <!-- MONEY COMING -->
+                <div class="rec-game-card" onclick="playGameSim('Money Coming')"
+                    style="position: relative; overflow: hidden; border-radius: 8px; cursor: pointer; transition: transform 0.2s; aspect-ratio: 0.77;">
+                    <img src="./images/money.png"
+                        style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 8px;">
+                </div>
+                <!-- FORTUNE GEMS 2 -->
+                <div class="rec-game-card" onclick="playGameSim('Fortune Gems 2')"
+                    style="position: relative; overflow: hidden; border-radius: 8px; cursor: pointer; transition: transform 0.2s; aspect-ratio: 0.77;">
+                    <img src="./images/foru.png"
+                        style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 8px;">
+                </div>
+                <!-- FORTUNE GEMS -->
+                <div class="rec-game-card" onclick="playGameSim('Fortune Gems')"
+                    style="position: relative; overflow: hidden; border-radius: 8px; cursor: pointer; transition: transform 0.2s; aspect-ratio: 0.77;">
+                    <img src="./images/fortne.png"
+                        style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 8px;">
+                </div>
+                <!-- HOT SPIN -->
+                <div class="rec-game-card" onclick="playGameSim('Hot Spin')"
+                    style="position: relative; overflow: hidden; border-radius: 8px; cursor: pointer; transition: transform 0.2s; aspect-ratio: 0.77;">
+                    <img src="./images/hot.png"
+                        style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 8px;">
+                </div>
+                <!-- CRAZY 777 -->
+                <div class="rec-game-card" onclick="playGameSim('Crazy 777')"
+                    style="position: relative; overflow: hidden; border-radius: 8px; cursor: pointer; transition: transform 0.2s; aspect-ratio: 0.77;">
+                    <img src="./images/777.png"
+                        style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 8px;">
+                </div>
+                <!-- WILDFIRE WINS -->
+                <div class="rec-game-card" onclick="playGameSim('Wildfire Wins')"
+                    style="position: relative; overflow: hidden; border-radius: 8px; cursor: pointer; transition: transform 0.2s; aspect-ratio: 0.77;">
+                    <img src="./images/wild.png"
+                        style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 8px;">
+                </div>
+            </div>
+        </div>
+
+        <!-- PowerOfTheKraken Showcase Card -->
+        <div class="kraken-card"
+            style="background: #17182e; padding: 15px; border-radius: 12px; display: flex; gap: 15px; position: relative; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 4px 20px rgba(0,0,0,0.25);">
+            <!-- Left: Image -->
+            <div style="width: 35%; max-width: 120px; flex-shrink: 0;">
+                <img src="./images/804.png"
+                    style="width: 100%; border-radius: 12px; display: block; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+            </div>
+            <!-- Right: Stats -->
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <h3
+                        style="font-size: 14px; font-weight: bold; color: #fff; margin-bottom: 4px; font-family: 'Inter', sans-serif;">
+                        PowerOfTheKraken</h3>
+
+                    <!-- Score Rating -->
+                    <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+                        <div style="display: flex; gap: 2px; color: #f1c40f; font-size: 9px;">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span style="font-size: 10px; color: #a1a1b5;"><span
+                                style="color: #fff; font-weight: bold;">5.0</span> | Score</span>
+                    </div>
+
+                    <!-- Rank -->
+                    <div style="font-size: 10px; color: #a1a1b5; margin-bottom: 6px;">
+                        Slot Game | <span style="color: #fb8466; font-weight: bold;">#01</span> | Rank
+                    </div>
+
+                    <!-- Winner Win -->
+                    <div style="font-size: 10px; color: #a1a1b5; margin-bottom: 8px;">
+                        <span style="color: #fff; font-weight: bold;">300K</span> Winner | <span
+                            style="color: #f1c40f; font-weight: bold;">1500x</span> | Max Win
+                    </div>
+                </div>
+
+                <!-- Play Now Button -->
+                <button onclick="playGameSim('PowerOfTheKraken')" class="btn"
+                    style="width: 100%; height: 32px; border-radius: 16px; background: var(--main_gradient-color); color: #fff; font-weight: bold; font-size: 12px; padding: 0; box-shadow: 0 4px 10px rgba(251, 132, 102, 0.2); border: none;">
+                    Play Now
+                </button>
+            </div>
+        </div>
+
+        <!-- Winning Information Section -->
+        <div class="winning-info-section"
+            style="border-radius: 12px; overflow: hidden; background: #17182e; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 4px 20px rgba(0,0,0,0.25);">
+            <div class="rec-section-header"
+                style="background: #20213d; height: 36px; display: flex; align-items: center; padding: 0;">
+                <div
+                    style="background: linear-gradient(90deg, #4b3ca3 0%, #7c52d8 100%); height: 100%; display: flex; align-items: center; padding: 0 25px 0 15px; border-radius: 8px 25px 0 0; position: relative;">
+                    <span style="font-size: 13px; font-weight: bold; color: #fff; white-space: nowrap;">Winning
+                        information</span>
+                </div>
+            </div>
+
+            <!-- Scrolling/List Container -->
+            <div
+                style="display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding: 12px; -webkit-overflow-scrolling: touch;">
+                <!-- Card 1 -->
+                <div
+                    style="flex-shrink: 0; width: 105px; background: #1f213a; border-radius: 10px; padding: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.03); position: relative;">
+                    <div
+                        style="font-size: 10px; color: #fff; font-weight: bold; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        Trx Wingo</div>
+                    <img src="./images/s.jpg"
+                        style="width: 32px; height: 32px; border-radius: 6px; object-fit: cover; margin: 0 auto 4px auto; display: block;">
+                    <button onclick="playGameSim('Trx Wingo')"
+                        style="background: var(--main_gradient-color); border: none; color: white; font-size: 8px; font-weight: bold; padding: 2px 6px; border-radius: 8px; cursor: pointer; margin-bottom: 4px; width: 100%;">Bet
+                        Now</button>
+                    <div
+                        style="font-size: 8px; color: #a1a1b5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        Mem***BFA</div>
+                    <div style="font-size: 8px; color: #2ed573; font-weight: bold;">Receive ₹19.60</div>
+                </div>
+
+                <!-- Card 2 -->
+                <div
+                    style="flex-shrink: 0; width: 105px; background: #1f213a; border-radius: 10px; padding: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.03); position: relative;">
+                    <div
+                        style="font-size: 10px; color: #fff; font-weight: bold; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        Win Go</div>
+                    <img src="./images/s.jpg"
+                        style="width: 32px; height: 32px; border-radius: 6px; object-fit: cover; margin: 0 auto 4px auto; display: block;">
+                    <button onclick="playGameSim('Win Go')"
+                        style="background: var(--main_gradient-color); border: none; color: white; font-size: 8px; font-weight: bold; padding: 2px 6px; border-radius: 8px; cursor: pointer; margin-bottom: 4px; width: 100%;">Bet
+                        Now</button>
+                    <div
+                        style="font-size: 8px; color: #a1a1b5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        Mem***HPF</div>
+                    <div style="font-size: 8px; color: #2ed573; font-weight: bold;">Receive ₹960.00</div>
+                </div>
+
+                <!-- Card 3 -->
+                <div
+                    style="flex-shrink: 0; width: 105px; background: #1f213a; border-radius: 10px; padding: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.03); position: relative;">
+                    <div
+                        style="font-size: 10px; color: #fff; font-weight: bold; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        Trx Wingo</div>
+                    <img src="./images/s.jpg"
+                        style="width: 32px; height: 32px; border-radius: 6px; object-fit: cover; margin: 0 auto 4px auto; display: block;">
+                    <button onclick="playGameSim('Trx Wingo')"
+                        style="background: var(--main_gradient-color); border: none; color: white; font-size: 8px; font-weight: bold; padding: 2px 6px; border-radius: 8px; cursor: pointer; margin-bottom: 4px; width: 100%;">Bet
+                        Now</button>
+                    <div
+                        style="font-size: 8px; color: #a1a1b5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        Mem***FNA</div>
+                    <div style="font-size: 8px; color: #2ed573; font-weight: bold;">Receive ₹45.00</div>
+                </div>
+
+                <!-- Card 4 -->
+                <div
+                    style="flex-shrink: 0; width: 105px; background: #1f213a; border-radius: 10px; padding: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.03); position: relative;">
+                    <div
+                        style="font-size: 10px; color: #fff; font-weight: bold; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        K3</div>
+                    <img src="./images/124.png"
+                        style="width: 32px; height: 32px; border-radius: 6px; object-fit: cover; margin: 0 auto 4px auto; display: block;">
+                    <button onclick="playGameSim('K3')"
+                        style="background: var(--main_gradient-color); border: none; color: white; font-size: 8px; font-weight: bold; padding: 2px 6px; border-radius: 8px; cursor: pointer; margin-bottom: 4px; width: 100%;">Bet
+                        Now</button>
+                    <div
+                        style="font-size: 8px; color: #a1a1b5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        Mem***QJR</div>
+                    <div style="font-size: 8px; color: #2ed573; font-weight: bold;">Receive ₹280.00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lottery Grid -->
+    <div id="grid-lottery" class="game-grid-refined category-game-grid" style="display: none;">
+        <div class="game-card-refined"
+            style="background-image: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.75)), url('./images/s.jpg');">
+            <span style="font-weight: bold; text-transform: uppercase;">Wingo</span>
+        </div>
+        <div class="game-card-refined"
+            style="background-image: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.75)), url('https://images.unsplash.com/photo-1518133835878-5a93cc3f89e5?auto=format&fit=crop&q=80&w=200');">
+            <span style="font-weight: bold; text-transform: uppercase;">K3</span>
+        </div>
+        <div class="game-card-refined"
+            style="background-image: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.75)), url('https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&q=80&w=200');">
+            <span style="font-weight: bold; text-transform: uppercase;">5D</span>
+        </div>
+        <div class="game-card-refined"
+            style="background-image: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.75)), url('https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=200');">
+            <span style="font-weight: bold; text-transform: uppercase;">Moto Racing</span>
+        </div>
+    </div>
+
+    <!-- Mini Games Grid -->
+    <div id="grid-minigames" class="game-grid-refined category-game-grid" style="display: none;">
+        <div class="game-card-refined"
+            style="background-image: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.75)), url('./images/s.jpg');">
+            <span style="font-weight: bold; text-transform: uppercase;">Wingo</span>
+        </div>
+        <div class="game-card-refined"
+            style="background-image: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.75)), url('./images/800.png');">
+            <span style="font-weight: bold; text-transform: uppercase;">Aviator</span>
+        </div>
+    </div>
+
+    <!-- Premium Floating Panel (including ReBenefit, Lucky Roulette, Dragon Tiger, and Robot service) -->
+    <div class="floating-icons"
+        style="position: fixed; right: 15px; bottom: 100px; display: flex; flex-direction: column; gap: 10px; z-index: 9999;">
+        <!-- ReBenefit Float -->
+        <div class="floating-icon-img" id="floating-gift-btn"
+            style="cursor: pointer; width: 44px; height: 44px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.35); transition: transform 0.2s;"
+            onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'"
+            title="Redeem Gift">
+            <img src="images/rewardCenter-f8f2277a.png"
+                style="width: 100%; height: 100%; object-fit: contain;"
+                onerror="this.src='https://www.jaiclub33.com/assets/png/rewardCenter-f8f2277a.png'">
+        </div>
+        <!-- Lucky Roulette Float -->
+        <div class="floating-icon-img" id="floating-roulette-btn"
+            style="cursor: pointer; width: 44px; height: 44px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.35); transition: transform 0.2s;"
+            onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'"
+            title="Lucky Roulette">
+            <img src="images/turntable-4464ae2e.png"
+                style="width: 100%; height: 100%; object-fit: contain;"
+                onerror="this.src='https://www.jaiclub33.com/assets/png/turntable-4464ae2e.png'">
+        </div>
+        <!-- Dragon Tiger Float -->
+        <div class="floating-icon-img" id="floating-dragonTiger-btn"
+            style="cursor: pointer; width: 44px; height: 44px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.35); transition: transform 0.2s;"
+            onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'"
+            title="Dragon Tiger Game">
+            <img src="images/changlong-54cbfdac.svg"
+                style="width: 100%; height: 100%; object-fit: contain;"
+                onerror="this.src='https://www.jaiclub33.com/assets/png/changlong-54cbfdac.svg'">
+        </div>
+        <!-- Robot Service Float -->
+        <div class="floating-icon-img" onclick="alert('Connecting to Live Customer Service...')"
+            style="cursor: pointer; width: 44px; height: 44px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.35); transition: transform 0.2s;"
+            onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'"
+            title="Customer Service">
+            <img src="images/rr.webp" style="width: 100%; height: 100%; object-fit: contain;"
+                onerror="this.src='https://www.jaiclub33.com/assets/png/icon_sevice-d0778bf5.webp'">
+        </div>
+    </div>
+
+    <div class="tabbar-container">
+        <!-- Layer 1: Pedestal behind the center button -->
+        <div class="tabbar__pedestal"></div>
+
+        <!-- Layer 2: Main Background Bar -->
+        <div class="tabbar__bar"></div>
+
+        <!-- Layer 3: Center Promotion Item -->
+        <div class="tabbar__center" onclick="location.href='promotion.html'">
+            <img src="./images/promotion-6cfedca7.webp" class="tabbar__center-icon--img">
+            <div class="tabbar__center-fg"></div>
+            <span class="tabbar__center-text">Promotion</span>
+        </div>
+
+        <!-- Layer 4: Items -->
+        <div class="tabbar__items">
+            <!-- Home (Active) -->
+            <div class="tabbar__items-tab active" onclick="location.href='index.html'">
+                <img src="./images/home.webp" class="tabbar__items-tab__icon">
+                <span>Home</span>
+            </div>
+
+            <!-- Activity -->
+            <div class="tabbar__items-tab" onclick="location.href='activity.html'">
+                <img src="./images/activity_nor-92e1ebc6.webp" class="tabbar__items-tab__icon">
+                <span>Activity</span>
+            </div>
+
+            <!-- Placeholder -->
+            <div class="tabbar__items-tab placeholder"></div>
+
+            <!-- Wallet -->
+            <div class="tabbar__items-tab" onclick="location.href='wallet.html'">
+                <img src="./images/wallet_nor-da2e681e.webp" class="tabbar__items-tab__icon">
+                <span>Wallet</span>
+            </div>
+
+            <!-- Account -->
+            <div class="tabbar__items-tab" onclick="location.href='account.html'">
+                <img src="./images/mine_nor-50322d77.webp" class="tabbar__items-tab__icon">
+                <span>Account</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simulated Lucky Roulette Spin Modal -->
+    <div id="roulette-modal" class="modal-overlay" style="display: none;">
+        <div class="glass-card modal-content"
+            style="max-width: 420px; width: 92%; padding: 25px; border: 1px solid var(--accent-color); text-align: center;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid rgba(247, 183, 49, 0.2); padding-bottom: 10px;">
+                <h3 style="color: var(--accent-color); display: flex; align-items: center; gap: 8px; font-size: 16px;">
+                    <i class="fas fa-dharmachakra"></i> Lucky Roulette iPhone 17
+                </h3>
+                <i class="fas fa-times" id="close-roulette-modal"
+                    style="font-size: 20px; cursor: pointer; color: var(--text-secondary);"></i>
+            </div>
+            <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 15px;">Cost per spin: ₹10. Win
+                iPhone 17 or cash bonuses up to ₹500!</p>
+
+            <!-- Wheel Container -->
+            <div style="position: relative; width: 200px; height: 200px; margin: 0 auto 20px auto;">
+                <div id="roulette-indicator"
+                    style="position: absolute; top: -10px; left: calc(50% - 10px); width: 20px; height: 20px; z-index: 50; color: var(--accent-color); font-size: 24px;">
+                    <i class="fas fa-caret-down"></i>
+                </div>
+                <div id="roulette-wheel" class="spin-wheel-circle"
+                    style="width: 100%; height: 100%; border-radius: 50%; border: 6px solid var(--accent-color); box-shadow: 0 0 20px rgba(247, 183, 49, 0.4); position: relative; overflow: hidden; transition: transform 4s cubic-bezier(0.1, 0.8, 0.1, 1); background: conic-gradient(#ff4757 0deg 60deg, #2ed573 60deg 120deg, #4facfe 120deg 180deg, #ffa502 180deg 240deg, #8e44ad 240deg 300deg, #f1c40f 300deg 360deg);">
+                    <!-- We'll display wheel labels centered -->
+                    <div
+                        style="position: absolute; width: 100%; height: 100%; font-size: 10px; font-weight: bold; color: white;">
+                        <span style="position: absolute; top: 20px; left: 85px; transform: rotate(30deg);">₹10</span>
+                        <span style="position: absolute; top: 55px; right: 20px; transform: rotate(90deg);">₹50</span>
+                        <span
+                            style="position: absolute; bottom: 25px; right: 40px; transform: rotate(150deg);">₹100</span>
+                        <span
+                            style="position: absolute; bottom: 20px; left: 80px; transform: rotate(210deg);">₹500</span>
+                        <span style="position: absolute; bottom: 55px; left: 15px; transform: rotate(270deg);">IPHONE
+                            17</span>
+                        <span style="position: absolute; top: 55px; left: 25px; transform: rotate(330deg);">TRY
+                            AGAIN</span>
+                    </div>
+                </div>
+            </div>
+
+            <button id="roulette-spin-btn" class="btn btn-gold"
+                style="width: 150px; font-weight: bold; height: 45px; border-radius: 20px; box-shadow: 0 4px 15px rgba(247,183,49,0.3);">SPIN
+                NOW</button>
+            <div id="roulette-result-msg"
+                style="margin-top: 15px; font-weight: bold; color: #2ed573; font-size: 14px; min-height: 20px;"></div>
+        </div>
+    </div>
+
+    <!-- Simulated Dragon & Tiger Card Game Modal -->
+    <div id="dragontiger-modal" class="modal-overlay" style="display: none;">
+        <div class="glass-card modal-content"
+            style="max-width: 420px; width: 92%; padding: 25px; border: 1px solid #4facfe; text-align: center;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid rgba(79, 172, 254, 0.2); padding-bottom: 10px;">
+                <h3 style="color: #4facfe; display: flex; align-items: center; gap: 8px; font-size: 16px;"><i
+                        class="fas fa-dragon"></i> Dragon & Tiger Simulator</h3>
+                <i class="fas fa-times" id="close-dragontiger-modal"
+                    style="font-size: 20px; cursor: pointer; color: var(--text-secondary);"></i>
+            </div>
+
+            <div style="display: flex; justify-content: space-around; align-items: center; margin: 20px 0;">
+                <!-- Dragon Card -->
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                    <span style="color: #ff4757; font-weight: bold; font-size: 14px;">DRAGON</span>
+                    <div id="dragon-card-box"
+                        style="width: 75px; height: 110px; border: 2px dashed rgba(255, 71, 87, 0.4); border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 32px; color: #ff4757; background: rgba(0,0,0,0.2);">
+                        <i class="fas fa-question"></i>
+                    </div>
+                </div>
+
+                <span style="font-size: 20px; font-weight: bold; color: var(--text-secondary);">VS</span>
+
+                <!-- Tiger Card -->
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                    <span style="color: #ffa502; font-weight: bold; font-size: 14px;">TIGER</span>
+                    <div id="tiger-card-box"
+                        style="width: 75px; height: 110px; border: 2px dashed rgba(255, 165, 2, 0.4); border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 32px; color: #ffa502; background: rgba(0,0,0,0.2);">
+                        <i class="fas fa-question"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Betting Controls -->
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
+                <div style="display: flex; justify-content: center; gap: 10px;">
+                    <button class="btn btn-outline bet-side-btn" id="bet-dragon-btn"
+                        style="border-color: rgba(255, 71, 87, 0.5); color: #ff4757; flex: 1;">Dragon (x2)</button>
+                    <button class="btn btn-outline bet-side-btn" id="bet-tie-btn"
+                        style="border-color: rgba(255, 255, 255, 0.3); color: #fff; flex: 0.8;">Tie (x9)</button>
+                    <button class="btn btn-outline bet-side-btn" id="bet-tiger-btn"
+                        style="border-color: rgba(255, 165, 2, 0.5); color: #ffa502; flex: 1;">Tiger (x2)</button>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Bet Amount (₹)</label>
+                    <input type="number" id="dragontiger-bet-amt" class="form-control" value="10" min="1"
+                        style="text-align: center;">
+                </div>
+            </div>
+
+            <button id="dragontiger-deal-btn" class="btn btn-secondary"
+                style="width: 100%; font-weight: bold; height: 48px; border-radius: 12px;">DEAL CARDS</button>
+            <div id="dragontiger-result-msg"
+                style="margin-top: 15px; font-weight: bold; font-size: 14px; min-height: 20px;"></div>
+        </div>
+    </div>
+
+    <!-- Announcement Detail Modal -->
+    <div id="notice-modal" class="modal-overlay" style="display: none;">
+        <div class="glass-card modal-content" style="max-width: 400px; width: 90%; padding: 25px; text-align: left;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+                <h3 style="color: #fff; display: flex; align-items: center; gap: 8px; font-size: 16px;"><i
+                        class="fas fa-bullhorn" style="color: var(--accent-color);"></i> JAICLUB Notice</h3>
+                <i class="fas fa-times" id="close-notice-modal"
+                    style="font-size: 20px; cursor: pointer; color: var(--text-secondary);"></i>
+            </div>
+            <div
+                style="font-size: 13px; line-height: 1.5; color: var(--text-secondary); max-height: 250px; overflow-y: auto;">
+                <p style="margin-bottom: 12px; font-weight: bold; color: #fff;">Dear JAICLUB members,</p>
+                <p style="margin-bottom: 12px;">Welcome to join the Jaiclub platform. We provide a brand new gaming
+                    experience with absolute fairness, quick withdraw system, and 24/7 dedicated support.</p>
+                <p style="margin-bottom: 12px;">Ensure your AR Wallet is topped up with ARBPay to receive the exclusive
+                    2% to 5% bonus. Invite your friends to receive 3-level commissions instantly!</p>
+                <p>Have fun and play responsibly!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simulated App Download Modal -->
+    <div id="download-modal" class="modal-overlay" style="display: none;">
+        <div class="glass-card modal-content" style="max-width: 380px; width: 90%; padding: 25px; text-align: center;">
+            <h3
+                style="color: #fff; margin-bottom: 15px; font-size: 16px; display: flex; justify-content: center; align-items: center; gap: 8px;">
+                <i class="fas fa-spinner fa-spin" style="color: var(--accent-color);"></i> Downloading Application
+            </h3>
+            <div
+                style="width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; margin-bottom: 12px;">
+                <div id="download-progress-bar"
+                    style="width: 0%; height: 100%; background: var(--primary-gradient); transition: width 0.1s linear;">
+                </div>
+            </div>
+            <p id="download-percent-text" style="font-size: 13px; color: var(--text-secondary);">0% complete</p>
+        </div>
+    </div>
+
+    <script>
+        function playGameSim(gameName) {
+            const currentUser = window.JaiDB ? window.JaiDB.getCurrentUser() : null;
+            if (!currentUser) {
+                alert("Please log in to play simulated games!");
+                window.location.href = "login.html";
+                return;
+            }
+            const cleanName = gameName.toLowerCase();
+            if (cleanName === 'wingo' || cleanName === 'trx wingo' || cleanName === 'win go') {
+                const wingoOverlay = document.getElementById('wingo-overlay');
+                if (wingoOverlay) {
+                    wingoOverlay.style.display = 'flex';
+                    // Check if function is available on window
+                    if (typeof window.startWingoTimer === 'function') {
+                        window.startWingoTimer();
+                    }
+                }
+            } else if (cleanName === 'aviator') {
+                const aviatorOverlay = document.getElementById('aviator-overlay');
+                if (aviatorOverlay) {
+                    aviatorOverlay.style.display = 'flex';
+                }
+            } else {
+                alert(`Simulated ${gameName.toUpperCase()} game server connecting. Please try Wingo or Aviator!`);
+            }
+        }
+    </script>
+    <script src="js/db.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

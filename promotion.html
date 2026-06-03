@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agency - JAICLUB</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .agency-header {
+            background: var(--purple-gradient);
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            margin-bottom: 20px;
+        }
+
+        .commission-box {
+            margin-top: -40px;
+            padding: 0 20px;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .option-list {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        .option-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .option-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .option-icon {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="purple-subpage__nav-placeholder" style="height: 50px;"></div>
+    <div class="navbar main">
+        <div class="navbar-fixed">
+            <div class="navbar__content" style="background: #17182e;">
+                <div class="navbar__content-left" style="width: 60px;"></div>
+                <div class="navbar__content-center"
+                    style="display: flex; justify-content: center; align-items: center;">
+                    <div class="navbar__content-title"
+                        style="font-size: 22.3488px; font-weight: 500; color: #FFFFFF; font-family: sans-serif;">Agency
+                    </div>
+                </div>
+                <div class="navbar__content-right"
+                    onclick="alert('Agency Rules: Promote and invite friends to register, deposit and bet to get high commissions.')"
+                    style="cursor: pointer; display: flex; align-items: center; justify-content: flex-end; width: 60px;">
+                    <div
+                        style="background-color: #2b2d56; width: 34px; height: 34px; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                        <img src="images/WhatsApp Image 2026-06-03 at 11.44.26 PM (1).jpeg"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="agency-header"
+        style="background: linear-gradient(135deg, #FB8466 0%, #BD5BD4 33%, #7473FA 66%, #53B2FA 100%); padding: 30px 20px 140px 20px; text-align: center; border-radius: 0; margin-bottom: 0;">
+        <h1
+            style="font-size: 33.6384px; font-weight: 500; color: #1A1A2C; margin: 5px 0 10px 0; font-family: sans-serif;">
+            <span id="commission-display">0</span>
+        </h1>
+        <div
+            style="background: #22224B; border-radius: 20px; padding: 5px 15px; display: inline-block; font-size: 16.141px; font-weight: bold; color: #A08FFF; margin-bottom: 12px; font-family: sans-serif;">
+            Yesterday's total commission</div>
+        <p style="font-size: 13.6574px; color: #1A1A2C; font-weight: 500; font-family: sans-serif;">Upgrade the level to
+            increase commission income</p>
+    </div>
+
+    <div class="commission-box" style="margin-top: -140px; padding: 6px 15px;">
+        <div class="glass-card"
+            style="padding: 0; border-radius: 18px; background: #23254c; border: 1.5px solid rgba(255,255,255,0.06); overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.35);">
+            <!-- Header Row -->
+            <div
+                style="display: flex; background: #2c2e56; padding: 12px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center;">
+                <div
+                    style="flex: 1; text-align: center; font-weight: bold; font-size: 16.141px; color: white; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <img src="images/WhatsApp Image 2026-06-03 at 11.44.26 PM (2).jpeg"
+                        style="width: 20px; height: 20px; object-fit: cover; border-radius: 3px;"> Direct subordinates
+                </div>
+                <div style="width: 1px; height: 18px; background: rgba(255,255,255,0.15);"></div>
+                <div
+                    style="flex: 1; text-align: center; font-weight: bold; font-size: 16.141px; color: white; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <img src="images/WhatsApp Image 2026-06-03 at 11.44.26 PM.jpeg"
+                        style="width: 20px; height: 20px; object-fit: cover; border-radius: 3px;"> Team subordinates
+                </div>
+            </div>
+            <!-- Stats Row -->
+            <div style="display: flex; padding: 18px 10px 14px 10px; position: relative;">
+                <!-- Vertical Divider in the center of the columns -->
+                <div
+                    style="position: absolute; left: 50%; top: 15px; bottom: 15px; width: 1px; background: rgba(255,255,255,0.08); transform: translateX(-50%);">
+                </div>
+
+                <!-- Left Column (Direct) -->
+                <div style="flex: 1; display: flex; flex-direction: column; gap: 15px;">
+                    <div style="text-align: center;">
+                        <div class="stat-editable" id="direct-register"
+                            style="font-size: 19.6222px; font-weight: 400; color: white; cursor: pointer; line-height: 1.2;">
+                            0</div>
+                        <div style="color:white; font-size:15.4174px; text-align: center; padding-top: .2rem;">
+                            number of register</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="stat-editable" id="direct-dep-num"
+                            style="font-size: 19.6222px; font-weight: 400; color: #00e676; cursor: pointer; line-height: 1.2;">
+                            0</div>
+                        <div style="color: white; font-size: 15.4174px; text-align: center; padding-top: .2rem;">
+                            Deposit number</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="stat-editable" id="direct-dep-amt"
+                            style="font-size: 19.6222px; font-weight: 400; color: #ffb300; cursor: pointer; line-height: 1.2;">
+                            0</div>
+                        <div style="color: white; font-size: 15.4174px; text-align: center; padding-top: .2rem;">
+                            Deposit amount</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="stat-editable" id="direct-first-dep"
+                            style="font-size: 19.6222px; font-weight: 400; color: white; cursor: pointer; line-height: 1.2;">
+                            0</div>
+                        <div
+                            style="color: white; font-size: 15.4174px; text-align: center; padding-top: .2rem; padding-left: 5px; padding-right: 5px; min-height: 28px; display: flex; align-items: center; justify-content: center; line-height: 1.2;">
+                            Number of people making first deposit</div>
+                    </div>
+                </div>
+
+                <!-- Right Column (Team) -->
+                <div style="flex: 1; display: flex; flex-direction: column; gap: 15px;">
+                    <div style="text-align: center;">
+                        <div class="stat-editable" id="team-register"
+                            style="font-size: 19.6222px; font-weight: 400; color: white; cursor: pointer; line-height: 1.2;">
+                            0</div>
+                        <div style="color: white; font-size: 15.4174px; text-align: center; padding-top: .2rem;">
+                            number of register</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="stat-editable" id="team-dep-num"
+                            style="font-size: 19.6222px; font-weight: 400; color: #00e676; cursor: pointer; line-height: 1.2;">
+                            0</div>
+                        <div style="color: white; font-size:15.4174px; text-align: center; padding-top: .2rem;">
+                            Deposit number</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="stat-editable" id="team-dep-amt"
+                            style="font-size: 19.6222px; font-weight: 400; color: #ffb300; cursor: pointer; line-height: 1.2;">
+                            0</div>
+                        <div style="color: white; font-size: 15.4174px; text-align: center; padding-top: .2rem;">
+                            Deposit amount</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="stat-editable" id="team-first-dep"
+                            style="font-size: 19.6222px; font-weight: 400; color: white; cursor: pointer; line-height: 1.2;">
+                            0</div>
+                        <div
+                            style="color: white; font-size: 15.4174px; text-align: center; padding-top: .2rem; padding-left: 5px; padding-right: 5px; min-height: 28px; display: flex; align-items: center; justify-content: center; line-height: 1.2;">
+                            Number of people making first deposit</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="padding: 15px 15px 8px 15px;">
+        <button class="btn"
+            style="width: 100%; height: 46px; font-size: 21.024px; font-weight: bold; border-radius: 23px; background: linear-gradient(90deg, #FB8466 0%, #BD5BD4 33%, #7473FA 66%, #53B2FA 100%); color: #1A1A2C; border: none; box-shadow: none;"
+            onclick="alert('QR Code Downloaded Successfully!')">
+            Download QR Code
+        </button>
+    </div>
+
+    <div class="option-list" style="padding: 0 15px; margin-top: 10px;">
+        <!-- Partner rewards -->
+        <div class="option-item"
+            style="cursor: pointer; padding: 12px; margin-bottom: 8px; border-radius: 12px; background: #22224B; border: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center;"
+            onclick="alert('Partner rewards: Standard Tier Commission rate is active!')">
+            <div class="option-left" style="gap: 10px;">
+                <div class="option-icon"
+                    style="width:30px; height:30px; border-radius:6px; overflow:hidden; display: flex; align-items: center; justify-content: center;">
+                    <img src="images/WhatsApp Image 2026-06-03 at 11.44.29 PM (1).jpeg"
+                        style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <span style="font-size: 15.4174px; color: white;">Partner rewards</span>
+            </div>
+            <i class="fas fa-chevron-right" style="color: var(--text-secondary); font-size: 11px;"></i>
+        </div>
+        <!-- Copy invitation code -->
+        <div class="option-item"
+            style="cursor: pointer; padding: 12px; margin-bottom: 8px; border-radius: 12px; background: #22224B; border: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center;"
+            id="copy-invite-btn">
+            <div class="option-left" style="gap: 10px;">
+                <div class="option-icon"
+                    style="width:30px; height:30px; border-radius:6px; overflow:hidden; display: flex; align-items: center; justify-content: center;">
+                    <img src="images/WhatsApp Image 2026-06-03 at 11.44.29 PM.jpeg"
+                        style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <span style="font-size: 15.4174px; color: white;">Copy invitation code</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span id="invite-code-display"
+                    style="font-size: 16.8192px; opacity: 0.8; color: #fff;">18233551345</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                    stroke="#7473fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                </svg>
+            </div>
+        </div>
+        <!-- Subordinate data -->
+        <a href="subordinate_data.html" class="option-item"
+            style="padding: 12px; margin-bottom: 8px; border-radius: 12px; background: #22224B; border: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center;">
+            <div class="option-left" style="gap: 10px;">
+                <div class="option-icon"
+                    style="width:30px; height:30px; border-radius:6px; overflow:hidden; display: flex; align-items: center; justify-content: center;">
+                    <img src="images/WhatsApp Image 2026-06-03 at 11.44.28 PM (2).jpeg"
+                        style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <span style="font-size: 15.4174px; color: white;">Subordinate data</span>
+            </div>
+            <i class="fas fa-chevron-right" style="color: var(--text-secondary); font-size: 11px;"></i>
+        </a>
+        <!-- Commission detail -->
+        <div class="option-item"
+            style="cursor: pointer; padding: 12px; margin-bottom: 8px; border-radius: 12px; background: #22224B; border: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center;"
+            onclick="alert('Direct Commission: 15% | Indirect Commission: 5% | Rebate Active')">
+            <div class="option-left" style="gap: 10px;">
+                <div class="option-icon"
+                    style="width:30px; height:30px; border-radius:6px; overflow:hidden; display: flex; align-items: center; justify-content: center;">
+                    <img src="images/WhatsApp Image 2026-06-03 at 11.44.27 PM (1).jpeg"
+                        style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <span style="font-size: 15.4174px; color: white;">Commission detail</span>
+            </div>
+            <i class="fas fa-chevron-right" style="color: var(--text-secondary); font-size: 11px;"></i>
+        </div>
+        <!-- Invitation rules -->
+        <div class="option-item"
+            style="cursor: pointer; padding: 12px; margin-bottom: 8px; border-radius: 12px; background: #22224B; border: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center;"
+            onclick="alert('Invitation rules loaded!')">
+            <div class="option-left" style="gap: 10px;">
+                <div class="option-icon"
+                    style="width:30px; height:30px; border-radius:6px; overflow:hidden; display: flex; align-items: center; justify-content: center;">
+                    <img src="images/WhatsApp Image 2026-06-03 at 11.44.27 PM (2).jpeg"
+                        style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <span style="font-size: 15.4174px; color: white;">Invitation rules</span>
+            </div>
+            <i class="fas fa-chevron-right" style="color: var(--text-secondary); font-size: 11px;"></i>
+        </div>
+        <!-- Agent line customer service -->
+        <div class="option-item"
+            style="cursor: pointer; padding: 12px; margin-bottom: 8px; border-radius: 12px; background: #22224B; border: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center;"
+            onclick="alert('Contacting Agent Line customer service...')">
+            <div class="option-left" style="gap: 10px;">
+                <div class="option-icon"
+                    style="width:30px; height:30px; border-radius:6px; overflow:hidden; display: flex; align-items: center; justify-content: center;">
+                    <img src="images/WhatsApp Image 2026-06-03 at 11.44.28 PM.jpeg"
+                        style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <span style="font-size: 15.4174px; color: white;">Agent line customer service</span>
+            </div>
+            <i class="fas fa-chevron-right" style="color: var(--text-secondary); font-size: 11px;"></i>
+        </div>
+        <!-- Rebate ratio -->
+        <div class="option-item"
+            style="cursor: pointer; padding: 12px; margin-bottom: 8px; border-radius: 12px; background: #22224B; border: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center;"
+            onclick="alert('Rebate ratio details loaded!')">
+            <div class="option-left" style="gap: 10px;">
+                <div class="option-icon"
+                    style="width:30px; height:30px; border-radius:6px; overflow:hidden; display: flex; align-items: center; justify-content: center;">
+                    <img src="images/WhatsApp Image 2026-06-03 at 11.44.28 PM (1).jpeg"
+                        style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <span style="font-size: 15.4174px; color: white;">Rebate ratio</span>
+            </div>
+            <i class="fas fa-chevron-right" style="color: var(--text-secondary); font-size: 11px;"></i>
+        </div>
+    </div>
+
+    <!-- promotion data card -->
+    <div style="padding: 10px 15px 95px 15px;">
+        <div
+            style="padding: 15px; border-radius: 16px; background: #22224B; border: 1px solid rgba(255,255,255,0.06); box-shadow: none;">
+            <div
+                style="display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 19.6222px; color: white; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;">
+                <img src="images/WhatsApp Image 2026-06-03 at 11.44.27 PM.jpeg"
+                    style="width: 20px; height: 20px; object-fit: cover; border-radius: 3px;"> promotion data
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px 5px; text-align: center;">
+                <div style="border-right: 1px solid rgba(255,255,255,0.05); padding-right: 5px;">
+                    <div class="stat-editable" id="promo-this-week"
+                        style="font-size: 21.024px; font-weight: 500; color: white; cursor: pointer;">0</div>
+                    <div style="font-size: 16.8192px; color: white; margin-top: 2px;">This Week</div>
+                </div>
+                <div>
+                    <div class="stat-editable" id="promo-total-comm"
+                        style="font-size: 21.024px; font-weight: 500; color: white; cursor: pointer;">0</div>
+                    <div style="font-size: 16.8192px; color: white; margin-top: 2px;">Total commission</div>
+                </div>
+                <div
+                    style="border-right: 1px solid rgba(255,255,255,0.05); padding-right: 5px; border-top: 1px solid rgba(255,255,255,0.04); padding-top: 10px;">
+                    <div class="stat-editable" id="promo-direct-sub"
+                        style="font-size: 21.024px; font-weight: 500; color: white; cursor: pointer;">0</div>
+                    <div style="font-size: 16.8192px; color: white; margin-top: 2px;">direct subordinate</div>
+                </div>
+                <div style="border-top: 1px solid rgba(255,255,255,0.04); padding-top: 10px;">
+                    <div class="stat-editable" id="promo-team-sub"
+                        style="font-size: 21.024px; font-weight: 500; color: white; cursor: pointer;">0</div>
+                    <div style="font-size: 16.8192px; color: white; margin-top: 2px; line-height: 1.2;">Total number of
+                        subordinates in the team</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tabbar-container">
+        <!-- Layer 1: Pedestal behind the center button -->
+        <div class="tabbar__pedestal"></div>
+
+        <!-- Layer 2: Main Background Bar -->
+        <div class="tabbar__bar"></div>
+
+        <!-- Layer 3: Center Promotion Item (Active page) -->
+        <div class="tabbar__center" onclick="location.href='promotion.html'">
+            <img src="./images/promotion-6cfedca7.webp" class="tabbar__center-icon--img"
+                style="transform: translateX(-50%) scale(1.05); filter: drop-shadow(0 0 8px rgba(246, 211, 101, 0.4));">
+            <div class="tabbar__center-fg"></div>
+            <span class="tabbar__center-text" style="color: #ffffff; font-weight: bold;">Promotion</span>
+        </div>
+
+        <!-- Layer 4: Items -->
+        <div class="tabbar__items">
+            <!-- Home -->
+            <div class="tabbar__items-tab" onclick="location.href='index.html'">
+                <img src="./images/home.webp" class="tabbar__items-tab__icon">
+                <span>Home</span>
+            </div>
+
+            <!-- Activity -->
+            <div class="tabbar__items-tab" onclick="location.href='activity.html'">
+                <img src="./images/activity_nor-92e1ebc6.webp" class="tabbar__items-tab__icon">
+                <span>Activity</span>
+            </div>
+
+            <!-- Placeholder -->
+            <div class="tabbar__items-tab placeholder"></div>
+
+            <!-- Wallet -->
+            <div class="tabbar__items-tab" onclick="location.href='wallet.html'">
+                <img src="./images/wallet_nor-da2e681e.webp" class="tabbar__items-tab__icon">
+                <span>Wallet</span>
+            </div>
+
+            <!-- Account -->
+            <div class="tabbar__items-tab" onclick="location.href='account.html'">
+                <img src="./images/mine_nor-50322d77.webp" class="tabbar__items-tab__icon">
+                <span>Account</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        // Make stats editable on double click
+        document.querySelectorAll('.stat-editable').forEach(el => {
+            el.addEventListener('dblclick', function () {
+                const currentVal = this.textContent.trim();
+                const newVal = prompt("Enter new value:", currentVal);
+                if (newVal !== null && newVal !== "") {
+                    this.textContent = newVal;
+                    // Persist to localStorage so it stays active!
+                    localStorage.setItem('promo_' + this.id, newVal);
+                }
+            });
+            // Try loading from localStorage
+            const savedVal = localStorage.getItem('promo_' + el.id);
+            if (savedVal !== null) {
+                el.textContent = savedVal;
+            }
+        });
+    </script>
+
+    <!-- Floating Robot Customer Service -->
+    <div class="floating-robot-service" onclick="alert('Connecting to Live Customer Service...')"
+        style="position: fixed; right: 15px; bottom: 120px; z-index: 9999; cursor: pointer; width: 55px; height: 55px; border-radius: 50%; transition: transform 0.2s ease;"
+        onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">
+        <img src="images/rr.webp" style="width: 100%; height: 100%; object-fit: contain;"
+            onerror="this.src='https://www.jaiclub33.com/assets/png/icon_sevice-d0778bf5.webp'">
+    </div>
+</body>
+
+</html>

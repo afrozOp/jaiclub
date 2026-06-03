@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subordinate Data - JAICLUB</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .sub-header {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-container {
+            padding: 0 15px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--card-bg);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 15px;
+            color: white;
+            padding-right: 50px;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--blue-gradient);
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--secondary-gradient);
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 10px;
+            padding: 0 15px;
+            margin-bottom: 20px;
+        }
+
+        .filter-btn {
+            flex: 1;
+            background: var(--card-bg);
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .data-grid {
+            margin: 0 15px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            text-align: center;
+            gap: 20px;
+            border-radius: 12px;
+            background: rgba(100, 150, 255, 0.1);
+        }
+
+        .data-item {
+            position: relative;
+        }
+
+        .data-item:nth-child(even)::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 10%;
+            height: 80%;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .data-value {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .data-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            line-height: 1.2;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 50px 0;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Hide calendar icon and style date input as a clean dropdown */
+        #subordinate-date-select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 10px center !important;
+            background-size: 20px !important;
+            padding-right: 30px !important;
+            position: relative;
+        }
+
+        #subordinate-date-select::-webkit-calendar-picker-indicator {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Custom arrow style for Tier select to match original screen */
+        #subordinate-level-select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 10px center !important;
+            background-size: 20px !important;
+            padding-right: 30px !important;
+        }
+
+        #subordinate-level-select option {
+            background-color: #17182e !important;
+            color: #ffffff !important;
+        }
+
+        /* Custom bottom sheet modal picker */
+        .picker-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+        }
+        .picker-container {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 450px;
+            background: #17182e;
+            border-radius: 20px 20px 0 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            z-index: 10001;
+            overflow: hidden;
+            animation: slideUp 0.3s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translate(-50%, 100%); }
+            to { transform: translate(-50%, 0); }
+        }
+        .picker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: #20213d;
+        }
+        .picker-header span {
+            font-size: 15px;
+            font-weight: bold;
+            color: #fff;
+        }
+        .picker-header .btn-cancel {
+            color: #88889d;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .picker-header .btn-confirm {
+            color: var(--accent-color);
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .picker-body {
+            display: flex;
+            height: 220px;
+            position: relative;
+            padding: 10px 0;
+            background: #17182e;
+        }
+        .picker-column {
+            flex: 1;
+            overflow-y: auto;
+            scrollbar-width: none;
+            text-align: center;
+            position: relative;
+            height: 100%;
+        }
+        .picker-column::-webkit-scrollbar {
+            display: none;
+        }
+        .picker-item {
+            height: 44px;
+            line-height: 44px;
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.3);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .picker-item.selected {
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 17px;
+        }
+        .picker-highlight {
+            position: absolute;
+            top: 88px;
+            left: 0;
+            width: 100%;
+            height: 44px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            pointer-events: none;
+            background: rgba(255, 255, 255, 0.02);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="purple-subpage__nav-placeholder" style="height: 55px;"></div>
+    <div class="purple-subpage__nav"
+        style="position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 450px; height: 55px; background: #17182e; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; z-index: 1000; border-bottom: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 4px 15px rgba(0,0,0,0.3); overflow: hidden;">
+
+        <a href="promotion.html"
+            style="cursor: pointer; position: relative; z-index: 1; color: white; font-size: 18px; width: 40px; display: flex; align-items: center;">
+            <i class="fas fa-chevron-left"></i>
+        </a>
+        <!-- Center (Title) -->
+        <div
+            style="position: relative; z-index: 1; font-size: 16px; font-weight: bold; color: white; flex-grow: 1; text-align: center;">
+            Subordinate data
+        </div>
+        <!-- Right (Spacer for centering) -->
+        <div style="width: 40px; position: relative; z-index: 1;"></div>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="subordinate-search" class="search-input" placeholder="Search subordinate UID">
+        <div id="subordinate-search-btn" class="search-btn" style="cursor: pointer;"><i class="fas fa-search"></i></div>
+    </div>
+
+    <div class="filter-row">
+        <!-- Tier Level Dropdown -->
+        <select id="subordinate-level-select" class="filter-btn"
+            style="border: none; outline: none; background: var(--card-bg); color: white; padding: 10px 15px; font-size: 14px; border-radius: 8px; cursor: pointer; text-align-last: center; flex: 1;">
+            <option value="all">All</option>
+            <option value="tier1">Tier 1</option>
+            <option value="tier2">Tier 2</option>
+            <option value="tier3">Tier 3</option>
+            <option value="tier4">Tier 4</option>
+            <option value="tier5">Tier 5</option>
+            <option value="tier6">Tier 6</option>
+        </select>
+        <!-- Hidden input to maintain compatibility with js/script.js -->
+        <input type="hidden" id="subordinate-date-select" value="2026-05-26">
+        
+        <!-- Custom Vant Style Date Pill Dropdown -->
+        <div class="filter-btn date-picker-trigger" id="date-picker-trigger" style="border: none; outline: none; background: var(--card-bg); color: white; padding: 10px 15px; font-size: 14px; border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; flex: 1; min-height: 41px;">
+            <span class="default" id="date-picker-display">2026-05-26</span>
+            <i class="van-badge__wrapper van-icon van-icon-arrow-down"><i class="fas fa-chevron-down" style="font-size: 10px; color: var(--text-secondary);"></i></i>
+        </div>
+    </div>
+
+    <div class="data-grid">
+        <div class="data-item">
+            <div class="data-value stat-editable" id="deposit-number-val" style="cursor: pointer;">0</div>
+            <div class="data-label">Deposit number</div>
+        </div>
+        <div class="data-item">
+            <div class="data-value stat-editable" id="deposit-amount-val" style="cursor: pointer;">0</div>
+            <div class="data-label">Deposit amount</div>
+        </div>
+        <div class="data-item">
+            <div class="data-value stat-editable" id="bettors-number-val" style="cursor: pointer;">0</div>
+            <div class="data-label">Number of bettors</div>
+        </div>
+        <div class="data-item">
+            <div class="data-value stat-editable" id="total-bet-val" style="cursor: pointer;">0</div>
+            <div class="data-label">Total bet</div>
+        </div>
+        <div class="data-item">
+            <div class="data-value stat-editable" id="first-deposit-people-val" style="cursor: pointer;">0</div>
+            <div class="data-label">Number of people making first deposit</div>
+        </div>
+        <div class="data-item">
+            <div class="data-value stat-editable" id="first-deposit-amount-val" style="cursor: pointer;">0</div>
+            <div class="data-label">First deposit amount</div>
+        </div>
+    </div>
+
+    <div id="subordinate-list-container" style="padding: 15px;">
+        <!-- Dynamic list entries will be injected here -->
+    </div>
+
+    <div class="no-data" id="no-data-placeholder">
+        <i class="fas fa-file-invoice" style="font-size: 40px; display: block; margin-bottom: 20px; opacity: 0.2;"></i>
+        No data
+    </div>
+
+    <!-- Bottom Sheet Mobile Date Picker Modal -->
+    <div id="date-picker-overlay" class="picker-overlay">
+        <div class="picker-container">
+            <div class="picker-header">
+                <span class="btn-cancel" id="picker-cancel">Cancel</span>
+                <span>Choose a date</span>
+                <span class="btn-confirm" id="picker-confirm">Confirm</span>
+            </div>
+            <div class="picker-body">
+                <div class="picker-highlight"></div>
+                <div class="picker-column" id="picker-year-col"></div>
+                <div class="picker-column" id="picker-month-col"></div>
+                <div class="picker-column" id="picker-day-col"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        // ---- Helper: get current selected date ----
+        function getCurrentSubDate() {
+            const el = document.getElementById('subordinate-date-select');
+            return el ? el.value : '2026-05-26';
+        }
+
+        // ---- Load stats for a specific date ----
+        function loadStatsForDate(date) {
+            document.querySelectorAll('.stat-editable').forEach(el => {
+                const key = 'sub_' + date + '_' + el.id;
+                const savedVal = localStorage.getItem(key);
+                el.textContent = (savedVal !== null) ? savedVal : '0';
+            });
+        }
+
+        // ---- Make stats editable on double click, save per-date ----
+        document.querySelectorAll('.stat-editable').forEach(el => {
+            el.addEventListener('dblclick', function () {
+                const currentDate = getCurrentSubDate();
+                const currentVal = this.textContent.trim();
+                const newVal = prompt("Enter new value:", currentVal);
+                if (newVal !== null && newVal !== "") {
+                    this.textContent = newVal;
+                    // Persist with date-specific key
+                    localStorage.setItem('sub_' + currentDate + '_' + this.id, newVal);
+                }
+            });
+        });
+
+        // Load stats for the initial date on page load
+        loadStatsForDate(getCurrentSubDate());
+
+        // Bottom Sheet Date Picker controller
+        (function() {
+            const datePickerOverlay = document.getElementById('date-picker-overlay');
+            const datePickerTrigger = document.getElementById('date-picker-trigger');
+            const datePickerDisplay = document.getElementById('date-picker-display');
+            const dateSelectCompat = document.getElementById('subordinate-date-select');
+
+            // Restore saved date from localStorage or use default
+            const savedDate = localStorage.getItem('sub_selected_date') || '2026-05-26';
+            if (datePickerDisplay) datePickerDisplay.textContent = savedDate;
+            if (dateSelectCompat) {
+                dateSelectCompat.value = savedDate;
+                // Load stats for the restored date
+                loadStatsForDate(savedDate);
+                setTimeout(() => {
+                    dateSelectCompat.dispatchEvent(new Event('change'));
+                }, 100);
+            }
+
+            const years = Array.from({length: 11}, (_, i) => 2020 + i);
+            const months = Array.from({length: 12}, (_, i) => String(i + 1).padStart(2, '0'));
+            const days = Array.from({length: 31}, (_, i) => String(i + 1).padStart(2, '0'));
+
+            let currentSelectedYear = savedDate.split('-')[0];
+            let currentSelectedMonth = savedDate.split('-')[1];
+            let currentSelectedDay = savedDate.split('-')[2];
+
+            const populateCol = (colId, items, currentVal, onSelect) => {
+                const col = document.getElementById(colId);
+                if (!col) return;
+                col.innerHTML = '';
+                // Add padding items
+                col.appendChild(createPaddingItem());
+                col.appendChild(createPaddingItem());
+                items.forEach(val => {
+                    const div = document.createElement('div');
+                    div.className = 'picker-item';
+                    div.textContent = val;
+                    if (String(val) === String(currentVal)) {
+                        div.classList.add('selected');
+                    }
+                    div.onclick = () => {
+                        col.querySelectorAll('.picker-item').forEach(el => el.classList.remove('selected'));
+                        div.classList.add('selected');
+                        onSelect(val);
+                        div.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    };
+                    col.appendChild(div);
+                });
+                col.appendChild(createPaddingItem());
+                col.appendChild(createPaddingItem());
+            };
+
+            const createPaddingItem = () => {
+                const div = document.createElement('div');
+                div.className = 'picker-item';
+                div.style.pointerEvents = 'none';
+                div.innerHTML = '&nbsp;';
+                return div;
+            };
+
+            const initPickers = () => {
+                const activeDate = dateSelectCompat ? dateSelectCompat.value : '2026-05-26';
+                currentSelectedYear = activeDate.split('-')[0];
+                currentSelectedMonth = activeDate.split('-')[1];
+                currentSelectedDay = activeDate.split('-')[2];
+
+                populateCol('picker-year-col', years, currentSelectedYear, (val) => currentSelectedYear = val);
+                populateCol('picker-month-col', months, currentSelectedMonth, (val) => currentSelectedMonth = val);
+                populateCol('picker-day-col', days, currentSelectedDay, (val) => currentSelectedDay = val);
+            };
+
+            if (datePickerTrigger) {
+                datePickerTrigger.addEventListener('click', () => {
+                    initPickers();
+                    datePickerOverlay.style.display = 'block';
+                    setTimeout(() => {
+                        ['picker-year-col', 'picker-month-col', 'picker-day-col'].forEach(colId => {
+                            const selected = document.querySelector(`#${colId} .picker-item.selected`);
+                            if (selected) selected.scrollIntoView({ block: 'center' });
+                        });
+                    }, 80);
+                });
+            }
+
+            const pickerCancel = document.getElementById('picker-cancel');
+            if (pickerCancel) {
+                pickerCancel.onclick = () => {
+                    datePickerOverlay.style.display = 'none';
+                };
+            }
+
+            const pickerConfirm = document.getElementById('picker-confirm');
+            if (pickerConfirm) {
+                pickerConfirm.onclick = () => {
+                    const fullDate = `${currentSelectedYear}-${currentSelectedMonth}-${currentSelectedDay}`;
+                    if (datePickerDisplay) datePickerDisplay.textContent = fullDate;
+                    localStorage.setItem('sub_selected_date', fullDate);
+                    
+                    if (dateSelectCompat) {
+                        dateSelectCompat.value = fullDate;
+                        dateSelectCompat.dispatchEvent(new Event('change'));
+                    }
+
+                    // Reload stats for the newly selected date
+                    loadStatsForDate(fullDate);
+
+                    datePickerOverlay.style.display = 'none';
+                };
+            }
+        })();
+    </script>
+    <!-- Floating Robot Customer Service -->
+    <div class="floating-robot-service" onclick="alert('Connecting to Live Customer Service...')"
+        style="position: fixed; right: 15px; bottom: 120px; z-index: 9999; cursor: pointer; width: 55px; height: 55px; border-radius: 50%; transition: transform 0.2s ease;"
+        onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">
+        <img src="images/rr.webp" style="width: 100%; height: 100%; object-fit: contain;"
+            onerror="this.src='https://www.jaiclub33.com/assets/png/icon_sevice-d0778bf5.webp'">
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet - JAICLUB</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .wallet-container-header-belly {
+            background: linear-gradient(90deg, #FB8466 0%, #BD5BD4 33%, #7473FA 66%, #53B2FA 100%);
+            margin-top: 0.13333rem;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            flex-direction: column;
+            -webkit-box-align: center;
+            align-items: center;
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+            font-family: sans-serif;
+        }
+
+        .wallet-container-header-belly .balance-val {
+            font-size: 33.6384px;
+            font-weight: 500;
+            margin: 5px 0 2px 0;
+        }
+
+        .wallet-container-header-belly .balance-label {
+            font-size: 13.6574px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .wallet-container-header-belly .stats-row {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .wallet-container-header-belly .stats-col {
+            flex: 1;
+            text-align: center;
+        }
+
+        .wallet-container-header-belly .stats-col p {
+            margin: 0;
+        }
+
+        .wallet-container-header-belly .stats-col .total {
+            font-size: 16.8192px;
+            font-weight: bold;
+        }
+
+        .wallet-container-header-belly .stats-col .label {
+            font-size: 13.6574px;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
+        .wallet-circle-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding: 30px 20px;
+            gap: 20px;
+        }
+
+        .circle-stat {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 8px solid var(--card-border);
+            border-radius: 50%;
+        }
+
+        .circle-stat::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border: 8px solid var(--accent-color);
+            border-radius: 50%;
+            border-left-color: transparent;
+            border-bottom-color: transparent;
+            transform: rotate(45deg);
+        }
+
+        .payment-methods {
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+
+        .method-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        .method-icon {
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            font-size: 20px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            justify-content: flex-end;
+            flex-direction: column;
+        }
+
+        .modal-content {
+            background: #121226;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            padding: 25px 20px;
+            max-height: 85%;
+            overflow-y: auto;
+            border-top: 1px solid var(--card-border);
+            animation: slideUp 0.3s cubic-bezier(0.1, 0.8, 0.3, 1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .amount-options {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .amount-option {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .amount-option.active {
+            border-color: var(--accent-color);
+            background: rgba(247, 183, 49, 0.1);
+            color: var(--accent-color);
+        }
+
+        .method-select-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .method-select-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .method-select-item.active {
+            border-color: var(--accent-color);
+            background: rgba(247, 183, 49, 0.1);
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        @media (min-width: 600px) {
+            .modal {
+                max-width: 450px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="purple-subpage__nav-placeholder" style="height: 50px;"></div>
+    <div class="navbar-fixed">
+        <div class="navbar__content">
+            <div class="navbar__content-left" onclick="location.href='index.html'"><i class="van-badge__wrapper van-icon van-icon-arrow-left"></i></div>
+            <div class="navbar__content-center"><div class="navbar__content-title">Wallet</div></div>
+            <div class="navbar__content-right"></div>
+        </div>
+    </div>
+
+    <div class="wallet-container-header-belly">
+        <!-- Wallet Icon from images/wallet.png -->
+        <img src="./images/wallet.png" style="width: 48px; height: 48px; margin-bottom: 8px; object-fit: contain;">
+        <div class="balance-val">₹<span id="wallet-balance">3.61</span></div>
+        <span class="balance-label">Total balance</span>
+        <div class="stats-row">
+            <div class="stats-col" style="border-right: 1px solid rgba(255,255,255,0.15);">
+                <p class="total">0</p>
+                <p class="label">Total amount</p>
+            </div>
+            <div class="stats-col">
+                <p class="total">1500</p>
+                <p class="label">Total deposit amount</p>
+            </div>
+        </div>
+        <!-- Hidden button triggers for JS compatibility -->
+        <button id="withdraw-open-btn" style="display: none;"></button>
+        <button id="deposit-open-btn" style="display: none;"></button>
+    </div>
+
+    <div class="wallet-circle-grid">
+        <div class="circle-stat">
+            <div style="font-size: 18px; font-weight: bold;" id="wallet-percent-1">100%</div>
+            <div style="font-size: 10px; color: var(--text-secondary);">Main Wallet</div>
+        </div>
+        <div class="circle-stat" style="border-color: var(--card-border);">
+            <div style="font-size: 18px; font-weight: bold;" id="wallet-percent-2">0%</div>
+            <div style="font-size: 10px; color: var(--text-secondary);">3rd Party</div>
+            <div class="circle-progress" style="border-color: var(--secondary-gradient);"></div>
+        </div>
+    </div>
+
+    <div class="payment-methods">
+        <h3 style="margin-bottom: 15px;">Deposit Methods</h3>
+        <div class="glass-card method-item" onclick="document.getElementById('deposit-open-btn').click()">
+            <div class="method-icon"><i class="fas fa-university"></i></div>
+            <div style="flex-grow: 1;">
+                <div style="font-weight: 600;">Bank Card</div>
+                <div style="font-size: 11px; color: var(--text-secondary);">Safe and fast</div>
+            </div>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="glass-card method-item" onclick="document.getElementById('deposit-open-btn').click()">
+            <div class="method-icon"><i class="fab fa-google-pay"></i></div>
+            <div style="flex-grow: 1;">
+                <div style="font-weight: 600;">UPI / GPay</div>
+                <div style="font-size: 11px; color: var(--text-secondary);">Instant deposit</div>
+            </div>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+    </div>
+
+    <!-- Deposit Modal -->
+    <div id="deposit-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Deposit Money</h3>
+                <i class="fas fa-times close-btn" onclick="closeModal('deposit-modal')"></i>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Select Deposit Amount (₹)</label>
+                <div class="amount-options">
+                    <div class="amount-option" onclick="selectPreset('deposit-amt', 100, this)">100</div>
+                    <div class="amount-option active" onclick="selectPreset('deposit-amt', 500, this)">500</div>
+                    <div class="amount-option" onclick="selectPreset('deposit-amt', 1000, this)">1k</div>
+                    <div class="amount-option" onclick="selectPreset('deposit-amt', 5000, this)">5k</div>
+                </div>
+                <input type="number" id="deposit-amt" class="form-control" placeholder="Enter custom amount" value="500">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Payment Channel</label>
+                <div class="method-select-grid">
+                    <div class="method-select-item active" onclick="selectChannel(this)">
+                        <i class="fab fa-google-pay" style="color: #4facfe;"></i>
+                        <span>UPI / GPay</span>
+                    </div>
+                    <div class="method-select-item" onclick="selectChannel(this)">
+                        <i class="fas fa-university" style="color: #ff6b6b;"></i>
+                        <span>Bank Transfer</span>
+                    </div>
+                </div>
+            </div>
+            <button id="deposit-submit-btn" class="btn btn-primary" style="width: 100%; height: 50px; font-size: 16px; border-radius: 12px;">Confirm Deposit</button>
+        </div>
+    </div>
+
+    <!-- Withdraw Modal -->
+    <div id="withdraw-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Withdraw Money</h3>
+                <i class="fas fa-times close-btn" onclick="closeModal('withdraw-modal')"></i>
+            </div>
+            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 15px;">Available: <span style="color: white; font-weight: bold;">₹ <span id="withdraw-available">3.61</span></span></p>
+            <div class="form-group">
+                <label class="form-label">Withdrawal Amount (₹)</label>
+                <div class="amount-options">
+                    <div class="amount-option" onclick="selectPreset('withdraw-amt', 100, this)">100</div>
+                    <div class="amount-option active" onclick="selectPreset('withdraw-amt', 500, this)">500</div>
+                    <div class="amount-option" onclick="selectPreset('withdraw-amt', 1000, this)">1k</div>
+                    <div class="amount-option" onclick="selectPreset('withdraw-amt', 5000, this)">5k</div>
+                </div>
+                <input type="number" id="withdraw-amt" class="form-control" placeholder="Enter amount" value="500">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Withdraw To (UPI ID or Bank Details)</label>
+                <input type="text" id="withdraw-details" class="form-control" placeholder="8884406837@ybl or Bank A/C Number" value="8884406837@ybl">
+            </div>
+            <button id="withdraw-submit-btn" class="btn btn-gold" style="width: 100%; height: 50px; font-size: 16px; border-radius: 12px;">Confirm Withdrawal</button>
+        </div>
+    </div>
+
+    <div class="tabbar-container">
+        <!-- Layer 1: Pedestal behind the center button -->
+        <div class="tabbar__pedestal"></div>
+        
+        <!-- Layer 2: Main Background Bar -->
+        <div class="tabbar__bar"></div>
+        
+        <!-- Layer 3: Center Promotion Item -->
+        <div class="tabbar__center" onclick="location.href='promotion.html'">
+            <img src="./images/promotion-6cfedca7.webp" class="tabbar__center-icon--img">
+            <div class="tabbar__center-fg"></div>
+            <span class="tabbar__center-text">Promotion</span>
+        </div>
+        
+        <!-- Layer 4: Items -->
+        <div class="tabbar__items">
+            <!-- Home -->
+            <div class="tabbar__items-tab" onclick="location.href='index.html'">
+                <img src="./images/home.webp" class="tabbar__items-tab__icon">
+                <span>Home</span>
+            </div>
+            
+            <!-- Activity -->
+            <div class="tabbar__items-tab" onclick="location.href='activity.html'">
+                <img src="./images/activity_nor-92e1ebc6.webp" class="tabbar__items-tab__icon">
+                <span>Activity</span>
+            </div>
+            
+            <!-- Placeholder -->
+            <div class="tabbar__items-tab placeholder"></div>
+            
+            <!-- Wallet (Active) -->
+            <div class="tabbar__items-tab active" onclick="location.href='wallet.html'">
+                <img src="./images/wallet_sel-8053d31d.webp" class="tabbar__items-tab__icon">
+                <span>Wallet</span>
+            </div>
+            
+            <!-- Account -->
+            <div class="tabbar__items-tab" onclick="location.href='account.html'">
+                <img src="./images/mine_nor-50322d77.webp" class="tabbar__items-tab__icon">
+                <span>Account</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+        function selectPreset(inputId, amount, elem) {
+            document.getElementById(inputId).value = amount;
+            const parent = elem.parentElement;
+            parent.querySelectorAll('.amount-option').forEach(el => el.classList.remove('active'));
+            elem.classList.add('active');
+        }
+        function selectChannel(elem) {
+            const parent = elem.parentElement;
+            parent.querySelectorAll('.method-select-item').forEach(el => el.classList.remove('active'));
+            elem.classList.add('active');
+        }
+    </script>
+    <!-- Floating Robot Customer Service -->
+    <div class="floating-robot-service" onclick="alert('Connecting to Live Customer Service...')"
+        style="position: fixed; right: 15px; bottom: 120px; z-index: 9999; cursor: pointer; width: 55px; height: 55px; border-radius: 50%; transition: transform 0.2s ease;"
+        onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">
+        <img src="images/rr.webp" style="width: 100%; height: 100%; object-fit: contain;"
+            onerror="this.src='https://www.jaiclub33.com/assets/png/icon_sevice-d0778bf5.webp'">
+    </div>
+</body>
+
+</html>

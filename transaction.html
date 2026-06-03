@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction History - JAICLUB</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .filter-row {
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            margin-bottom: 5px;
+        }
+
+        .filter-btn {
+            flex: 1;
+            background: var(--card-bg);
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .trans-list {
+            padding: 0 15px 30px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Card styles from photo */
+        .trans-card {
+            border-radius: 12px;
+            overflow: hidden;
+            background: #17182e;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .trans-card__header {
+            background: var(--main_gradient-color2);
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
+            font-family: 'Outfit', 'Inter', sans-serif;
+        }
+
+        .trans-card__table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .trans-card__row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .trans-card__row:last-child {
+            border-bottom: none;
+        }
+
+        .trans-card__label {
+            color: var(--text-secondary);
+        }
+
+        .trans-card__value {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .trans-card__value.red {
+            color: #ff4757;
+            font-weight: bold;
+        }
+
+        .trans-card__value.green {
+            color: #2ed573;
+            font-weight: bold;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 50px 0;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Custom bottom sheet modal picker */
+        .picker-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+        }
+
+        .picker-container {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 450px;
+            background: #17182e;
+            border-radius: 20px 20px 0 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            z-index: 10001;
+            overflow: hidden;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translate(-50%, 100%);
+            }
+
+            to {
+                transform: translate(-50%, 0);
+            }
+        }
+
+        .picker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: #20213d;
+        }
+
+        .picker-header span {
+            font-size: 15px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .picker-header .btn-cancel {
+            color: #88889d;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .picker-header .btn-confirm {
+            color: var(--accent-color);
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .picker-body {
+            display: flex;
+            height: 220px;
+            position: relative;
+            padding: 10px 0;
+            background: #17182e;
+        }
+
+        .picker-column {
+            flex: 1;
+            overflow-y: auto;
+            scrollbar-width: none;
+            text-align: center;
+            position: relative;
+            height: 100%;
+        }
+
+        .picker-column::-webkit-scrollbar {
+            display: none;
+        }
+
+        .picker-item {
+            height: 44px;
+            line-height: 44px;
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.3);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .picker-item.selected {
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        .picker-highlight {
+            position: absolute;
+            top: 88px;
+            left: 0;
+            width: 100%;
+            height: 44px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            pointer-events: none;
+            background: rgba(255, 255, 255, 0.02);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="purple-subpage__nav-placeholder" style="height: 55px;"></div>
+    <div class="purple-subpage__nav"
+        style="position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 450px; height: 55px; background: #17182e; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; z-index: 1000; border-bottom: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 4px 15px rgba(0,0,0,0.3); overflow: hidden;">
+
+        <a href="account.html"
+            style="cursor: pointer; position: relative; z-index: 1; color: white; font-size: 18px; width: 40px; display: flex; align-items: center;">
+            <i class="fas fa-chevron-left"></i>
+        </a>
+        <!-- Center (Title) -->
+        <div
+            style="position: relative; z-index: 1; font-size: 16px; font-weight: bold; color: white; flex-grow: 1; text-align: center;">
+            Transaction history
+        </div>
+        <!-- Right (Spacer for centering) -->
+        <div style="width: 40px; position: relative; z-index: 1;"></div>
+    </div>
+
+    <!-- Dropdowns at the top -->
+    <div class="filter-row">
+        <!-- Hidden inputs to manage current filters -->
+        <input type="hidden" id="transaction-type-select" value="all">
+        <input type="hidden" id="transaction-date-select" value="all">
+
+        <!-- Type Selector Dropdown Trigger -->
+        <div class="filter-btn" id="type-picker-trigger">
+            <span id="type-picker-display">All</span>
+            <i class="van-badge__wrapper van-icon van-icon-arrow-down"><i class="fas fa-chevron-down"
+                    style="font-size: 10px; color: var(--text-secondary);"></i></i>
+        </div>
+
+        <!-- Date Picker Dropdown Trigger -->
+        <div class="filter-btn" id="date-picker-trigger">
+            <span id="date-picker-display">Choose a date</span>
+            <i class="van-badge__wrapper van-icon van-icon-arrow-down"><i class="fas fa-chevron-down"
+                    style="font-size: 10px; color: var(--text-secondary);"></i></i>
+        </div>
+    </div>
+
+    <!-- Transaction List -->
+    <div class="trans-list" id="trans-list-container">
+        <!-- Dynamic Cards Injected Here -->
+    </div>
+
+    <div class="no-data" id="no-data-placeholder" style="display: none;">
+        <i class="fas fa-file-invoice" style="font-size: 40px; display: block; margin-bottom: 20px; opacity: 0.2;"></i>
+        No data
+    </div>
+
+    <!-- Bottom Sheet Mobile Date Picker Modal -->
+    <div id="date-picker-overlay" class="picker-overlay">
+        <div class="picker-container">
+            <div class="picker-header">
+                <span class="btn-cancel" id="picker-date-cancel">Cancel</span>
+                <span>Choose a date</span>
+                <span class="btn-confirm" id="picker-date-confirm">Confirm</span>
+            </div>
+            <div class="picker-body">
+                <div class="picker-highlight"></div>
+                <div class="picker-column" id="picker-year-col"></div>
+                <div class="picker-column" id="picker-month-col"></div>
+                <div class="picker-column" id="picker-day-col"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Sheet Mobile Type Picker Modal -->
+    <div id="type-picker-overlay" class="picker-overlay">
+        <div class="picker-container">
+            <div class="picker-header">
+                <span class="btn-cancel" id="picker-type-cancel">Cancel</span>
+                <span>Choose Type</span>
+                <span class="btn-confirm" id="picker-type-confirm">Confirm</span>
+            </div>
+            <div class="picker-body">
+                <div class="picker-highlight"></div>
+                <div class="picker-column" id="picker-type-col" style="flex: 1;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const listContainer = document.getElementById('trans-list-container');
+            const noDataPlaceholder = document.getElementById('no-data-placeholder');
+            const typeInput = document.getElementById('transaction-type-select');
+            const dateInput = document.getElementById('transaction-date-select');
+
+            const typeDisplay = document.getElementById('type-picker-display');
+            const dateDisplay = document.getElementById('date-picker-display');
+
+            // Force simulated default transaction logs matching screenshot if database is empty
+            const initMockTransactions = () => {
+                const txs = JSON.parse(localStorage.getItem("jaiclub_transactions")) || [];
+                // Check if our specific ones are already loaded
+                const hasMock = txs.some(t => t.desc === "Game moved out" || t.desc === "Game moved in");
+                if (!hasMock) {
+                    const currentUser = window.JaiDB ? window.JaiDB.getCurrentUser() : null;
+                    const uid = currentUser ? currentUser.uid : "551345";
+
+                    const mockTxs = [
+                        { id: "TX99322", uid: uid, amount: 3.61, type: "win", desc: "Game moved in", time: "2026-05-26 14:35:17" },
+                        { id: "TX99321", uid: uid, amount: -3.61, type: "bet", desc: "Game moved out", time: "2026-05-25 17:49:38" },
+                        { id: "TX99320", uid: uid, amount: 100.00, type: "deposit", desc: "Deposit Verified", time: "2026-05-24 11:20:10" }
+                    ];
+                    localStorage.setItem("jaiclub_transactions", JSON.stringify([...mockTxs, ...txs]));
+                }
+            };
+            initMockTransactions();
+
+            const renderTransactions = () => {
+                if (!window.JaiDB) return;
+                const txs = window.JaiDB.getTransactions();
+                const typeFilter = typeInput.value.toLowerCase();
+                const dateFilter = dateInput.value; // 'all' or 'YYYY-MM-DD'
+
+                let filtered = txs;
+
+                // Filter by Type
+                if (typeFilter !== 'all') {
+                    if (typeFilter === 'bet') {
+                        filtered = filtered.filter(t => t.type === 'bet' || t.desc.toLowerCase().includes('moved out'));
+                    } else if (typeFilter === 'win') {
+                        filtered = filtered.filter(t => t.type === 'win' || t.desc.toLowerCase().includes('moved in') || t.type === 'bonus');
+                    } else {
+                        filtered = filtered.filter(t => t.type === typeFilter);
+                    }
+                }
+
+                // Filter by Date
+                if (dateFilter !== 'all') {
+                    filtered = filtered.filter(t => t.time.startsWith(dateFilter));
+                }
+
+                listContainer.innerHTML = '';
+                if (filtered.length === 0) {
+                    noDataPlaceholder.style.display = 'block';
+                } else {
+                    noDataPlaceholder.style.display = 'flex';
+                    noDataPlaceholder.style.display = 'none';
+
+                    filtered.forEach(tx => {
+                        const card = document.createElement('div');
+                        card.className = 'trans-card animate-fade';
+
+                        const isNegative = tx.amount < 0 || tx.desc.toLowerCase().includes('moved out') || tx.type === 'withdraw';
+                        const absAmt = Math.abs(tx.amount).toFixed(2);
+                        const displayAmt = isNegative ? `-₹${absAmt}` : `+₹${absAmt}`;
+                        const balanceClass = isNegative ? 'green' : 'red'; // Moved In matches red ₹3.61, Moved Out matches green ₹3.61 from photo
+
+                        // Header title matching description
+                        const headerTitle = tx.desc || (isNegative ? 'Game moved out' : 'Game moved in');
+
+                        card.innerHTML = `
+                            <div class="trans-card__header">${headerTitle}</div>
+                            <div class="trans-card__table">
+                                <div class="trans-card__row">
+                                    <span class="trans-card__label">Detail</span>
+                                    <span class="trans-card__value">${headerTitle}</span>
+                                </div>
+                                <div class="trans-card__row">
+                                    <span class="trans-card__label">Time</span>
+                                    <span class="trans-card__value">${tx.time}</span>
+                                </div>
+                                <div class="trans-card__row">
+                                    <span class="trans-card__label">Balance</span>
+                                    <span class="trans-card__value ${balanceClass}">${displayAmt}</span>
+                                </div>
+                            </div>
+                        `;
+                        listContainer.appendChild(card);
+                    });
+                }
+            };
+
+            // ==========================================
+            // Bottom Sheet DATE Picker controller
+            // ==========================================
+            const datePickerOverlay = document.getElementById('date-picker-overlay');
+            const datePickerTrigger = document.getElementById('date-picker-trigger');
+
+            // Default select values from localStorage or all
+            const savedDate = localStorage.getItem('selected_date') || '2026-05-26';
+            dateInput.value = savedDate;
+            dateDisplay.textContent = savedDate;
+
+            const years = Array.from({ length: 11 }, (_, i) => 2020 + i);
+            const months = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0'));
+            const days = Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, '0'));
+
+            let currentSelectedYear = savedDate.split('-')[0] || '2026';
+            let currentSelectedMonth = savedDate.split('-')[1] || '05';
+            let currentSelectedDay = savedDate.split('-')[2] || '26';
+
+            const populateCol = (colId, items, currentVal, onSelect) => {
+                const col = document.getElementById(colId);
+                if (!col) return;
+                col.innerHTML = '';
+                col.appendChild(createPaddingItem());
+                col.appendChild(createPaddingItem());
+                items.forEach(val => {
+                    const div = document.createElement('div');
+                    div.className = 'picker-item';
+                    div.textContent = val;
+                    if (String(val) === String(currentVal)) {
+                        div.classList.add('selected');
+                    }
+                    div.onclick = () => {
+                        col.querySelectorAll('.picker-item').forEach(el => el.classList.remove('selected'));
+                        div.classList.add('selected');
+                        onSelect(val);
+                        div.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    };
+                    col.appendChild(div);
+                });
+                col.appendChild(createPaddingItem());
+                col.appendChild(createPaddingItem());
+            };
+
+            const createPaddingItem = () => {
+                const div = document.createElement('div');
+                div.className = 'picker-item';
+                div.style.pointerEvents = 'none';
+                div.innerHTML = '&nbsp;';
+                return div;
+            };
+
+            const initDatePickers = () => {
+                const activeDate = dateInput.value !== 'all' ? dateInput.value : '2026-05-26';
+                currentSelectedYear = activeDate.split('-')[0];
+                currentSelectedMonth = activeDate.split('-')[1];
+                currentSelectedDay = activeDate.split('-')[2];
+
+                populateCol('picker-year-col', years, currentSelectedYear, (val) => currentSelectedYear = val);
+                populateCol('picker-month-col', months, currentSelectedMonth, (val) => currentSelectedMonth = val);
+                populateCol('picker-day-col', days, currentSelectedDay, (val) => currentSelectedDay = val);
+            };
+
+            datePickerTrigger.addEventListener('click', () => {
+                initDatePickers();
+                datePickerOverlay.style.display = 'block';
+                setTimeout(() => {
+                    ['picker-year-col', 'picker-month-col', 'picker-day-col'].forEach(colId => {
+                        const selected = document.querySelector(`#${colId} .picker-item.selected`);
+                        if (selected) selected.scrollIntoView({ block: 'center' });
+                    });
+                }, 80);
+            });
+
+            document.getElementById('picker-date-cancel').onclick = () => {
+                datePickerOverlay.style.display = 'none';
+            };
+
+            document.getElementById('picker-date-confirm').onclick = () => {
+                const fullDate = `${currentSelectedYear}-${currentSelectedMonth}-${currentSelectedDay}`;
+                dateDisplay.textContent = fullDate;
+                dateInput.value = fullDate;
+                localStorage.setItem('selected_date', fullDate);
+                renderTransactions();
+                datePickerOverlay.style.display = 'none';
+            };
+
+            // ==========================================
+            // Bottom Sheet TYPE Picker controller
+            // ==========================================
+            const typePickerOverlay = document.getElementById('type-picker-overlay');
+            const typePickerTrigger = document.getElementById('type-picker-trigger');
+            const typeCol = document.getElementById('picker-type-col');
+
+            const types = ['All', 'Bet', 'Agent commission', 'Win', 'Deposit', 'Withdraw'];
+            let currentSelectedType = typeInput.value;
+
+            const initTypePicker = () => {
+                if (!typeCol) return;
+                typeCol.innerHTML = '';
+                typeCol.appendChild(createPaddingItem());
+                typeCol.appendChild(createPaddingItem());
+
+                types.forEach(val => {
+                    const div = document.createElement('div');
+                    div.className = 'picker-item';
+                    div.textContent = val;
+                    const cleanVal = val === 'All' ? 'all' : val.toLowerCase();
+
+                    if (cleanVal === currentSelectedType.toLowerCase()) {
+                        div.classList.add('selected');
+                    }
+
+                    div.onclick = () => {
+                        typeCol.querySelectorAll('.picker-item').forEach(el => el.classList.remove('selected'));
+                        div.classList.add('selected');
+                        currentSelectedType = cleanVal;
+                        div.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    };
+                    typeCol.appendChild(div);
+                });
+
+                typeCol.appendChild(createPaddingItem());
+                typeCol.appendChild(createPaddingItem());
+            };
+
+            typePickerTrigger.addEventListener('click', () => {
+                currentSelectedType = typeInput.value;
+                initTypePicker();
+                typePickerOverlay.style.display = 'block';
+                setTimeout(() => {
+                    const selected = document.querySelector('#picker-type-col .picker-item.selected');
+                    if (selected) selected.scrollIntoView({ block: 'center' });
+                }, 80);
+            });
+
+            document.getElementById('picker-type-cancel').onclick = () => {
+                typePickerOverlay.style.display = 'none';
+            };
+
+            document.getElementById('picker-type-confirm').onclick = () => {
+                typeInput.value = currentSelectedType;
+
+                // Display label
+                const activeLabel = types.find(t => (t === 'All' ? 'all' : t.toLowerCase()) === currentSelectedType);
+                typeDisplay.textContent = activeLabel;
+
+                renderTransactions();
+                typePickerOverlay.style.display = 'none';
+            };
+
+            // Initial load rendering
+            renderTransactions();
+        });
+    </script>
+    <!-- Floating Robot Customer Service -->
+    <div class="floating-robot-service" onclick="alert('Connecting to Live Customer Service...')"
+        style="position: fixed; right: 15px; bottom: 120px; z-index: 9999; cursor: pointer; width: 55px; height: 55px; border-radius: 50%; transition: transform 0.2s ease;"
+        onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">
+        <img src="images/rr.webp" style="width: 100%; height: 100%; object-fit: contain;"
+            onerror="this.src='https://www.jaiclub33.com/assets/png/icon_sevice-d0778bf5.webp'">
+    </div>
+</body>
+
+</html>

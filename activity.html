@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity - JAICLUB</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .activity-header {
+            background: var(--purple-gradient);
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .bonus-summary {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            margin: 15px;
+            background: var(--main_gradient-color);
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+        }
+
+        .bonus-item {
+            text-align: center;
+        }
+
+        .bonus-value {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .bonus-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .activity-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            font-size: 10px;
+            text-align: center;
+        }
+
+        .activity-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+        }
+
+        .banner-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 0 20px 20px 20px;
+        }
+
+        .banner-card {
+            height: 120px;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="purple-subpage__nav-placeholder" style="height: 50px;"></div>
+    <div class="navbar-fixed">
+        <div class="navbar__content">
+            <div class="navbar__content-left"><!--v-if--></div>
+            <div class="navbar__content-center">
+                <div class="headLogo" style="background-image: url(./images/logo.png)"></div>
+                <div class="navbar__content-title"></div>
+            </div>
+            <div class="navbar__content-right"></div>
+        </div>
+    </div>
+
+    <div class="bonus-summary">
+        <div class="bonus-item">
+            <div class="bonus-label" style="color: rgba(255,255,255,0.85); font-weight: 500; font-size: 17.28px;">
+                Today's bonus</div>
+            <div class="bonus-value" id="today-bonus-display"
+                style="color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); font-size: 25.92px;">₹ 0.00</div>
+        </div>
+        <div style="width: 1px; background: rgba(255,255,255,0.3);"></div>
+        <div class="bonus-item">
+            <div class="bonus-label" style="color: rgba(255,255,255,0.85); font-weight: 500; font-size: 17.28px;">Total
+                bonus</div>
+            <div class="bonus-value" id="total-bonus-display"
+                style="color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); font-size: 25.92px;">₹ 417.71</div>
+        </div>
+    </div>
+
+    <div style="padding: 0 20px;">
+        <button class="btn btn-outline"
+            style="width: 100%; border-radius: 20px; color: var(--text-secondary); font-size: 21.6px;"
+            onclick="alert('No detailed bonus records found for this period.')">
+            Bonus details
+        </button>
+    </div>
+
+    <div class="activity-grid">
+        <div class="activity-card" style="cursor: pointer;"
+            onclick="alert('Activity Award: Achieve daily bet targets to unlock!')">
+            <div class="activity-icon" style="color: #ff4757; font-size: 12px;"><i class="fas fa-medal"></i></div>
+            <span style="font-size: 12px;">Activity Award</span>
+        </div>
+        <div class="activity-card" style="cursor: pointer;"
+            onclick="alert('Invitation bonus: Invite new members to earn ₹150 per first deposit!')">
+            <div class="activity-icon" style="color: #3498db;"><i class="fas fa-user-plus"></i></div>
+            <span style="font-size: 12px;">Invitation bonus</span>
+        </div>
+        <div class="activity-card" style="cursor: pointer;"
+            onclick="alert('Betting rebate: Receive up to 0.6% cashback on all bets daily!')">
+            <div class="activity-icon" style="color: #f1c40f;"><i class="fas fa-percentage"></i></div>
+            <span style="font-size: 12px;">Betting rebate</span>
+        </div>
+        <div class="activity-card" style="cursor: pointer;"
+            onclick="alert('Super Jackpot: Place wingo bets to win massive pooled rewards!')">
+            <div class="activity-icon" style="color: #2ecc71;"><i class="fas fa-trophy"></i></div>
+            <span style=" font-size: 12px;">Super Jackpot</span>
+        </div>
+    </div>
+
+    <div class="banner-grid">
+        <div id="gifts-banner-btn" class="glass-card banner-card"
+            style="cursor: pointer; background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1542281286-9e0a16bb7366?auto=format&fit=crop&q=80&w=200');">
+            <div style="font-weight: bold; font-size: 14px;">Gifts</div>
+            <div style="font-size: 10px; opacity: 0.8;">Enter redemption code</div>
+        </div>
+        <div id="attendance-banner-btn" class="glass-card banner-card"
+            style="cursor: pointer; background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=200');">
+            <div style="font-weight: bold; font-size: 14px;">Attendance</div>
+            <div style="font-size: 10px; opacity: 0.8;">Daily sign-in rewards</div>
+        </div>
+    </div>
+
+    <div class="tabbar-container">
+        <!-- Layer 1: Pedestal behind the center button -->
+        <div class="tabbar__pedestal"></div>
+
+        <!-- Layer 2: Main Background Bar -->
+        <div class="tabbar__bar"></div>
+
+        <!-- Layer 3: Center Promotion Item -->
+        <div class="tabbar__center" onclick="location.href='promotion.html'">
+            <img src="./images/promotion-6cfedca7.webp" class="tabbar__center-icon--img">
+            <div class="tabbar__center-fg"></div>
+            <span class="tabbar__center-text">Promotion</span>
+        </div>
+
+        <!-- Layer 4: Items -->
+        <div class="tabbar__items">
+            <!-- Home -->
+            <div class="tabbar__items-tab" onclick="location.href='index.html'">
+                <img src="./images/home.webp" class="tabbar__items-tab__icon">
+                <span>Home</span>
+            </div>
+
+            <!-- Activity (Active) -->
+            <div class="tabbar__items-tab active" onclick="location.href='activity.html'">
+                <img src="./images/activity_sel-58a0970f.webp" class="tabbar__items-tab__icon">
+                <span>Activity</span>
+            </div>
+
+            <!-- Placeholder -->
+            <div class="tabbar__items-tab placeholder"></div>
+
+            <!-- Wallet -->
+            <div class="tabbar__items-tab" onclick="location.href='wallet.html'">
+                <img src="./images/wallet_nor-da2e681e.webp" class="tabbar__items-tab__icon">
+                <span>Wallet</span>
+            </div>
+
+            <!-- Account -->
+            <div class="tabbar__items-tab" onclick="location.href='account.html'">
+                <img src="./images/mine_nor-50322d77.webp" class="tabbar__items-tab__icon">
+                <span>Account</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script src="js/script.js"></script>
+    <!-- Floating Robot Customer Service -->
+    <div class="floating-robot-service" onclick="alert('Connecting to Live Customer Service...')"
+        style="position: fixed; right: 15px; bottom: 120px; z-index: 9999; cursor: pointer; width: 55px; height: 55px; border-radius: 50%; transition: transform 0.2s ease;"
+        onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">
+        <img src="images/rr.webp" style="width: 100%; height: 100%; object-fit: contain;"
+            onerror="this.src='https://www.jaiclub33.com/assets/png/icon_sevice-d0778bf5.webp'">
+    </div>
+</body>
+
+</html>

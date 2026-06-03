@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in - JAICLUB</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ---- Unified Gradient Nav + Header ---- */
+        .main-header {
+            padding: 0;
+            position: relative;
+        }
+
+        .nav-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px 10px 15px;
+            min-height: 50px;
+            background: #17182e;
+            position: relative;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .nav-back {
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+            width: 40px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .nav-logo {
+            height: 48px;
+            object-fit: contain;
+        }
+
+        .nav-lang {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            flex-shrink: 0;
+            width: 55px;
+            justify-content: flex-end;
+        }
+
+        .nav-lang img {
+            width: 24px;
+            height: 16px;
+            border-radius: 2px;
+            object-fit: cover;
+        }
+
+        .nav-lang span {
+            font-size: 15px;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* Title area below nav row */
+        .header-title-area {
+            background: linear-gradient(135deg, #4a3aff 0%, #6c5ce7 25%, #a855f7 45%, #ec4899 70%, #38bdf8 100%);
+            padding: 18px 20px 25px 20px;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            margin: 0 0 8px 0;
+        }
+
+        .header-subtitle {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* ---- Tabs ---- */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            padding: 25px 30px 0 30px;
+        }
+
+        .tab-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            opacity: 0.4;
+            transition: opacity 0.3s;
+            padding-bottom: 12px;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-item.active {
+            opacity: 1;
+            border-bottom-color: var(--accent-color, #a855f7);
+        }
+
+        .tab-item i {
+            font-size: 24px;
+            color: var(--accent-color, #a855f7);
+        }
+
+        .tab-item span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* ---- Form ---- */
+        .login-form-container {
+            padding: 25px 20px 20px 20px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .form-label i {
+            color: var(--accent-color, #a855f7);
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            background: var(--card-bg, #1e1f3b);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 13px 15px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .phone-input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .country-code {
+            width: 85px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .show-pwd {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary, #88889d);
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* ---- Checkbox ---- */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 28px;
+            font-size: 13px;
+            color: var(--text-secondary, #88889d);
+        }
+
+        .custom-checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--accent-color, #a855f7);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background 0.2s;
+        }
+
+        .custom-checkbox.checked {
+            background: var(--accent-color, #a855f7);
+            border-color: var(--accent-color, #a855f7);
+            color: #fff;
+        }
+
+        .custom-checkbox i {
+            font-size: 10px;
+        }
+
+        .privacy-link {
+            color: #f97316;
+            cursor: pointer;
+        }
+
+        /* ---- Buttons ---- */
+        .btn {
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f97316, #ef4444, #ec4899);
+            color: white;
+            border-radius: 25px;
+        }
+
+        .btn-primary:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 25px;
+        }
+
+        .btn-outline:hover {
+            border-color: rgba(255, 255, 255, 0.6) !important;
+        }
+
+        /* ---- Footer ---- */
+        .login-footer {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 35px;
+            font-size: 13px;
+            color: var(--text-secondary, #88889d);
+            padding-bottom: 30px;
+        }
+
+        .login-footer-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .login-footer-item:hover {
+            color: #fff;
+        }
+
+        .footer-icon {
+            font-size: 28px;
+            margin-bottom: 2px;
+            color: var(--accent-color, #a855f7);
+        }
+
+        /* ---- Send OTP btn ---- */
+        .send-otp-btn {
+            background: linear-gradient(135deg, #a855f7, #6c5ce7);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 18px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* ---- View toggling animation ---- */
+        .view-container {
+            display: none;
+            animation: fadeSlideIn 0.3s ease-out;
+        }
+
+        .view-container.active-view {
+            display: block;
+        }
+
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ---- Phone icon section ---- */
+        .section-icon-label {
+            text-align: center;
+            padding: 25px 0 8px 0;
+        }
+
+        .section-icon-label i {
+            font-size: 28px;
+            color: var(--accent-color, #a855f7);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .section-icon-label span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .section-icon-label .underline {
+            display: block;
+            width: 60%;
+            max-width: 200px;
+            height: 3px;
+            background: var(--accent-color, #a855f7);
+            margin: 10px auto 0 auto;
+            border-radius: 2px;
+        }
+
+        /* ---- Language Picker Bottom Sheet ---- */
+        .lang-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10000;
+        }
+
+        .lang-overlay.open {
+            display: block;
+        }
+
+        .lang-sheet {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 450px;
+            background: #17182e;
+            border-radius: 20px 20px 0 0;
+            padding: 0 0 20px 0;
+            z-index: 10001;
+            animation: slideUpLang 0.3s ease-out;
+        }
+
+        @keyframes slideUpLang {
+            from { transform: translate(-50%, 100%); }
+            to { transform: translate(-50%, 0); }
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+            gap: 12px;
+        }
+
+        .lang-option:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .lang-option.selected {
+            background: rgba(168, 85, 247, 0.15);
+        }
+
+        .lang-option img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .lang-option span {
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            flex: 1;
+        }
+
+        .lang-option .check-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lang-option.selected .check-circle {
+            background: var(--accent-color, #a855f7);
+            border-color: var(--accent-color, #a855f7);
+        }
+
+        .lang-option.selected .check-circle i {
+            color: white;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ============ LOGIN VIEW ============ -->
+    <div id="login-view" class="view-container active-view">
+        <!-- Unified Gradient Nav + Header -->
+        <div class="main-header">
+            <div class="nav-row">
+                <a class="nav-back" href="account.html" id="back-btn"><i class="fas fa-chevron-left"></i></a>
+                <img src="./images/logo.png" alt="JAICLUB" class="nav-logo">
+                <div class="nav-lang" id="lang-trigger">
+                    <img src="https://flagcdn.com/w40/us.png" alt="EN">
+                    <span>EN</span>
+                </div>
+            </div>
+            <div class="header-title-area">
+                <h2 class="header-title">Log in</h2>
+                <p class="header-subtitle">Please log in with your phone number or email<br>If you forget your password, please contact customer service</p>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab-item active" data-tab="phone-login">
+                <i class="fas fa-mobile-alt"></i>
+                <span>phone number</span>
+            </div>
+            <div class="tab-item" data-tab="email-login">
+                <i class="fas fa-envelope"></i>
+                <span>Email Login</span>
+            </div>
+        </div>
+
+        <div class="login-form-container">
+            <!-- Phone Login Content -->
+            <div class="tab-content" id="phone-login" style="display: block;">
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-mobile-alt"></i> Phone number</label>
+                    <div class="phone-input-group">
+                        <div class="form-control country-code">+91 <i class="fas fa-chevron-down" style="font-size: 10px;"></i></div>
+                        <input type="text" id="phone-input" class="form-control" placeholder="Please enter the phone number" value="8884406837">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-lock"></i> Password</label>
+                    <div class="input-with-icon">
+                        <input type="password" id="phone-pass" class="form-control" placeholder="Password" value="ZAYN7199S">
+                        <i class="fas fa-eye-slash show-pwd" onclick="togglePwd(this)"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Login Content -->
+            <div class="tab-content" id="email-login" style="display: none;">
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="email-input" class="form-control" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-lock"></i> Password</label>
+                    <div class="input-with-icon">
+                        <input type="password" id="email-pass" class="form-control" placeholder="Password">
+                        <i class="fas fa-eye-slash show-pwd" onclick="togglePwd(this)"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <div class="custom-checkbox" id="remember-check"><i class="fas fa-check" style="display: none;"></i></div>
+                <span>Remember password</span>
+            </div>
+
+            <button id="login-btn" class="btn btn-primary"
+                style="width: 100%; height: 48px; font-size: 17px; margin-bottom: 15px;">Log in</button>
+            <button id="goto-register-btn" class="btn btn-outline"
+                style="width: 100%; height: 48px; font-size: 17px;">Register</button>
+        </div>
+
+        <div class="login-footer">
+            <div class="login-footer-item" id="goto-forgot-btn">
+                <i class="fas fa-lock footer-icon"></i>
+                <span>Forgot password</span>
+            </div>
+            <div class="login-footer-item">
+                <i class="fas fa-comment-dots footer-icon"></i>
+                <span>Customer Service</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ REGISTER VIEW ============ -->
+    <div id="register-view" class="view-container">
+        <!-- Unified Gradient Nav + Header -->
+        <div class="main-header">
+            <div class="nav-row">
+                <a class="nav-back" href="#" onclick="showView('login-view'); return false;"><i class="fas fa-chevron-left"></i></a>
+                <img src="./images/logo.png" alt="JAICLUB" class="nav-logo">
+                <div class="nav-lang" onclick="openLangPicker()">
+                    <img src="https://flagcdn.com/w40/us.png" alt="EN">
+                    <span>EN</span>
+                </div>
+            </div>
+            <div class="header-title-area">
+                <h2 class="header-title">Register</h2>
+                <p class="header-subtitle">Please register by phone number or email</p>
+            </div>
+        </div>
+
+        <!-- Register your phone section icon -->
+        <div class="section-icon-label">
+            <i class="fas fa-mobile-alt"></i>
+            <span>Register your phone</span>
+        </div>
+
+        <div class="login-form-container" style="padding-top: 15px;">
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-mobile-alt"></i> Phone number</label>
+                <div class="phone-input-group">
+                    <div class="form-control country-code">+91 <i class="fas fa-chevron-down" style="font-size: 10px;"></i></div>
+                    <input type="text" id="reg-phone-input" class="form-control" placeholder="Please enter the phone number">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-lock"></i> Set password</label>
+                <div class="input-with-icon">
+                    <input type="password" id="reg-pass" class="form-control" placeholder="Set password">
+                    <i class="fas fa-eye-slash show-pwd" onclick="togglePwd(this)"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-lock"></i> Confirm password</label>
+                <div class="input-with-icon">
+                    <input type="password" id="reg-confirm-pass" class="form-control" placeholder="Confirm password">
+                    <i class="fas fa-eye-slash show-pwd" onclick="togglePwd(this)"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-ticket-alt"></i> Invite code</label>
+                <input type="text" id="reg-invite-code" class="form-control" placeholder="Please enter the invitation code"
+                    style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.25);">
+            </div>
+
+            <div class="checkbox-group">
+                <div class="custom-checkbox checked" id="reg-agree-check"><i class="fas fa-check"></i></div>
+                <span>I have read and agree <span class="privacy-link">[Privacy Agreement]</span></span>
+            </div>
+
+            <button id="register-btn" class="btn btn-primary"
+                style="width: 100%; height: 48px; font-size: 17px; margin-bottom: 15px;">Register</button>
+            <button class="btn btn-outline" id="goto-login-from-reg"
+                style="width: 100%; height: 48px; font-size: 17px;">I have an account Login</button>
+        </div>
+    </div>
+
+    <!-- ============ FORGOT PASSWORD VIEW ============ -->
+    <div id="forgot-view" class="view-container">
+        <!-- Unified Gradient Nav + Header -->
+        <div class="main-header">
+            <div class="nav-row">
+                <a class="nav-back" href="#" onclick="showView('login-view'); return false;"><i class="fas fa-chevron-left"></i></a>
+                <img src="./images/logo.png" alt="JAICLUB" class="nav-logo">
+                <div class="nav-lang" onclick="openLangPicker()">
+                    <img src="https://flagcdn.com/w40/us.png" alt="EN">
+                    <span>EN</span>
+                </div>
+            </div>
+            <div class="header-title-area">
+                <h2 class="header-title">Forgot password</h2>
+                <p class="header-subtitle">Please retrieve/change your password through your mobile phone number or email</p>
+            </div>
+        </div>
+
+        <!-- phone reset section icon -->
+        <div class="section-icon-label">
+            <i class="fas fa-mobile-alt"></i>
+            <span>phone reset</span>
+            <span class="underline"></span>
+        </div>
+
+        <div class="login-form-container" style="padding-top: 15px;">
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-mobile-alt"></i> Phone number</label>
+                <div class="phone-input-group">
+                    <div class="form-control country-code">+91 <i class="fas fa-chevron-down" style="font-size: 10px;"></i></div>
+                    <input type="text" id="forgot-phone-input" class="form-control" placeholder="Please enter the phone number">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-lock"></i> A new password</label>
+                <div class="input-with-icon">
+                    <input type="password" id="forgot-new-pass" class="form-control" placeholder="A new password">
+                    <i class="fas fa-eye-slash show-pwd" onclick="togglePwd(this)"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-lock"></i> Confirm new password</label>
+                <div class="input-with-icon">
+                    <input type="password" id="forgot-confirm-pass" class="form-control" placeholder="Confirm new password">
+                    <i class="fas fa-eye-slash show-pwd" onclick="togglePwd(this)"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-shield-alt"></i> Verification Code</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="forgot-otp" class="form-control" placeholder="Please enter the confirmation code" style="flex: 1;">
+                    <button class="send-otp-btn" id="send-otp-btn">Send</button>
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <div class="custom-checkbox" id="forgot-agree-check"><i class="fas fa-check" style="display: none;"></i></div>
+                <span>I have read and agree <span class="privacy-link">[Privacy Agreement]</span></span>
+            </div>
+
+            <button id="reset-btn" class="btn btn-primary"
+                style="width: 100%; height: 48px; font-size: 17px; margin-bottom: 15px;">Reset</button>
+        </div>
+    </div>
+
+    <!-- ============ LANGUAGE PICKER BOTTOM SHEET ============ -->
+    <div class="lang-overlay" id="lang-overlay">
+        <div class="lang-sheet" id="lang-sheet">
+            <div class="lang-option selected" data-lang="EN" data-flag="us">
+                <img src="https://flagcdn.com/w40/us.png" alt="EN">
+                <span>EN</span>
+                <div class="check-circle"><i class="fas fa-check"></i></div>
+            </div>
+            <div class="lang-option" data-lang="HD" data-flag="in">
+                <img src="https://flagcdn.com/w40/in.png" alt="HD">
+                <span>HD</span>
+                <div class="check-circle"><i class="fas fa-check"></i></div>
+            </div>
+            <div class="lang-option" data-lang="TA" data-flag="in">
+                <img src="https://flagcdn.com/w40/in.png" alt="TA">
+                <span>TA</span>
+                <div class="check-circle"><i class="fas fa-check"></i></div>
+            </div>
+            <div class="lang-option" data-lang="TE" data-flag="in">
+                <img src="https://flagcdn.com/w40/in.png" alt="TE">
+                <span>TE</span>
+                <div class="check-circle"><i class="fas fa-check"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        // ---- View Switching ----
+        function showView(viewId) {
+            document.querySelectorAll('.view-container').forEach(v => v.classList.remove('active-view'));
+            const target = document.getElementById(viewId);
+            if (target) {
+                target.classList.add('active-view');
+                target.style.animation = 'none';
+                target.offsetHeight;
+                target.style.animation = '';
+            }
+            if (viewId === 'login-view') document.title = 'Log in - JAICLUB';
+            else if (viewId === 'register-view') document.title = 'Register - JAICLUB';
+            else if (viewId === 'forgot-view') document.title = 'Forgot Password - JAICLUB';
+            window.scrollTo(0, 0);
+        }
+
+        // Nav buttons
+        document.getElementById('goto-register-btn').addEventListener('click', () => showView('register-view'));
+        document.getElementById('goto-login-from-reg').addEventListener('click', () => showView('login-view'));
+        document.getElementById('goto-forgot-btn').addEventListener('click', () => showView('forgot-view'));
+
+        // Back button on login view goes to account
+        document.getElementById('back-btn').addEventListener('click', function(e) {
+            // Default href handles it
+        });
+
+        // ---- Tab Switching (Login: phone / email) ----
+        document.querySelectorAll('#login-view .tab-item').forEach(tab => {
+            tab.addEventListener('click', function () {
+                document.querySelectorAll('#login-view .tab-item').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                const targetId = this.getAttribute('data-tab');
+                document.querySelectorAll('#login-view .tab-content').forEach(c => c.style.display = 'none');
+                const targetContent = document.getElementById(targetId);
+                if (targetContent) targetContent.style.display = 'block';
+            });
+        });
+
+        // ---- Password Toggle ----
+        function togglePwd(icon) {
+            const input = icon.previousElementSibling;
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        }
+
+        // ---- Checkbox Toggles ----
+        document.querySelectorAll('.custom-checkbox').forEach(cb => {
+            cb.addEventListener('click', function () {
+                this.classList.toggle('checked');
+                const icon = this.querySelector('i');
+                if (icon) icon.style.display = this.classList.contains('checked') ? 'block' : 'none';
+            });
+        });
+
+        // ---- Language Picker ----
+        function openLangPicker() {
+            document.getElementById('lang-overlay').classList.add('open');
+        }
+
+        document.getElementById('lang-overlay').addEventListener('click', function(e) {
+            if (e.target === this) this.classList.remove('open');
+        });
+
+        document.querySelectorAll('.lang-option').forEach(opt => {
+            opt.addEventListener('click', function() {
+                document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                const lang = this.getAttribute('data-lang');
+                const flagCode = this.getAttribute('data-flag');
+                // Update all nav-lang elements
+                document.querySelectorAll('.nav-lang span').forEach(s => s.textContent = lang);
+                document.querySelectorAll('.nav-lang img').forEach(img => {
+                    img.src = `https://flagcdn.com/w40/${flagCode}.png`;
+                    img.alt = lang;
+                });
+                setTimeout(() => {
+                    document.getElementById('lang-overlay').classList.remove('open');
+                }, 200);
+            });
+        });
+
+        // ---- LOGIN HANDLER ----
+        document.getElementById('login-btn').addEventListener('click', () => {
+            const activeTab = document.querySelector('#login-view .tab-item.active');
+            const isPhone = activeTab && activeTab.getAttribute('data-tab') === 'phone-login';
+
+            let identifier, password;
+            if (isPhone) {
+                identifier = document.getElementById('phone-input').value.trim();
+                password = document.getElementById('phone-pass').value.trim();
+            } else {
+                identifier = document.getElementById('email-input').value.trim();
+                password = document.getElementById('email-pass').value.trim();
+            }
+
+            if (!identifier || !password) {
+                alert('Please enter your credentials.');
+                return;
+            }
+
+            if (window.JaiDB) {
+                const res = window.JaiDB.login(identifier, password);
+                if (res.success) {
+                    window.location.href = 'index.html';
+                } else {
+                    alert(res.message || 'Login failed');
+                }
+            }
+        });
+
+        // ---- REGISTER HANDLER ----
+        document.getElementById('register-btn').addEventListener('click', () => {
+            const phone = document.getElementById('reg-phone-input').value.trim();
+            const pass = document.getElementById('reg-pass').value.trim();
+            const confirmPass = document.getElementById('reg-confirm-pass').value.trim();
+            const inviteCode = document.getElementById('reg-invite-code').value.trim();
+
+            if (!phone) { alert('Please enter your phone number.'); return; }
+            if (!pass) { alert('Please set a password.'); return; }
+            if (pass.length < 6) { alert('Password must be at least 6 characters.'); return; }
+            if (pass !== confirmPass) { alert('Passwords do not match.'); return; }
+
+            const agreeCheck = document.getElementById('reg-agree-check');
+            if (!agreeCheck.classList.contains('checked')) {
+                alert('Please agree to the Privacy Agreement.');
+                return;
+            }
+
+            if (window.JaiDB) {
+                const res = window.JaiDB.register(phone, pass, inviteCode);
+                if (res.success) {
+                    alert('Registration successful! Welcome to JAICLUB.');
+                    window.location.href = 'index.html';
+                } else {
+                    alert(res.message || 'Registration failed');
+                }
+            }
+        });
+
+        // ---- FORGOT PASSWORD / RESET HANDLER ----
+        let otpCooldown = 0;
+        document.getElementById('send-otp-btn').addEventListener('click', function () {
+            const phone = document.getElementById('forgot-phone-input').value.trim();
+            if (!phone) { alert('Please enter your phone number first.'); return; }
+            if (otpCooldown > 0) return;
+
+            alert('Verification code sent to +91 ' + phone + ' (simulated: use code 123456)');
+            otpCooldown = 60;
+            const btn = this;
+            btn.textContent = otpCooldown + 's';
+            btn.style.opacity = '0.6';
+            const interval = setInterval(() => {
+                otpCooldown--;
+                btn.textContent = otpCooldown + 's';
+                if (otpCooldown <= 0) {
+                    clearInterval(interval);
+                    btn.textContent = 'Send';
+                    btn.style.opacity = '1';
+                }
+            }, 1000);
+        });
+
+        document.getElementById('reset-btn').addEventListener('click', () => {
+            const phone = document.getElementById('forgot-phone-input').value.trim();
+            const newPass = document.getElementById('forgot-new-pass').value.trim();
+            const confirmPass = document.getElementById('forgot-confirm-pass').value.trim();
+            const otp = document.getElementById('forgot-otp').value.trim();
+
+            if (!phone) { alert('Please enter your phone number.'); return; }
+            if (!newPass) { alert('Please enter a new password.'); return; }
+            if (newPass.length < 6) { alert('Password must be at least 6 characters.'); return; }
+            if (newPass !== confirmPass) { alert('Passwords do not match.'); return; }
+            if (otp !== '123456') { alert('Invalid verification code. Use 123456 for demo.'); return; }
+
+            if (window.JaiDB) {
+                const users = window.JaiDB.getUsers();
+                if (users[phone]) {
+                    users[phone].password = newPass;
+                    if (users[phone].email && users[users[phone].email]) {
+                        users[users[phone].email].password = newPass;
+                    }
+                    localStorage.setItem('jaiclub_users', JSON.stringify(users));
+                    alert('Password reset successfully! Please log in with your new password.');
+                    showView('login-view');
+                } else {
+                    alert('Phone number not found. Please check and try again.');
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

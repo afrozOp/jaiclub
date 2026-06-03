@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account - JAICLUB</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .profile-header {
+            background: var(--purple-gradient);
+            padding: 30px 20px 60px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+        }
+
+        .avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            background: #eee;
+            overflow: hidden;
+        }
+
+        .user-info h2 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .uid-tag {
+            background: #FEAA57;
+            color: white;
+            font-weight: bold;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .balance-box {
+            margin: -40px 20px 20px 20px;
+            padding: 20px;
+        }
+
+        .balance-amount {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .action-row {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .action-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+        }
+
+        .action-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+
+        .menu-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+        }
+
+        .service-center {
+            padding: 0 20px 20px 20px;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .service-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        .service-icon {
+            font-size: 24px;
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="profile-header">
+        <div class="avatar">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="avatar" style="width: 100%;">
+        </div>
+        <div class="user-info">
+            <h2><span id="username-display" style="font-size: 21.6px;">MEMBERNNGCZP28</span> <span id="vip-container"
+                    style="display: inline-flex; align-items: center; vertical-align: middle; margin-left: 5px;"><img
+                        src="./images/vip.webp" style="height: 20.51px; width: 46.6132px;"><span id="vip-display"
+                        style="display: none;">VIP1</span></span></h2>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <div class="uid-tag" id="uid-display" style="cursor: pointer;">
+                    UID | <span id="uid-number">551345</span> <i class="far fa-copy" style="font-size: 15.8398px;"></i>
+                </div>
+            </div>
+            <p id="last-login-display" style="font-size: 15.8398px; opacity: 0.6; margin-top: 5px;">Last login:
+                2026-05-17 17:50:41</p>
+        </div>
+    </div>
+
+    <div class="glass-card balance-box" id="balance-box-card" style="position: relative;">
+        <div id="balance-edit-indicator"
+            style="position: absolute; right: 15px; top: 12px; font-size: 10px; color: var(--accent-color); font-weight: bold; background: rgba(247, 183, 49, 0.1); padding: 2px 8px; border-radius: 10px; display: flex; align-items: center; gap: 4px; cursor: pointer;">
+            <i class="fas fa-user-cog"></i> Admin Edit
+        </div>
+        <p style="font-size: 20.1598px; opacity: 0.8;">Total balance</p>
+        <div class="balance-amount" id="balance-clickable-area"
+            style="cursor: pointer; display: flex; align-items: center; gap: 8px;"
+            title="Double tap on mobile / Click on laptop to edit balance">
+            ₹
+            <span id="balance-display-container" style="display: inline-block;">
+                <span id="balance-display">3.61</span>
+            </span>
+            <input type="number" id="balance-inline-input" step="0.01"
+                style="display: none; font-size: 24px; font-weight: bold; width: 140px; background: rgba(255,255,255,0.08); border: 1px solid var(--accent-color); border-radius: 8px; color: white; outline: none; padding: 2px 8px; font-family: inherit;">
+            <i id="balance-refresh" class="fas fa-sync-alt"
+                style="font-size: 14px; color: var(--text-secondary); cursor: pointer;"></i>
+        </div>
+        <div class="action-row">
+            <div class="action-item" style="cursor: pointer;" onclick="location.href='wallet.html'">
+                <div class="action-icon" style="background: #ff4757;"><i class="fas fa-wallet"></i></div>
+                <span>ARWallet</span>
+            </div>
+            <div class="action-item" style="cursor: pointer;" onclick="location.href='wallet.html?action=deposit'">
+                <div class="action-icon" style="background: #ffa502;"><i class="fas fa-donate"></i></div>
+                <span>Deposit</span>
+            </div>
+            <div class="action-item" style="cursor: pointer;" onclick="location.href='wallet.html?action=withdraw'">
+                <div class="action-icon" style="background: #2f3542;"><i class="fas fa-minus-circle"></i></div>
+                <span>Withdraw</span>
+            </div>
+            <div class="action-item" style="cursor: pointer;">
+                <div class="action-icon" style="background: #2ed573;"><i class="fas fa-gem"></i></div>
+                <span>VIP</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu-grid">
+        <div class="glass-card menu-card">
+            <i class="fas fa-gamepad" style="color: #4facfe;"></i>
+            <div>
+                <div style="font-size: 14px; font-weight: 600;">Game History</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">My game history</div>
+            </div>
+        </div>
+        <div class="glass-card menu-card" onclick="location.href='transaction.html'" style="cursor: pointer;">
+            <i class="fas fa-exchange-alt" style="color: #2ed573;"></i>
+            <div>
+                <div style="font-size: 14px; font-weight: 600;">Transaction</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">History</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="service-center">
+        <h3>Service Center</h3>
+        <div class="glass-card service-grid">
+            <div class="service-item">
+                <i class="fas fa-cog service-icon"></i>
+                <span>Settings</span>
+            </div>
+            <div class="service-item">
+                <i class="fas fa-comment-dots service-icon"></i>
+                <span>Feedback</span>
+            </div>
+            <div class="service-item">
+                <i class="fas fa-bullhorn service-icon"></i>
+                <span>Notice</span>
+            </div>
+            <div class="service-item">
+                <i class="fas fa-headset service-icon"></i>
+                <span>Support</span>
+            </div>
+            <div class="service-item">
+                <i class="fas fa-book service-icon"></i>
+                <span>Guide</span>
+            </div>
+            <div class="service-item">
+                <i class="fas fa-info-circle service-icon"></i>
+                <span>About</span>
+            </div>
+            <div class="service-item" id="admin-panel-trigger" style="cursor: pointer;">
+                <i class="fas fa-user-shield service-icon" style="color: #ffea47;"></i>
+                <span style="color: #e6dcdc; font-weight: bold;">Admin Panel</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Log out button -->
+    <div style="padding: 10px 15px 105px 15px;">
+        <a id="auth-action-btn" href="login.html" class="btn"
+            style="width: 100%; height: 46px; border-radius: 23px; border: 1.5px solid #2d2f5a; background: #17172c; color: #A08FFF; font-size: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: none; font-weight: 500;">
+            <img src="./images/power-off.png" style="width: 26px; height: 26px; object-fit: contain;"> Log out
+        </a>
+    </div>
+
+    <div class="tabbar-container">
+        <!-- Layer 1: Pedestal behind the center button -->
+        <div class="tabbar__pedestal"></div>
+
+        <!-- Layer 2: Main Background Bar -->
+        <div class="tabbar__bar"></div>
+
+        <!-- Layer 3: Center Promotion Item -->
+        <div class="tabbar__center" onclick="location.href='promotion.html'">
+            <img src="./images/promotion-6cfedca7.webp" class="tabbar__center-icon--img">
+            <div class="tabbar__center-fg"></div>
+            <span class="tabbar__center-text">Promotion</span>
+        </div>
+
+        <!-- Layer 4: Items -->
+        <div class="tabbar__items">
+            <!-- Home -->
+            <div class="tabbar__items-tab" onclick="location.href='index.html'">
+                <img src="./images/home.webp" class="tabbar__items-tab__icon">
+                <span>Home</span>
+            </div>
+
+            <!-- Activity -->
+            <div class="tabbar__items-tab" onclick="location.href='activity.html'">
+                <img src="./images/activity_nor-92e1ebc6.webp" class="tabbar__items-tab__icon">
+                <span>Activity</span>
+            </div>
+
+            <!-- Placeholder -->
+            <div class="tabbar__items-tab placeholder"></div>
+
+            <!-- Wallet -->
+            <div class="tabbar__items-tab" onclick="location.href='wallet.html'">
+                <img src="./images/wallet_nor-da2e681e.webp" class="tabbar__items-tab__icon">
+                <span>Wallet</span>
+            </div>
+
+            <!-- Account (Active) -->
+            <div class="tabbar__items-tab active" onclick="location.href='account.html'">
+                <img src="./images/mine_sel-bc95a7c2.webp" class="tabbar__items-tab__icon">
+                <span>Account</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Portal Modal -->
+    <div id="admin-modal" class="modal-overlay" style="display: none;">
+        <div class="glass-card modal-content"
+            style="max-width: 400px; width: 90%; padding: 25px; border: 1px solid #ff4757; position: relative; margin: auto;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,71,87,0.2); padding-bottom: 10px;">
+                <h3 style="color: #ff4757; display: flex; align-items: center; gap: 8px; font-size: 16px;"><i
+                        class="fas fa-user-shield"></i> Admin Portal</h3>
+                <i class="fas fa-times" id="close-admin-modal"
+                    style="font-size: 20px; cursor: pointer; color: var(--text-secondary);"></i>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <div class="form-group" style="margin-bottom: 10px;">
+                    <label class="form-label" style="color: #fff; font-size: 12px;">Edit Balance (₹)</label>
+                    <input type="number" id="admin-balance-input" class="form-control" step="0.01"
+                        style="border-color: rgba(255,71,87,0.3); background: rgba(0,0,0,0.2); color: white;">
+                </div>
+                <div class="form-group" style="margin-bottom: 10px;">
+                    <label class="form-label" style="color: #fff; font-size: 12px;">Yesterday's Commission (₹)</label>
+                    <input type="number" id="admin-commission-input" class="form-control" step="0.01"
+                        style="border-color: rgba(255,71,87,0.3); background: rgba(0,0,0,0.2); color: white;">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label" style="color: #fff; font-size: 12px;">Direct Subs</label>
+                        <input type="number" id="admin-direct-input" class="form-control"
+                            style="border-color: rgba(255,71,87,0.3); background: rgba(0,0,0,0.2); color: white;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label" style="color: #fff; font-size: 12px;">Team Subs</label>
+                        <input type="number" id="admin-team-input" class="form-control"
+                            style="border-color: rgba(255,71,87,0.3); background: rgba(0,0,0,0.2); color: white;">
+                    </div>
+                </div>
+                <button id="admin-save-btn" class="btn btn-primary"
+                    style="background: linear-gradient(135deg, #ff4757 0%, #ff6b6b 100%); font-weight: bold; padding: 12px; border-radius: 12px; border: none; cursor: pointer; color: white;">Save
+                    Changes</button>
+                <button id="admin-reset-db" class="btn btn-outline"
+                    style="border-color: rgba(255,71,87,0.4); color: #ff4757; padding: 8px; font-size: 11px; border-radius: 8px; cursor: pointer;">Reset
+                    Database Defaults</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script src="js/script.js"></script>
+    <!-- Floating Robot Customer Service -->
+    <div class="floating-robot-service" onclick="alert('Connecting to Live Customer Service...')"
+        style="position: fixed; right: 15px; bottom: 120px; z-index: 9999; cursor: pointer; width: 55px; height: 55px; border-radius: 50%; transition: transform 0.2s ease;"
+        onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">
+        <img src="images/rr.webp" style="width: 100%; height: 100%; object-fit: contain;"
+            onerror="this.src='https://www.jaiclub33.com/assets/png/icon_sevice-d0778bf5.webp'">
+    </div>
+</body>
+
+</html>
