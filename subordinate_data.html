@@ -36,14 +36,14 @@
             right: 25px;
             top: 50%;
             transform: translateY(-50%);
-            background: var(--blue-gradient);
+            background: #A08FFF;
             width: 35px;
             height: 35px;
             border-radius: 8px;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: var(--secondary-gradient);
+            background: #A08FFF;
         }
 
         .filter-row {
@@ -72,7 +72,7 @@
             text-align: center;
             gap: 20px;
             border-radius: 12px;
-            background: rgba(100, 150, 255, 0.1);
+            background: #A08FFF;
         }
 
         .data-item {
@@ -86,7 +86,7 @@
             top: 10%;
             height: 80%;
             width: 1px;
-            background: rgba(255, 255, 255, 0.1);
+            background: #93939D;
         }
 
         .data-value {
@@ -97,7 +97,7 @@
 
         .data-label {
             font-size: 11px;
-            color: var(--text-secondary);
+            color: #ffffff;
             line-height: 1.2;
         }
 
@@ -138,10 +138,10 @@
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
-            background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>") !important;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='%2393939D' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z'/></svg>") !important;
             background-repeat: no-repeat !important;
             background-position: right 10px center !important;
-            background-size: 20px !important;
+            background-size: 16px !important;
             padding-right: 30px !important;
         }
 
@@ -161,6 +161,7 @@
             background: rgba(0, 0, 0, 0.7);
             z-index: 10000;
         }
+
         .picker-container {
             position: fixed;
             bottom: 0;
@@ -177,10 +178,17 @@
             overflow: hidden;
             animation: slideUp 0.3s ease-out;
         }
+
         @keyframes slideUp {
-            from { transform: translate(-50%, 100%); }
-            to { transform: translate(-50%, 0); }
+            from {
+                transform: translate(-50%, 100%);
+            }
+
+            to {
+                transform: translate(-50%, 0);
+            }
         }
+
         .picker-header {
             display: flex;
             justify-content: space-between;
@@ -189,22 +197,26 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             background: #20213d;
         }
+
         .picker-header span {
             font-size: 15px;
             font-weight: bold;
             color: #fff;
         }
+
         .picker-header .btn-cancel {
             color: #88889d;
             cursor: pointer;
             font-size: 14px;
         }
+
         .picker-header .btn-confirm {
-            color: var(--accent-color);
+            color: #A08FFF;
             font-weight: bold;
             cursor: pointer;
             font-size: 14px;
         }
+
         .picker-body {
             display: flex;
             height: 220px;
@@ -212,6 +224,7 @@
             padding: 10px 0;
             background: #17182e;
         }
+
         .picker-column {
             flex: 1;
             overflow-y: auto;
@@ -220,9 +233,11 @@
             position: relative;
             height: 100%;
         }
+
         .picker-column::-webkit-scrollbar {
             display: none;
         }
+
         .picker-item {
             height: 44px;
             line-height: 44px;
@@ -231,11 +246,13 @@
             transition: all 0.2s;
             cursor: pointer;
         }
+
         .picker-item.selected {
             color: #ffffff;
             font-weight: bold;
             font-size: 17px;
         }
+
         .picker-highlight {
             position: absolute;
             top: 88px;
@@ -287,11 +304,13 @@
         </select>
         <!-- Hidden input to maintain compatibility with js/script.js -->
         <input type="hidden" id="subordinate-date-select" value="2026-05-26">
-        
+
         <!-- Custom Vant Style Date Pill Dropdown -->
-        <div class="filter-btn date-picker-trigger" id="date-picker-trigger" style="border: none; outline: none; background: var(--card-bg); color: white; padding: 10px 15px; font-size: 14px; border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; flex: 1; min-height: 41px;">
+        <div class="filter-btn date-picker-trigger" id="date-picker-trigger"
+            style="border: none; outline: none; background: var(--card-bg); color: white; padding: 10px 15px; font-size: 14px; border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; flex: 1; min-height: 41px;">
             <span class="default" id="date-picker-display">2026-05-26</span>
-            <i class="van-badge__wrapper van-icon van-icon-arrow-down"><i class="fas fa-chevron-down" style="font-size: 10px; color: var(--text-secondary);"></i></i>
+            <i class="van-badge__wrapper van-icon van-icon-arrow-down"><i class="fas fa-chevron-down"
+                    style="font-size: 10px; color: var(--text-secondary);"></i></i>
         </div>
     </div>
 
@@ -384,14 +403,21 @@
         loadStatsForDate(getCurrentSubDate());
 
         // Bottom Sheet Date Picker controller
-        (function() {
+        (function () {
             const datePickerOverlay = document.getElementById('date-picker-overlay');
             const datePickerTrigger = document.getElementById('date-picker-trigger');
             const datePickerDisplay = document.getElementById('date-picker-display');
             const dateSelectCompat = document.getElementById('subordinate-date-select');
 
-            // Restore saved date from localStorage or use default
-            const savedDate = localStorage.getItem('sub_selected_date') || '2026-05-26';
+            // Get current local date
+            const today = new Date();
+            const todayYear = today.getFullYear();
+            const todayMonth = today.getMonth() + 1;
+            const todayDay = today.getDate();
+            const todayStr = `${todayYear}-${String(todayMonth).padStart(2, '0')}-${String(todayDay).padStart(2, '0')}`;
+
+            // Restore saved date from localStorage or use default (today)
+            const savedDate = localStorage.getItem('sub_selected_date') || todayStr;
             if (datePickerDisplay) datePickerDisplay.textContent = savedDate;
             if (dateSelectCompat) {
                 dateSelectCompat.value = savedDate;
@@ -402,13 +428,32 @@
                 }, 100);
             }
 
-            const years = Array.from({length: 11}, (_, i) => 2020 + i);
-            const months = Array.from({length: 12}, (_, i) => String(i + 1).padStart(2, '0'));
-            const days = Array.from({length: 31}, (_, i) => String(i + 1).padStart(2, '0'));
-
             let currentSelectedYear = savedDate.split('-')[0];
             let currentSelectedMonth = savedDate.split('-')[1];
             let currentSelectedDay = savedDate.split('-')[2];
+
+            const getAvailableYears = () => {
+                const list = [];
+                for (let y = 2020; y <= todayYear; y++) {
+                    list.push(y);
+                }
+                return list;
+            };
+
+            const getAvailableMonths = (selectedYear) => {
+                const limit = (parseInt(selectedYear) === todayYear) ? todayMonth : 12;
+                return Array.from({ length: limit }, (_, i) => String(i + 1).padStart(2, '0'));
+            };
+
+            const getAvailableDays = (selectedYear, selectedMonth) => {
+                const yearInt = parseInt(selectedYear);
+                const monthInt = parseInt(selectedMonth);
+                let limit = new Date(yearInt, monthInt, 0).getDate();
+                if (yearInt === todayYear && monthInt === todayMonth) {
+                    limit = Math.min(limit, todayDay);
+                }
+                return Array.from({ length: limit }, (_, i) => String(i + 1).padStart(2, '0'));
+            };
 
             const populateCol = (colId, items, currentVal, onSelect) => {
                 const col = document.getElementById(colId);
@@ -444,15 +489,47 @@
                 return div;
             };
 
+            const updateYearColumn = () => {
+                const yearsList = getAvailableYears();
+                if (!yearsList.includes(parseInt(currentSelectedYear))) {
+                    currentSelectedYear = String(yearsList[yearsList.length - 1]);
+                }
+                populateCol('picker-year-col', yearsList, currentSelectedYear, (val) => {
+                    currentSelectedYear = String(val);
+                    updateMonthColumn();
+                });
+                updateMonthColumn();
+            };
+
+            const updateMonthColumn = () => {
+                const monthsList = getAvailableMonths(currentSelectedYear);
+                if (!monthsList.includes(currentSelectedMonth)) {
+                    currentSelectedMonth = monthsList[monthsList.length - 1];
+                }
+                populateCol('picker-month-col', monthsList, currentSelectedMonth, (val) => {
+                    currentSelectedMonth = String(val);
+                    updateDayColumn();
+                });
+                updateDayColumn();
+            };
+
+            const updateDayColumn = () => {
+                const daysList = getAvailableDays(currentSelectedYear, currentSelectedMonth);
+                if (!daysList.includes(currentSelectedDay)) {
+                    currentSelectedDay = daysList[daysList.length - 1];
+                }
+                populateCol('picker-day-col', daysList, currentSelectedDay, (val) => {
+                    currentSelectedDay = String(val);
+                });
+            };
+
             const initPickers = () => {
-                const activeDate = dateSelectCompat ? dateSelectCompat.value : '2026-05-26';
+                const activeDate = dateSelectCompat ? dateSelectCompat.value : todayStr;
                 currentSelectedYear = activeDate.split('-')[0];
                 currentSelectedMonth = activeDate.split('-')[1];
                 currentSelectedDay = activeDate.split('-')[2];
 
-                populateCol('picker-year-col', years, currentSelectedYear, (val) => currentSelectedYear = val);
-                populateCol('picker-month-col', months, currentSelectedMonth, (val) => currentSelectedMonth = val);
-                populateCol('picker-day-col', days, currentSelectedDay, (val) => currentSelectedDay = val);
+                updateYearColumn();
             };
 
             if (datePickerTrigger) {
@@ -481,7 +558,7 @@
                     const fullDate = `${currentSelectedYear}-${currentSelectedMonth}-${currentSelectedDay}`;
                     if (datePickerDisplay) datePickerDisplay.textContent = fullDate;
                     localStorage.setItem('sub_selected_date', fullDate);
-                    
+
                     if (dateSelectCompat) {
                         dateSelectCompat.value = fullDate;
                         dateSelectCompat.dispatchEvent(new Event('change'));

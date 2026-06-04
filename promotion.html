@@ -106,102 +106,108 @@
         style="background: linear-gradient(135deg, #FB8466 0%, #BD5BD4 33%, #7473FA 66%, #53B2FA 100%); padding: 30px 20px 140px 20px; text-align: center; border-radius: 0; margin-bottom: 0;">
         <h1
             style="font-size: 33.6384px; font-weight: 500; color: #1A1A2C; margin: 5px 0 10px 0; font-family: sans-serif;">
-            <span id="commission-display">0</span>
+            <span class="stat-editable" id="commission-display" style="cursor: pointer;">0</span>
         </h1>
         <div
-            style="background: #22224B; border-radius: 20px; padding: 5px 15px; display: inline-block; font-size: 16.141px; font-weight: bold; color: #A08FFF; margin-bottom: 12px; font-family: sans-serif;">
+            style="background: #22224B; border-radius: 20px; padding: 5px 15px; display: inline-block; font-size: 16.141px; font-weight: bold; color: #A08FFF; margin-bottom: 6px; font-family: sans-serif;">
             Yesterday's total commission</div>
-        <p style="font-size: 13.6574px; color: #1A1A2C; font-weight: 500; font-family: sans-serif;">Upgrade the level to
+        <p
+            style="font-size: 13.6574px; color: #1A1A2C; font-weight: 500; font-family: sans-serif; margin: 4px 0 6px 0;">
+            Upgrade the level to
             increase commission income</p>
     </div>
 
-    <div class="commission-box" style="margin-top: -140px; padding: 6px 15px;">
-        <div class="glass-card"
-            style="padding: 0; border-radius: 18px; background: #23254c; border: 1.5px solid rgba(255,255,255,0.06); overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.35);">
-            <!-- Header Row -->
-            <div
-                style="display: flex; background: #2c2e56; padding: 12px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center;">
-                <div
-                    style="flex: 1; text-align: center; font-weight: bold; font-size: 16.141px; color: white; display: flex; align-items: center; justify-content: center; gap: 8px;">
+    <div class="commission-box" style="margin-top: -145px; padding: 0 15px; display: flex; justify-content: center;">
+        <div class="container"
+            style="display: flex; width: 100%; max-width: 400px; border-radius: 18px; overflow: hidden; background: #22224B; border: 1.5px solid rgba(255,255,255,0.06); box-shadow: 0 8px 32px rgba(0,0,0,0.35); box-sizing: border-box;">
+            <!-- Left Column (Direct subordinates) -->
+            <div class="info"
+                style="width: 50%; display: flex; flex-direction: column; border-right: 1.5px solid rgba(255,255,255,0.06); box-sizing: border-box;">
+                <!-- Header -->
+                <div class="head"
+                    style="background: #2c2e56; height: 57.6px; display: flex; align-items: center; padding-left: 12px; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); box-sizing: border-box;">
                     <img src="images/WhatsApp Image 2026-06-03 at 11.44.26 PM (2).jpeg"
-                        style="width: 20px; height: 20px; object-fit: cover; border-radius: 3px;"> Direct subordinates
+                        style="width: 20px; height: 20px; object-fit: cover; border-radius: 3px;">
+                    <span
+                        style="font-weight: bold; font-size: 15.4174px; color: white; font-family: sans-serif; white-space: nowrap;">Direct
+                        subordinates</span>
                 </div>
-                <div style="width: 1px; height: 18px; background: rgba(255,255,255,0.15);"></div>
+                <!-- Body -->
                 <div
-                    style="flex: 1; text-align: center; font-weight: bold; font-size: 16.141px; color: white; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                    <img src="images/WhatsApp Image 2026-06-03 at 11.44.26 PM.jpeg"
-                        style="width: 20px; height: 20px; object-fit: cover; border-radius: 3px;"> Team subordinates
-                </div>
-            </div>
-            <!-- Stats Row -->
-            <div style="display: flex; padding: 18px 10px 14px 10px; position: relative;">
-                <!-- Vertical Divider in the center of the columns -->
-                <div
-                    style="position: absolute; left: 50%; top: 15px; bottom: 15px; width: 1px; background: rgba(255,255,255,0.08); transform: translateX(-50%);">
-                </div>
-
-                <!-- Left Column (Direct) -->
-                <div style="flex: 1; display: flex; flex-direction: column; gap: 15px;">
-                    <div style="text-align: center;">
+                    style="display: flex; flex-direction: column; gap: 8px; padding: 12px 5px; text-align: center; background: #22224B; box-sizing: border-box;">
+                    <div>
                         <div class="stat-editable" id="direct-register"
-                            style="font-size: 19.6222px; font-weight: 400; color: white; cursor: pointer; line-height: 1.2;">
+                            style="font-size: 16px; font-weight: bold; color: white; cursor: pointer; line-height: 1.2;">
                             0</div>
-                        <div style="color:white; font-size:15.4174px; text-align: center; padding-top: .2rem;">
-                            number of register</div>
+                        <div style="color: white; font-size: 12px; text-align: center; padding-top: .1rem;">number of
+                            register</div>
                     </div>
-                    <div style="text-align: center;">
+                    <div>
                         <div class="stat-editable" id="direct-dep-num"
-                            style="font-size: 19.6222px; font-weight: 400; color: #00e676; cursor: pointer; line-height: 1.2;">
+                            style="font-size: 16px; font-weight: bold; color: #00e676; cursor: pointer; line-height: 1.2;">
                             0</div>
-                        <div style="color: white; font-size: 15.4174px; text-align: center; padding-top: .2rem;">
-                            Deposit number</div>
+                        <div style="color: white; font-size: 12px; text-align: center; padding-top: .1rem;">Deposit
+                            number</div>
                     </div>
-                    <div style="text-align: center;">
+                    <div>
                         <div class="stat-editable" id="direct-dep-amt"
-                            style="font-size: 19.6222px; font-weight: 400; color: #ffb300; cursor: pointer; line-height: 1.2;">
+                            style="font-size: 16px; font-weight: bold; color: #ffb300; cursor: pointer; line-height: 1.2;">
                             0</div>
-                        <div style="color: white; font-size: 15.4174px; text-align: center; padding-top: .2rem;">
+                        <div style="color:white; font-size: 12px; text-align: center; padding-top: .1rem;">
                             Deposit amount</div>
                     </div>
-                    <div style="text-align: center;">
+                    <div>
                         <div class="stat-editable" id="direct-first-dep"
-                            style="font-size: 19.6222px; font-weight: 400; color: white; cursor: pointer; line-height: 1.2;">
+                            style="font-size: 16px; font-weight: bold; color: white; cursor: pointer; line-height: 1.2;">
                             0</div>
                         <div
-                            style="color: white; font-size: 15.4174px; text-align: center; padding-top: .2rem; padding-left: 5px; padding-right: 5px; min-height: 28px; display: flex; align-items: center; justify-content: center; line-height: 1.2;">
+                            style="color:white; font-size: 12px; text-align: center; padding-top: .1rem; padding-left: 5px; padding-right: 5px; min-height: 28px; display: flex; align-items: center; justify-content: center; line-height: 1.2;">
                             Number of people making first deposit</div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Right Column (Team) -->
-                <div style="flex: 1; display: flex; flex-direction: column; gap: 15px;">
-                    <div style="text-align: center;">
+            <!-- Right Column (Team subordinates) -->
+            <div class="info" style="width: 50%; display: flex; flex-direction: column; box-sizing: border-box;">
+                <!-- Header -->
+                <div class="head u2"
+                    style="background: #2c2e56; height: 57.6px; display: flex; align-items: center; padding-left: 12px; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); box-sizing: border-box;">
+                    <img src="images/WhatsApp Image 2026-06-03 at 11.44.26 PM.jpeg"
+                        style="width: 20px; height: 20px; object-fit: cover; border-radius: 3px;">
+                    <span
+                        style="font-weight: bold; font-size: 15.4174px; color: white; font-family: sans-serif; white-space: nowrap;">Team
+                        subordinates</span>
+                </div>
+                <!-- Body -->
+                <div
+                    style="display: flex; flex-direction: column; gap: 8px; padding: 12px 5px; text-align: center; background: #22224B; box-sizing: border-box;">
+                    <div>
                         <div class="stat-editable" id="team-register"
-                            style="font-size: 19.6222px; font-weight: 400; color: white; cursor: pointer; line-height: 1.2;">
+                            style="font-size: 16px; font-weight: bold; color: white; cursor: pointer; line-height: 1.2;">
                             0</div>
-                        <div style="color: white; font-size: 15.4174px; text-align: center; padding-top: .2rem;">
+                        <div style="color: white; font-size: 12px; text-align: center; padding-top: .1rem;">
                             number of register</div>
                     </div>
-                    <div style="text-align: center;">
+                    <div>
                         <div class="stat-editable" id="team-dep-num"
-                            style="font-size: 19.6222px; font-weight: 400; color: #00e676; cursor: pointer; line-height: 1.2;">
+                            style="font-size: 16px; font-weight: bold; color: #00e676; cursor: pointer; line-height: 1.2;">
                             0</div>
-                        <div style="color: white; font-size:15.4174px; text-align: center; padding-top: .2rem;">
+                        <div style="color: white; font-size: 12px; text-align: center; padding-top: .1rem;">
                             Deposit number</div>
                     </div>
-                    <div style="text-align: center;">
+                    <div>
                         <div class="stat-editable" id="team-dep-amt"
-                            style="font-size: 19.6222px; font-weight: 400; color: #ffb300; cursor: pointer; line-height: 1.2;">
+                            style="font-size: 16px; font-weight: bold; color: #ffb300; cursor: pointer; line-height: 1.2;">
                             0</div>
-                        <div style="color: white; font-size: 15.4174px; text-align: center; padding-top: .2rem;">
+                        <div style="color: white; font-size: 12px; text-align: center; padding-top: .1rem;">
                             Deposit amount</div>
                     </div>
-                    <div style="text-align: center;">
+                    <div>
                         <div class="stat-editable" id="team-first-dep"
-                            style="font-size: 19.6222px; font-weight: 400; color: white; cursor: pointer; line-height: 1.2;">
+                            style="font-size: 16px; font-weight: bold; color: white; cursor: pointer; line-height: 1.2;">
                             0</div>
                         <div
-                            style="color: white; font-size: 15.4174px; text-align: center; padding-top: .2rem; padding-left: 5px; padding-right: 5px; min-height: 28px; display: flex; align-items: center; justify-content: center; line-height: 1.2;">
+                            style="color: white; font-size: 12px; text-align: center; padding-top: .1rem; padding-left: 5px; padding-right: 5px; min-height: 28px; display: flex; align-items: center; justify-content: center; line-height: 1.2;">
                             Number of people making first deposit</div>
                     </div>
                 </div>
@@ -228,7 +234,7 @@
                     <img src="images/WhatsApp Image 2026-06-03 at 11.44.29 PM (1).jpeg"
                         style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
-                <span style="font-size: 15.4174px; color: white;">Partner rewards</span>
+                <span style="font-size: 14.9332px; color: white;">Partner rewards</span>
             </div>
             <i class="fas fa-chevron-right" style="color: var(--text-secondary); font-size: 11px;"></i>
         </div>
@@ -239,10 +245,10 @@
             <div class="option-left" style="gap: 10px;">
                 <div class="option-icon"
                     style="width:30px; height:30px; border-radius:6px; overflow:hidden; display: flex; align-items: center; justify-content: center;">
-                    <img src="images/WhatsApp Image 2026-06-03 at 11.44.29 PM.jpeg"
+                    <img src="images/WhatsApp Image 2026-06-04 at 2.13.41 PM (1).jpeg"
                         style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
-                <span style="font-size: 15.4174px; color: white;">Copy invitation code</span>
+                <span style="font-size: 14.9332px; color: white;">Copy invitation code</span>
             </div>
             <div style="display: flex; align-items: center; gap: 8px;">
                 <span id="invite-code-display"
@@ -263,7 +269,7 @@
                     <img src="images/WhatsApp Image 2026-06-03 at 11.44.28 PM (2).jpeg"
                         style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
-                <span style="font-size: 15.4174px; color: white;">Subordinate data</span>
+                <span style="font-size: 14.9332px; color: white;">Subordinate data</span>
             </div>
             <i class="fas fa-chevron-right" style="color: var(--text-secondary); font-size: 11px;"></i>
         </a>
@@ -277,7 +283,7 @@
                     <img src="images/WhatsApp Image 2026-06-03 at 11.44.27 PM (1).jpeg"
                         style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
-                <span style="font-size: 15.4174px; color: white;">Commission detail</span>
+                <span style="font-size: 14.9332px; color: white;">Commission detail</span>
             </div>
             <i class="fas fa-chevron-right" style="color: var(--text-secondary); font-size: 11px;"></i>
         </div>
@@ -291,7 +297,7 @@
                     <img src="images/WhatsApp Image 2026-06-03 at 11.44.27 PM (2).jpeg"
                         style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
-                <span style="font-size: 15.4174px; color: white;">Invitation rules</span>
+                <span style="font-size: 14.9332px; color: white;">Invitation rules</span>
             </div>
             <i class="fas fa-chevron-right" style="color: var(--text-secondary); font-size: 11px;"></i>
         </div>
@@ -305,7 +311,7 @@
                     <img src="images/WhatsApp Image 2026-06-03 at 11.44.28 PM.jpeg"
                         style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
-                <span style="font-size: 15.4174px; color: white;">Agent line customer service</span>
+                <span style="font-size: 14.9332px; color: white;">Agent line customer service</span>
             </div>
             <i class="fas fa-chevron-right" style="color: var(--text-secondary); font-size: 11px;"></i>
         </div>
@@ -319,7 +325,7 @@
                     <img src="images/WhatsApp Image 2026-06-03 at 11.44.28 PM (1).jpeg"
                         style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
-                <span style="font-size: 15.4174px; color: white;">Rebate ratio</span>
+                <span style="font-size: 14.9332px; color: white;">Rebate ratio</span>
             </div>
             <i class="fas fa-chevron-right" style="color: var(--text-secondary); font-size: 11px;"></i>
         </div>
@@ -328,13 +334,14 @@
     <!-- promotion data card -->
     <div style="padding: 10px 15px 95px 15px;">
         <div
-            style="padding: 15px; border-radius: 16px; background: #22224B; border: 1px solid rgba(255,255,255,0.06); box-shadow: none;">
+            style="padding: 0 0 8px 0; border-radius: 16px; background: #22224B; border: 1px solid rgba(255,255,255,0.06); box-shadow: none; max-width: 400px; margin: 0 auto;">
             <div
-                style="display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 19.6222px; color: white; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;">
-                <img src="images/WhatsApp Image 2026-06-03 at 11.44.27 PM.jpeg"
+                style="display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 14.9332px; color: white; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 15px 15px 8px 15px;">
+                <img src="images/WhatsApp Image 2026-06-04 at 2.13.41 PM.jpeg"
                     style="width: 20px; height: 20px; object-fit: cover; border-radius: 3px;"> promotion data
             </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px 5px; text-align: center;">
+            <div
+                style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px 5px; text-align: center; padding: 0 15px 8px 15px;">
                 <div style="border-right: 1px solid rgba(255,255,255,0.05); padding-right: 5px;">
                     <div class="stat-editable" id="promo-this-week"
                         style="font-size: 21.024px; font-weight: 500; color: white; cursor: pointer;">0</div>
@@ -370,7 +377,7 @@
 
         <!-- Layer 3: Center Promotion Item (Active page) -->
         <div class="tabbar__center" onclick="location.href='promotion.html'">
-            <img src="./images/promotion-6cfedca7.webp" class="tabbar__center-icon--img"
+            <img src="images/promotion-6cfedca7.webp" class="tabbar__center-icon--img"
                 style="transform: translateX(-50%) scale(1.05); filter: drop-shadow(0 0 8px rgba(246, 211, 101, 0.4));">
             <div class="tabbar__center-fg"></div>
             <span class="tabbar__center-text" style="color: #ffffff; font-weight: bold;">Promotion</span>

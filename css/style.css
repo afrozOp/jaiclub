@@ -1,6 +1,6 @@
 :root {
     --bg-color: #090919;
-    --card-bg: rgba(255, 255, 255, 0.05);
+    --card-bg: #22224B;
     --card-border: rgba(255, 255, 255, 0.1);
     --main-color: #A08FFF;
     --main_gradient-color: linear-gradient(90deg, #FB8466 0%, #BD5BD4 33%, #7473FA 66%, #53B2FA 100%);

@@ -351,9 +351,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const copyInviteBtn = document.getElementById('copy-invite-btn');
 
         if (currentUser) {
-            if (commDisp) commDisp.textContent = parseFloat(currentUser.yesterdayCommission).toLocaleString('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
-            if (directDisp) directDisp.textContent = currentUser.directSubordinates;
-            if (teamDisp) teamDisp.textContent = currentUser.teamSubordinates;
+            if (commDisp) {
+                const savedComm = localStorage.getItem('promo_commission-display');
+                commDisp.textContent = savedComm !== null ? savedComm : parseFloat(currentUser.yesterdayCommission).toLocaleString('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+            }
+            if (directDisp) {
+                const savedDirect = localStorage.getItem('promo_direct-display');
+                directDisp.textContent = savedDirect !== null ? savedDirect : currentUser.directSubordinates;
+            }
+            if (teamDisp) {
+                const savedTeam = localStorage.getItem('promo_team-display');
+                teamDisp.textContent = savedTeam !== null ? savedTeam : currentUser.teamSubordinates;
+            }
             if (inviteDisp) inviteDisp.textContent = currentUser.inviteCode;
 
             if (copyInviteBtn) {
@@ -411,7 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Filter List
             let records = data.list || [];
-            
+
             // Search UID
             if (searchQuery) {
                 records = records.filter(r => r.uid.includes(searchQuery));
@@ -434,22 +443,45 @@ document.addEventListener('DOMContentLoaded', () => {
                     const card = document.createElement('div');
                     card.className = 'glass-card animate-fade';
                     card.style.marginBottom = '12px';
-                    card.style.padding = '12px 15px';
-                    card.style.borderLeft = rec.isFirst ? '3px solid var(--accent-color)' : '1px solid var(--card-border)';
-                    
+                    card.style.padding = '15px 18px';
+                    card.style.borderRadius = '12px';
+                    card.style.background = 'rgba(100, 150, 255, 0.1)';
+                    card.style.border = '1px solid rgba(255,255,255,0.06)';
+
                     const isDirect = parseInt(rec.uid) % 2 === 1;
+                    const level = isDirect ? 2 : 3;
+                    const commission = (rec.bet * 0.018).toFixed(2);
+                    const dateOnly = rec.time.split(' ')[0];
 
                     card.innerHTML = `
-                        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 5px;">
-                            <span style="font-weight: bold; color: white;">UID: ${rec.uid}</span>
-                            <span class="btn-gold" style="padding: 1px 6px; font-size: 10px; border-radius: 4px; background: ${isDirect ? 'var(--primary-gradient)' : 'var(--secondary-gradient)'}; color: white;">
-                                ${isDirect ? 'Direct (L1)' : 'Team (L2)'}
-                            </span>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.06);">
+                            <span style="font-weight: bold; color: white; font-size: 15px;">UID:${rec.uid}</span>
+                            <svg onclick="event.stopPropagation(); window.copyToClipboard('${rec.uid}');" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7473fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor: pointer; flex-shrink: 0;">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                            </svg>
                         </div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; font-size: 11px; color: var(--text-secondary); gap: 5px;">
-                            <div>Deposit: <span style="color: #2ed573;">₹${rec.deposit}</span></div>
-                            <div>Total Bet: <span style="color: #4facfe;">₹${rec.bet}</span></div>
-                            <div style="grid-column: span 2; font-size: 10px;">Time: ${rec.time}</div>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px;">
+                                <span style="color: rgba(255,255,255,0.6);">Level</span>
+                                <span style="color: rgba(255,255,255,0.6); font-weight: 500;">${level}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px;">
+                                <span style="color: rgba(255,255,255,0.6);">Deposit amount</span>
+                                <span style="color: #954503ff; font-weight: 500;">${rec.deposit}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px;">
+                                <span style="color: rgba(255,255,255,0.6);">Bet amount</span>
+                                <span style="color: #954503ff; font-weight: 500;">${rec.bet}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px;">
+                                <span style="color: rgba(255,255,255,0.6);">Commission</span>
+                                <span style="color: #954503ff; font-weight: 500;">${commission}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px;">
+                                <span style="color: rgba(255,255,255,0.6);">Time</span>
+                                <span style="color: rgba(255,255,255,0.6);">${dateOnly}</span>
+                            </div>
                         </div>
                     `;
                     listContainer.appendChild(card);
@@ -750,7 +782,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // ==========================================
         let wingoInterval = null;
         let selectedColor = "";
-        
+
         window.selectWingoColor = (color, elem) => {
             selectedColor = color;
             const parent = elem.parentElement;
@@ -761,12 +793,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const startWingoTimer = () => {
             let timer = 30;
             const timerText = document.getElementById('wingo-countdown');
-            
+
             clearInterval(wingoInterval);
             wingoInterval = setInterval(() => {
                 timer--;
                 timerText.textContent = `00:${String(timer).padStart(2, '0')}`;
-                
+
                 if (timer <= 0) {
                     timer = 30;
                     // Trigger Draw Result
@@ -780,7 +812,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const colors = ['red', 'green', 'violet'];
             const winningColor = colors[Math.floor(Math.random() * colors.length)];
             const winningNumber = Math.floor(Math.random() * 10);
-            
+
             // Draw visual result
             alert(`Draw Complete!\nWinning number: ${winningNumber}\nWinning Color: ${winningColor.toUpperCase()}`);
 
@@ -812,7 +844,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     alert(`Sorry! You lost ₹${betAmt.toFixed(2)}! Better luck next time.`);
                 }
-                
+
                 selectedColor = "";
                 document.querySelectorAll('.color-btn').forEach(btn => btn.style.border = 'none');
                 syncBalanceUI();
@@ -893,7 +925,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 aviatorBet = amt;
                 aviatorActive = true;
                 aviatorCrashPoint = Math.round((1.01 + Math.random() * 8.00) * 100) / 100; // random flight exit
-                
+
                 startBtn.style.display = 'none';
                 cashBtn.style.display = 'block';
                 cashBtn.textContent = `Cash Out (₹${(aviatorBet * aviatorMultiplier).toFixed(2)})`;
@@ -920,7 +952,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         cashBtn.style.display = 'none';
                         plane.style.color = "#7f8c8d";
                         alert(`Oh no! The plane flew away at ${aviatorMultiplier.toFixed(2)}x!\nYou lost ₹${aviatorBet.toFixed(2)}.`);
-                        
+
                         setTimeout(resetAviator, 3000);
                     }
                 }, 150);
@@ -1075,7 +1107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (rouletteSpinBtn) {
             rouletteSpinBtn.addEventListener('click', () => {
                 if (isSpinning) return;
-                
+
                 const cost = 10;
                 if (currentUser.balance < cost) {
                     alert("Insufficient Balance to spin the Roulette wheel! Spin cost is ₹10.");
@@ -1125,12 +1157,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Spin animation
                 const spins = 6;
                 const totalDeg = spins * 360 + (360 - centerAngle);
-                
+
                 rouletteWheel.style.transform = `rotate(${totalDeg}deg)`;
 
                 setTimeout(() => {
                     isSpinning = false;
-                    
+
                     if (winAmt > 0) {
                         window.JaiDB.updateBalance(winAmt, "bonus", `Lucky Roulette Win: ${prize}`);
                         syncBalanceUI();
@@ -1232,7 +1264,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const dValIndex = Math.floor(Math.random() * 13);
                     const tValIndex = Math.floor(Math.random() * 13);
-                    
+
                     const dSuit = suits[Math.floor(Math.random() * 4)];
                     const tSuit = suits[Math.floor(Math.random() * 4)];
 
@@ -1261,7 +1293,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const prize = betAmt * multiplier;
                         window.JaiDB.updateBalance(prize, 'bonus', `DragonTiger Win on ${selectedSide.toUpperCase()}`);
                         syncBalanceUI();
-                        
+
                         dragontigerResultMsg.textContent = `YOU WON! Payout: ₹${prize} (Winner is ${gameWinner.toUpperCase()})`;
                         dragontigerResultMsg.style.color = "#2ed573";
                     } else {
@@ -1304,7 +1336,7 @@ document.addEventListener('DOMContentLoaded', () => {
         categoryPills.forEach(pill => {
             pill.addEventListener('click', () => {
                 const cat = pill.getAttribute('data-category');
-                
+
                 // Update active pill
                 categoryPills.forEach(p => p.classList.remove('active'));
                 pill.classList.add('active');
@@ -1344,10 +1376,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (balanceDisplayContainer && balanceInlineInput) {
                 const currentBal = parseFloat(currentUser.balance).toFixed(2);
                 balanceInlineInput.value = currentBal;
-                
+
                 balanceDisplayContainer.style.display = 'none';
                 if (balanceRefreshIcon) balanceRefreshIcon.style.display = 'none';
-                
+
                 balanceInlineInput.style.display = 'inline-block';
                 balanceInlineInput.focus();
                 balanceInlineInput.select();
@@ -1481,7 +1513,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (dbUser.email) users[dbUser.email] = dbUser;
 
                     localStorage.setItem("jaiclub_users", JSON.stringify(users));
-                    
+
                     const diff = newBal - parseFloat(currentUser.balance);
                     if (diff !== 0) {
                         window.JaiDB.addTransaction(currentUser.uid, diff, "bonus", "Admin Portal Modification", new Date().toISOString().replace('T', ' ').substring(0, 19));

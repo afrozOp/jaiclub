@@ -88,7 +88,7 @@
             left: -8px;
             right: -8px;
             bottom: -8px;
-            border: 8px solid var(--accent-color);
+            border: 8px solid #A08FFF;
             border-radius: 50%;
             border-left-color: transparent;
             border-bottom-color: transparent;
@@ -208,8 +208,13 @@
         }
 
         @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
         }
 
         @media (min-width: 600px) {
@@ -226,8 +231,11 @@
     <div class="purple-subpage__nav-placeholder" style="height: 50px;"></div>
     <div class="navbar-fixed">
         <div class="navbar__content">
-            <div class="navbar__content-left" onclick="location.href='index.html'"><i class="van-badge__wrapper van-icon van-icon-arrow-left"></i></div>
-            <div class="navbar__content-center"><div class="navbar__content-title">Wallet</div></div>
+            <div class="navbar__content-left" onclick="location.href='index.html'"><i
+                    class="van-badge__wrapper van-icon van-icon-arrow-left"></i></div>
+            <div class="navbar__content-center">
+                <div class="navbar__content-title">Wallet</div>
+            </div>
             <div class="navbar__content-right"></div>
         </div>
     </div>
@@ -252,35 +260,72 @@
         <button id="deposit-open-btn" style="display: none;"></button>
     </div>
 
-    <div class="wallet-circle-grid">
-        <div class="circle-stat">
-            <div style="font-size: 18px; font-weight: bold;" id="wallet-percent-1">100%</div>
-            <div style="font-size: 10px; color: var(--text-secondary);">Main Wallet</div>
+    <div class="glass-card" style="margin: 0 15px 20px 15px; padding: 0;">
+        <div class="wallet-circle-grid" style="padding: 30px 20px 10px 20px;">
+            <div class="circle-stat">
+                <div style="font-size: 18px; font-weight: bold;" id="wallet-percent-1">100%</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">Main Wallet</div>
+            </div>
+            <div class="circle-stat" style="border-color: var(--card-border);">
+                <div style="font-size: 18px; font-weight: bold;" id="wallet-percent-2">0%</div>
+                <div style="font-size: 10px; color: var(--text-secondary);">3rd Party</div>
+                <div class="circle-progress" style="border-color: var(--secondary-gradient);"></div>
+            </div>
         </div>
-        <div class="circle-stat" style="border-color: var(--card-border);">
-            <div style="font-size: 18px; font-weight: bold;" id="wallet-percent-2">0%</div>
-            <div style="font-size: 10px; color: var(--text-secondary);">3rd Party</div>
-            <div class="circle-progress" style="border-color: var(--secondary-gradient);"></div>
+
+        <div style="padding: 0 20px 20px 20px;">
+            <div class="btn"
+                style="width: 100%; height: 46px; border-radius: 23px; background: linear-gradient(90deg, #ff7e5f, #feb47b, #7473FA, #53B2FA); color: white; font-size: 16px; font-weight: bold; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; cursor: pointer;">
+                Main wallet transfer
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center;">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer;"
+                    onclick="document.getElementById('deposit-open-btn').click()">
+                    <div
+                        style="width: 50px; height: 50px; border-radius: 16px; background: linear-gradient(135deg, #FDD835, #FBC02D); display: flex; justify-content: center; align-items: center;">
+                        <i class="fas fa-wallet" style="color: white; font-size: 24px; opacity: 0.8;"></i>
+                    </div>
+                    <span style="font-size: 11px; color: white;">Deposit</span>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer;"
+                    onclick="document.getElementById('withdraw-open-btn').click()">
+                    <div
+                        style="width: 50px; height: 50px; border-radius: 16px; background: linear-gradient(135deg, #42A5F5, #1E88E5); display: flex; justify-content: center; align-items: center;">
+                        <i class="far fa-credit-card" style="color: white; font-size: 24px; opacity: 0.8;"></i>
+                    </div>
+                    <span style="font-size: 11px; color: white;">Withdraw</span>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer;">
+                    <div
+                        style="width: 50px; height: 50px; border-radius: 16px; background: linear-gradient(135deg, #EF5350, #E53935); display: flex; justify-content: center; align-items: center;">
+                        <i class="fas fa-file-invoice-dollar" style="color: white; font-size: 24px; opacity: 0.8;"></i>
+                    </div>
+                    <span style="font-size: 11px; color: white;">Deposit<br>history</span>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer;">
+                    <div
+                        style="width: 50px; height: 50px; border-radius: 16px; background: linear-gradient(135deg, #66BB6A, #43A047); display: flex; justify-content: center; align-items: center;">
+                        <i class="fas fa-file-invoice" style="color: white; font-size: 24px; opacity: 0.8;"></i>
+                    </div>
+                    <span style="font-size: 11px; color: white;">Withdrawal<br>history</span>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="payment-methods">
-        <h3 style="margin-bottom: 15px;">Deposit Methods</h3>
-        <div class="glass-card method-item" onclick="document.getElementById('deposit-open-btn').click()">
-            <div class="method-icon"><i class="fas fa-university"></i></div>
-            <div style="flex-grow: 1;">
-                <div style="font-weight: 600;">Bank Card</div>
-                <div style="font-size: 11px; color: var(--text-secondary);">Safe and fast</div>
+    <div style="padding: 0 15px 20px 15px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div
+                style="background: linear-gradient(135deg, #FF8A65, #7E57C2, #42A5F5); border-radius: 12px; padding: 20px 15px; text-align: center; color: white;">
+                <div style="font-size: 16px; font-weight: bold; margin-bottom: 5px;">6.61</div>
+                <div style="font-size: 12px;">ARGame</div>
             </div>
-            <i class="fas fa-chevron-right"></i>
-        </div>
-        <div class="glass-card method-item" onclick="document.getElementById('deposit-open-btn').click()">
-            <div class="method-icon"><i class="fab fa-google-pay"></i></div>
-            <div style="flex-grow: 1;">
-                <div style="font-weight: 600;">UPI / GPay</div>
-                <div style="font-size: 11px; color: var(--text-secondary);">Instant deposit</div>
+            <div
+                style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 20px 15px; text-align: center; color: white;">
+                <div style="font-size: 16px; font-weight: bold; margin-bottom: 5px;">0.00</div>
+                <div style="font-size: 12px;">Lottery</div>
             </div>
-            <i class="fas fa-chevron-right"></i>
         </div>
     </div>
 
@@ -299,7 +344,8 @@
                     <div class="amount-option" onclick="selectPreset('deposit-amt', 1000, this)">1k</div>
                     <div class="amount-option" onclick="selectPreset('deposit-amt', 5000, this)">5k</div>
                 </div>
-                <input type="number" id="deposit-amt" class="form-control" placeholder="Enter custom amount" value="500">
+                <input type="number" id="deposit-amt" class="form-control" placeholder="Enter custom amount"
+                    value="500">
             </div>
             <div class="form-group">
                 <label class="form-label">Payment Channel</label>
@@ -314,7 +360,8 @@
                     </div>
                 </div>
             </div>
-            <button id="deposit-submit-btn" class="btn btn-primary" style="width: 100%; height: 50px; font-size: 16px; border-radius: 12px;">Confirm Deposit</button>
+            <button id="deposit-submit-btn" class="btn btn-primary"
+                style="width: 100%; height: 50px; font-size: 16px; border-radius: 12px;">Confirm Deposit</button>
         </div>
     </div>
 
@@ -325,7 +372,8 @@
                 <h3>Withdraw Money</h3>
                 <i class="fas fa-times close-btn" onclick="closeModal('withdraw-modal')"></i>
             </div>
-            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 15px;">Available: <span style="color: white; font-weight: bold;">₹ <span id="withdraw-available">3.61</span></span></p>
+            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 15px;">Available: <span
+                    style="color: white; font-weight: bold;">₹ <span id="withdraw-available">3.61</span></span></p>
             <div class="form-group">
                 <label class="form-label">Withdrawal Amount (₹)</label>
                 <div class="amount-options">
@@ -338,26 +386,28 @@
             </div>
             <div class="form-group">
                 <label class="form-label">Withdraw To (UPI ID or Bank Details)</label>
-                <input type="text" id="withdraw-details" class="form-control" placeholder="8884406837@ybl or Bank A/C Number" value="8884406837@ybl">
+                <input type="text" id="withdraw-details" class="form-control"
+                    placeholder="8884406837@ybl or Bank A/C Number" value="8884406837@ybl">
             </div>
-            <button id="withdraw-submit-btn" class="btn btn-gold" style="width: 100%; height: 50px; font-size: 16px; border-radius: 12px;">Confirm Withdrawal</button>
+            <button id="withdraw-submit-btn" class="btn btn-gold"
+                style="width: 100%; height: 50px; font-size: 16px; border-radius: 12px;">Confirm Withdrawal</button>
         </div>
     </div>
 
     <div class="tabbar-container">
         <!-- Layer 1: Pedestal behind the center button -->
         <div class="tabbar__pedestal"></div>
-        
+
         <!-- Layer 2: Main Background Bar -->
         <div class="tabbar__bar"></div>
-        
+
         <!-- Layer 3: Center Promotion Item -->
         <div class="tabbar__center" onclick="location.href='promotion.html'">
             <img src="./images/promotion-6cfedca7.webp" class="tabbar__center-icon--img">
             <div class="tabbar__center-fg"></div>
             <span class="tabbar__center-text">Promotion</span>
         </div>
-        
+
         <!-- Layer 4: Items -->
         <div class="tabbar__items">
             <!-- Home -->
@@ -365,22 +415,22 @@
                 <img src="./images/home.webp" class="tabbar__items-tab__icon">
                 <span>Home</span>
             </div>
-            
+
             <!-- Activity -->
             <div class="tabbar__items-tab" onclick="location.href='activity.html'">
                 <img src="./images/activity_nor-92e1ebc6.webp" class="tabbar__items-tab__icon">
                 <span>Activity</span>
             </div>
-            
+
             <!-- Placeholder -->
             <div class="tabbar__items-tab placeholder"></div>
-            
+
             <!-- Wallet (Active) -->
             <div class="tabbar__items-tab active" onclick="location.href='wallet.html'">
                 <img src="./images/wallet_sel-8053d31d.webp" class="tabbar__items-tab__icon">
                 <span>Wallet</span>
             </div>
-            
+
             <!-- Account -->
             <div class="tabbar__items-tab" onclick="location.href='account.html'">
                 <img src="./images/mine_nor-50322d77.webp" class="tabbar__items-tab__icon">
