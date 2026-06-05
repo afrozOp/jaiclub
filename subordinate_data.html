@@ -303,12 +303,12 @@
             <option value="tier6">Tier 6</option>
         </select>
         <!-- Hidden input to maintain compatibility with js/script.js -->
-        <input type="hidden" id="subordinate-date-select" value="2026-05-26">
+        <input type="hidden" id="subordinate-date-select" value="">
 
         <!-- Custom Vant Style Date Pill Dropdown -->
         <div class="filter-btn date-picker-trigger" id="date-picker-trigger"
             style="border: none; outline: none; background: var(--card-bg); color: white; padding: 10px 15px; font-size: 14px; border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; flex: 1; min-height: 41px;">
-            <span class="default" id="date-picker-display">2026-05-26</span>
+            <span class="default" id="date-picker-display"></span>
             <i class="van-badge__wrapper van-icon van-icon-arrow-down"><i class="fas fa-chevron-down"
                     style="font-size: 10px; color: var(--text-secondary);"></i></i>
         </div>
@@ -409,15 +409,22 @@
             const datePickerDisplay = document.getElementById('date-picker-display');
             const dateSelectCompat = document.getElementById('subordinate-date-select');
 
-            // Get current local date
+            // Get yesterday's date as the maximum selectable date (never show today)
             const today = new Date();
-            const todayYear = today.getFullYear();
-            const todayMonth = today.getMonth() + 1;
-            const todayDay = today.getDate();
-            const todayStr = `${todayYear}-${String(todayMonth).padStart(2, '0')}-${String(todayDay).padStart(2, '0')}`;
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            const maxYear = yesterday.getFullYear();
+            const maxMonth = yesterday.getMonth() + 1;
+            const maxDay = yesterday.getDate();
+            const yesterdayStr = `${maxYear}-${String(maxMonth).padStart(2, '0')}-${String(maxDay).padStart(2, '0')}`;
 
-            // Restore saved date from localStorage or use default (today)
-            const savedDate = localStorage.getItem('sub_selected_date') || todayStr;
+            // Restore saved date from localStorage or use default (yesterday)
+            let savedDate = localStorage.getItem('sub_selected_date') || yesterdayStr;
+            // If saved date is today or in the future, reset to yesterday
+            if (savedDate >= `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`) {
+                savedDate = yesterdayStr;
+                localStorage.setItem('sub_selected_date', yesterdayStr);
+            }
             if (datePickerDisplay) datePickerDisplay.textContent = savedDate;
             if (dateSelectCompat) {
                 dateSelectCompat.value = savedDate;
@@ -434,14 +441,14 @@
 
             const getAvailableYears = () => {
                 const list = [];
-                for (let y = 2020; y <= todayYear; y++) {
+                for (let y = 2020; y <= maxYear; y++) {
                     list.push(y);
                 }
                 return list;
             };
 
             const getAvailableMonths = (selectedYear) => {
-                const limit = (parseInt(selectedYear) === todayYear) ? todayMonth : 12;
+                const limit = (parseInt(selectedYear) === maxYear) ? maxMonth : 12;
                 return Array.from({ length: limit }, (_, i) => String(i + 1).padStart(2, '0'));
             };
 
@@ -449,8 +456,8 @@
                 const yearInt = parseInt(selectedYear);
                 const monthInt = parseInt(selectedMonth);
                 let limit = new Date(yearInt, monthInt, 0).getDate();
-                if (yearInt === todayYear && monthInt === todayMonth) {
-                    limit = Math.min(limit, todayDay);
+                if (yearInt === maxYear && monthInt === maxMonth) {
+                    limit = Math.min(limit, maxDay);
                 }
                 return Array.from({ length: limit }, (_, i) => String(i + 1).padStart(2, '0'));
             };
@@ -573,7 +580,7 @@
         })();
     </script>
     <!-- Floating Robot Customer Service -->
-    <div class="floating-robot-service" onclick="alert('Connecting to Live Customer Service...')"
+    <div class="floating-robot-service" onclick="window.open('https://h5.workorder.support/?tenantid=1093&timestamp=1780672236&website=https%253A%252F%252Fwww.jaiclub33.com&datablock=3fef10386ee767ebe73ec1ea4b3c514970865eb5a489654c56325afc7cc55cb0bb1b7b763bf81ee24dbbbd7dca72a34039dd6f4446463e117143e47479c9b85c43605555b091b3aa0cc4743b71ad783dbced25467bbe9abf7f16fd4c5fd4a40c6cc92c8d61f31eed8781cdc781b476573cce62d759d9c0bc3868d6acf8821257&language=en#/home?language=', '_blank')"
         style="position: fixed; right: 15px; bottom: 120px; z-index: 9999; cursor: pointer; width: 55px; height: 55px; border-radius: 50%; transition: transform 0.2s ease;"
         onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">
         <img src="images/rr.webp" style="width: 100%; height: 100%; object-fit: contain;"

@@ -426,11 +426,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 records = records.filter(r => r.uid.includes(searchQuery));
             }
 
-            // Level filters (Simulated Level Mapping: odd UIDs = level 1, even UIDs = level 2)
-            if (level === 'direct') {
-                records = records.filter(r => parseInt(r.uid) % 2 === 1);
-            } else if (level === 'team') {
-                records = records.filter(r => parseInt(r.uid) % 2 === 0);
+            // Level filters (use level field from data, tier1=1, tier2=2, etc.)
+            if (level !== 'all') {
+                const tierNum = parseInt(level.replace('tier', ''));
+                records = records.filter(r => r.level === tierNum);
             }
 
             // Render
@@ -448,8 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     card.style.background = 'rgba(100, 150, 255, 0.1)';
                     card.style.border = '1px solid rgba(255,255,255,0.06)';
 
-                    const isDirect = parseInt(rec.uid) % 2 === 1;
-                    const level = isDirect ? 2 : 3;
+                    const level = rec.level || 1;
                     const commission = (rec.bet * 0.018).toFixed(2);
                     const dateOnly = rec.time.split(' ')[0];
 

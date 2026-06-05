@@ -18,56 +18,95 @@
         teamSubordinates: 45
     };
 
-    // Simulated subordinate data records for filtering
-    const MOCK_SUBORDINATE_RECORDS = {
-        "2026-05-25": {
-            depositNumber: 5,
-            depositAmount: 15000,
-            bettorsNumber: 8,
-            totalBet: 28400,
-            firstDepositPeople: 2,
-            firstDepositAmount: 2000,
-            list: [
-                { uid: "551892", time: "2026-05-25 10:14:02", deposit: 1000, bet: 3400, isFirst: true },
-                { uid: "552011", time: "2026-05-25 11:45:21", deposit: 5000, bet: 12000, isFirst: false },
-                { uid: "552089", time: "2026-05-25 14:02:11", deposit: 1000, bet: 1000, isFirst: true },
-                { uid: "552103", time: "2026-05-25 15:30:45", deposit: 3000, bet: 5000, isFirst: false },
-                { uid: "552190", time: "2026-05-25 17:10:00", deposit: 5000, bet: 7000, isFirst: false }
-            ]
-        },
-        "2026-05-24": {
-            depositNumber: 8,
-            depositAmount: 24500,
-            bettorsNumber: 12,
-            totalBet: 45200,
-            firstDepositPeople: 4,
-            firstDepositAmount: 4500,
-            list: [
-                { uid: "550992", time: "2026-05-24 09:12:00", deposit: 500, bet: 1200, isFirst: true },
-                { uid: "551042", time: "2026-05-24 10:44:15", deposit: 2000, bet: 4500, isFirst: true },
-                { uid: "551221", time: "2026-05-24 12:01:54", deposit: 10000, bet: 18000, isFirst: false },
-                { uid: "551388", time: "2026-05-24 14:22:10", deposit: 1000, bet: 1000, isFirst: true },
-                { uid: "551560", time: "2026-05-24 16:55:01", deposit: 1000, bet: 2500, isFirst: true },
-                { uid: "551600", time: "2026-05-24 18:30:20", deposit: 5000, bet: 9000, isFirst: false },
-                { uid: "551711", time: "2026-05-24 20:11:42", deposit: 3000, bet: 6000, isFirst: false },
-                { uid: "551802", time: "2026-05-24 22:40:05", deposit: 2000, bet: 3000, isFirst: false }
-            ]
-        },
-        "2026-05-23": {
-            depositNumber: 4,
-            depositAmount: 9000,
-            bettorsNumber: 6,
-            totalBet: 15400,
-            firstDepositPeople: 1,
-            firstDepositAmount: 1000,
-            list: [
-                { uid: "550412", time: "2026-05-23 08:33:12", deposit: 1000, bet: 2400, isFirst: true },
-                { uid: "550502", time: "2026-05-23 11:21:40", deposit: 3000, bet: 5000, isFirst: false },
-                { uid: "550711", time: "2026-05-23 15:10:05", deposit: 4000, bet: 6000, isFirst: false },
-                { uid: "550882", time: "2026-05-23 19:44:50", deposit: 1000, bet: 2000, isFirst: false }
-            ]
+    // ---- Helper: generate yesterday's date string ----
+    function getYesterdayStr() {
+        const d = new Date();
+        d.setDate(d.getDate() - 1);
+        return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
+
+    // ---- Helper: generate a date string N days ago ----
+    function daysAgoStr(n) {
+        const d = new Date();
+        d.setDate(d.getDate() - n);
+        return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
+
+    // ---- Seeded random for reproducible data ----
+    function seededRandom(seed) {
+        let s = seed;
+        return function () {
+            s = (s * 16807 + 0) % 2147483647;
+            return (s - 1) / 2147483646;
+        };
+    }
+
+    // ---- Generate mock subordinate records for ~90 days (3 months) up to yesterday ----
+    function generateMockSubordinateRecords() {
+        const records = {};
+        const baseUid = 549000;
+        let uidCounter = 0;
+
+        // Generate data for each day from 90 days ago to yesterday (skip today)
+        for (let daysBack = 1; daysBack <= 90; daysBack++) {
+            const dateStr = daysAgoStr(daysBack);
+            const rand = seededRandom(daysBack * 7919 + 42);
+
+            // Random number of list entries: 3 to 12
+            const numEntries = Math.floor(rand() * 10) + 3;
+            const list = [];
+
+            let totalDeposit = 0;
+            let totalBet = 0;
+            let firstDepositCount = 0;
+            let firstDepositAmt = 0;
+
+            for (let i = 0; i < numEntries; i++) {
+                uidCounter++;
+                const uid = String(baseUid + uidCounter);
+                const level = Math.floor(rand() * 6) + 1; // 1-6
+                const deposit = [500, 1000, 1500, 2000, 3000, 5000, 7500, 10000][Math.floor(rand() * 8)];
+                const betMultiplier = 1.5 + rand() * 3;
+                const bet = Math.round(deposit * betMultiplier);
+                const isFirst = rand() > 0.7;
+
+                const hour = Math.floor(rand() * 14) + 8; // 8 AM - 10 PM
+                const minute = Math.floor(rand() * 60);
+                const second = Math.floor(rand() * 60);
+                const timeStr = `${dateStr} ${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:${String(second).padStart(2, '0')}`;
+
+                list.push({
+                    uid: uid,
+                    level: level,
+                    time: timeStr,
+                    deposit: deposit,
+                    bet: bet,
+                    isFirst: isFirst
+                });
+
+                totalDeposit += deposit;
+                totalBet += bet;
+                if (isFirst) {
+                    firstDepositCount++;
+                    firstDepositAmt += deposit;
+                }
+            }
+
+            records[dateStr] = {
+                depositNumber: numEntries,
+                depositAmount: totalDeposit,
+                bettorsNumber: Math.floor(numEntries * (0.6 + rand() * 0.4)),
+                totalBet: totalBet,
+                firstDepositPeople: firstDepositCount,
+                firstDepositAmount: firstDepositAmt,
+                list: list
+            };
         }
-    };
+
+        return records;
+    }
+
+    const MOCK_SUBORDINATE_RECORDS = generateMockSubordinateRecords();
 
     // Get DB from localStorage or initialize
     function initDatabase() {
