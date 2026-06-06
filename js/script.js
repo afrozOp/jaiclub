@@ -466,15 +466,15 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                             <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px;">
                                 <span style="color: rgba(255,255,255,0.6);">Deposit amount</span>
-                                <span style="color: #954503ff; font-weight: 500;">${rec.deposit}</span>
+                                <span style="color: #aa842bff; font-weight: 500;">${rec.deposit}</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px;">
                                 <span style="color: rgba(255,255,255,0.6);">Bet amount</span>
-                                <span style="color: #954503ff; font-weight: 500;">${rec.bet}</span>
+                                <span style="color: #aa842bff; font-weight: 500;">${rec.bet}</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px;">
                                 <span style="color: rgba(255,255,255,0.6);">Commission</span>
-                                <span style="color: #954503ff; font-weight: 500;">${commission}</span>
+                                <span style="color: #aa842bff; font-weight: 500;">${commission}</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px;">
                                 <span style="color: rgba(255,255,255,0.6);">Time</span>
@@ -752,7 +752,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                const gameName = card.querySelector('span').textContent.toLowerCase();
+                const gameName = (card.getAttribute('data-game') || (card.querySelector('span') ? card.querySelector('span').textContent : '') || '').toLowerCase();
                 if (gameName === 'wingo') {
                     wingoOverlay.style.display = 'flex';
                     startWingoTimer();

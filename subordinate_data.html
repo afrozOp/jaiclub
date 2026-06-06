@@ -291,9 +291,14 @@
     </div>
 
     <div class="filter-row">
-        <!-- Tier Level Dropdown -->
-        <select id="subordinate-level-select" class="filter-btn"
-            style="border: none; outline: none; background: var(--card-bg); color: white; padding: 10px 15px; font-size: 14px; border-radius: 8px; cursor: pointer; text-align-last: center; flex: 1;">
+        <!-- Tier Level Dropdown Trigger -->
+        <div class="filter-btn tier-picker-trigger" id="tier-picker-trigger"
+            style="border: none; outline: none; background: var(--card-bg); color: white; padding: 10px 15px; font-size: 14px; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; flex: 1; min-height: 41px;">
+            <span id="tier-picker-display">All</span>
+            <i class="fas fa-chevron-down" style="font-size: 10px; color: var(--text-secondary);"></i>
+        </div>
+        <!-- Hidden select to maintain compatibility with js/script.js -->
+        <select id="subordinate-level-select" style="display: none;">
             <option value="all">All</option>
             <option value="tier1">Tier 1</option>
             <option value="tier2">Tier 2</option>
@@ -307,10 +312,9 @@
 
         <!-- Custom Vant Style Date Pill Dropdown -->
         <div class="filter-btn date-picker-trigger" id="date-picker-trigger"
-            style="border: none; outline: none; background: var(--card-bg); color: white; padding: 10px 15px; font-size: 14px; border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; flex: 1; min-height: 41px;">
+            style="border: none; outline: none; background: var(--card-bg); color: white; padding: 10px 15px; font-size: 14px; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; flex: 1; min-height: 41px;">
             <span class="default" id="date-picker-display"></span>
-            <i class="van-badge__wrapper van-icon van-icon-arrow-down"><i class="fas fa-chevron-down"
-                    style="font-size: 10px; color: var(--text-secondary);"></i></i>
+            <i class="fas fa-chevron-down" style="font-size: 10px; color: var(--text-secondary);"></i>
         </div>
     </div>
 
@@ -367,6 +371,21 @@
         </div>
     </div>
 
+    <!-- Bottom Sheet Mobile Tier Picker Modal -->
+    <div id="tier-picker-overlay" class="picker-overlay">
+        <div class="picker-container">
+            <div class="picker-header">
+                <span class="btn-cancel" id="tier-picker-cancel">Cancel</span>
+                <span>Choose tier</span>
+                <span class="btn-confirm" id="tier-picker-confirm">Confirm</span>
+            </div>
+            <div class="picker-body">
+                <div class="picker-highlight"></div>
+                <div class="picker-column" id="picker-tier-col" style="flex: 1;"></div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/db.js"></script>
     <script src="js/script.js"></script>
     <script>
@@ -401,6 +420,41 @@
 
         // Load stats for the initial date on page load
         loadStatsForDate(getCurrentSubDate());
+
+        // ---- Shared Picker Helpers ----
+        const createPaddingItem = () => {
+            const div = document.createElement('div');
+            div.className = 'picker-item';
+            div.style.pointerEvents = 'none';
+            div.innerHTML = '&nbsp;';
+            return div;
+        };
+
+        const populateCol = (colId, items, currentVal, onSelect) => {
+            const col = document.getElementById(colId);
+            if (!col) return;
+            col.innerHTML = '';
+            // Add padding items
+            col.appendChild(createPaddingItem());
+            col.appendChild(createPaddingItem());
+            items.forEach(val => {
+                const div = document.createElement('div');
+                div.className = 'picker-item';
+                div.textContent = val;
+                if (String(val) === String(currentVal)) {
+                    div.classList.add('selected');
+                }
+                div.onclick = () => {
+                    col.querySelectorAll('.picker-item').forEach(el => el.classList.remove('selected'));
+                    div.classList.add('selected');
+                    onSelect(val);
+                    div.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                };
+                col.appendChild(div);
+            });
+            col.appendChild(createPaddingItem());
+            col.appendChild(createPaddingItem());
+        };
 
         // Bottom Sheet Date Picker controller
         (function () {
@@ -462,40 +516,6 @@
                 return Array.from({ length: limit }, (_, i) => String(i + 1).padStart(2, '0'));
             };
 
-            const populateCol = (colId, items, currentVal, onSelect) => {
-                const col = document.getElementById(colId);
-                if (!col) return;
-                col.innerHTML = '';
-                // Add padding items
-                col.appendChild(createPaddingItem());
-                col.appendChild(createPaddingItem());
-                items.forEach(val => {
-                    const div = document.createElement('div');
-                    div.className = 'picker-item';
-                    div.textContent = val;
-                    if (String(val) === String(currentVal)) {
-                        div.classList.add('selected');
-                    }
-                    div.onclick = () => {
-                        col.querySelectorAll('.picker-item').forEach(el => el.classList.remove('selected'));
-                        div.classList.add('selected');
-                        onSelect(val);
-                        div.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    };
-                    col.appendChild(div);
-                });
-                col.appendChild(createPaddingItem());
-                col.appendChild(createPaddingItem());
-            };
-
-            const createPaddingItem = () => {
-                const div = document.createElement('div');
-                div.className = 'picker-item';
-                div.style.pointerEvents = 'none';
-                div.innerHTML = '&nbsp;';
-                return div;
-            };
-
             const updateYearColumn = () => {
                 const yearsList = getAvailableYears();
                 if (!yearsList.includes(parseInt(currentSelectedYear))) {
@@ -531,7 +551,7 @@
             };
 
             const initPickers = () => {
-                const activeDate = dateSelectCompat ? dateSelectCompat.value : todayStr;
+                const activeDate = dateSelectCompat ? dateSelectCompat.value : yesterdayStr;
                 currentSelectedYear = activeDate.split('-')[0];
                 currentSelectedMonth = activeDate.split('-')[1];
                 currentSelectedDay = activeDate.split('-')[2];
@@ -575,6 +595,73 @@
                     loadStatsForDate(fullDate);
 
                     datePickerOverlay.style.display = 'none';
+                };
+            }
+        })();
+
+        // Bottom Sheet Tier Picker controller
+        (function () {
+            const tierPickerOverlay = document.getElementById('tier-picker-overlay');
+            const tierPickerTrigger = document.getElementById('tier-picker-trigger');
+            const tierPickerDisplay = document.getElementById('tier-picker-display');
+            const levelSelectCompat = document.getElementById('subordinate-level-select');
+
+            const tiers = [
+                { text: 'All', value: 'all' },
+                { text: 'Tier 1', value: 'tier1' },
+                { text: 'Tier 2', value: 'tier2' },
+                { text: 'Tier 3', value: 'tier3' },
+                { text: 'Tier 4', value: 'tier4' },
+                { text: 'Tier 5', value: 'tier5' },
+                { text: 'Tier 6', value: 'tier6' }
+            ];
+
+            let tempSelectedTier = levelSelectCompat ? levelSelectCompat.value : 'all';
+
+            const populateTierCol = () => {
+                const itemsList = tiers.map(t => t.text);
+                const currentText = (tiers.find(t => t.value === tempSelectedTier) || tiers[0]).text;
+
+                populateCol('picker-tier-col', itemsList, currentText, (val) => {
+                    const matched = tiers.find(t => t.text === val);
+                    if (matched) {
+                        tempSelectedTier = matched.value;
+                    }
+                });
+            };
+
+            if (tierPickerTrigger) {
+                tierPickerTrigger.addEventListener('click', () => {
+                    tempSelectedTier = levelSelectCompat ? levelSelectCompat.value : 'all';
+                    populateTierCol();
+                    tierPickerOverlay.style.display = 'block';
+                    setTimeout(() => {
+                        const selected = document.querySelector('#picker-tier-col .picker-item.selected');
+                        if (selected) selected.scrollIntoView({ block: 'center' });
+                    }, 80);
+                });
+            }
+
+            const pickerCancel = document.getElementById('tier-picker-cancel');
+            if (pickerCancel) {
+                pickerCancel.onclick = () => {
+                    tierPickerOverlay.style.display = 'none';
+                };
+            }
+
+            const pickerConfirm = document.getElementById('tier-picker-confirm');
+            if (pickerConfirm) {
+                pickerConfirm.onclick = () => {
+                    const matched = tiers.find(t => t.value === tempSelectedTier);
+                    const displayText = matched ? matched.text : 'All';
+                    if (tierPickerDisplay) tierPickerDisplay.textContent = displayText;
+
+                    if (levelSelectCompat) {
+                        levelSelectCompat.value = tempSelectedTier;
+                        levelSelectCompat.dispatchEvent(new Event('change'));
+                    }
+
+                    tierPickerOverlay.style.display = 'none';
                 };
             }
         })();
