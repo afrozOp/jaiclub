@@ -52,8 +52,8 @@
             const dateStr = daysAgoStr(daysBack);
             const rand = seededRandom(daysBack * 7919 + 42);
 
-            // Random number of list entries: 3 to 12
-            const numEntries = Math.floor(rand() * 10) + 3;
+            // Random number of list entries: 25 to 30
+            const numEntries = Math.floor(rand() * 6) + 25;
             const list = [];
 
             let totalDeposit = 0;
@@ -64,7 +64,8 @@
             for (let i = 0; i < numEntries; i++) {
                 uidCounter++;
                 const uid = String(baseUid + uidCounter);
-                const level = Math.floor(rand() * 6) + 1; // 1-6
+                // Guarantee at least one representation for levels 1-6, then random
+                const level = (i < 6) ? (i + 1) : (Math.floor(rand() * 6) + 1);
                 const deposit = [500, 1000, 1500, 2000, 3000, 5000, 7500, 10000][Math.floor(rand() * 8)];
                 const betMultiplier = 1.5 + rand() * 3;
                 const bet = Math.round(deposit * betMultiplier);

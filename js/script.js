@@ -448,7 +448,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     card.style.border = '1px solid rgba(255,255,255,0.06)';
 
                     const level = rec.level || 1;
-                    const commission = (rec.bet * 0.018).toFixed(2);
+                    const commission = (rec.bet * 0.0001).toFixed(2);
                     const dateOnly = rec.time.split(' ')[0];
 
                     card.innerHTML = `
