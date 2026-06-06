@@ -410,13 +410,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = window.JaiDB.getSubordinateData(date);
 
-            // Populate static numeric fields (supporting manual edit overrides)
-            depNum.textContent = localStorage.getItem('sub_deposit-number-val') !== null ? localStorage.getItem('sub_deposit-number-val') : data.depositNumber;
-            depAmt.textContent = localStorage.getItem('sub_deposit-amount-val') !== null ? localStorage.getItem('sub_deposit-amount-val') : data.depositAmount.toLocaleString('en-IN');
-            betNum.textContent = localStorage.getItem('sub_bettors-number-val') !== null ? localStorage.getItem('sub_bettors-number-val') : data.bettorsNumber;
-            betAmt.textContent = localStorage.getItem('sub_total-bet-val') !== null ? localStorage.getItem('sub_total-bet-val') : data.totalBet.toLocaleString('en-IN');
-            fstNum.textContent = localStorage.getItem('sub_first-deposit-people-val') !== null ? localStorage.getItem('sub_first-deposit-people-val') : data.firstDepositPeople;
-            fstAmt.textContent = localStorage.getItem('sub_first-deposit-amount-val') !== null ? localStorage.getItem('sub_first-deposit-amount-val') : data.firstDepositAmount.toLocaleString('en-IN');
+            // Populate static numeric fields using date-specific localStorage keys
+            // Keys match the format used by the inline save logic: 'sub_' + date + '_' + elementId
+            const statFields = [
+                { el: depNum, id: 'deposit-number-val', fallback: data.depositNumber },
+                { el: depAmt, id: 'deposit-amount-val', fallback: data.depositAmount.toLocaleString('en-IN') },
+                { el: betNum, id: 'bettors-number-val', fallback: data.bettorsNumber },
+                { el: betAmt, id: 'total-bet-val', fallback: data.totalBet.toLocaleString('en-IN') },
+                { el: fstNum, id: 'first-deposit-people-val', fallback: data.firstDepositPeople },
+                { el: fstAmt, id: 'first-deposit-amount-val', fallback: data.firstDepositAmount.toLocaleString('en-IN') }
+            ];
+
+            statFields.forEach(field => {
+                const savedVal = localStorage.getItem('sub_' + date + '_' + field.id);
+                field.el.textContent = (savedVal !== null) ? savedVal : field.fallback;
+            });
 
             // Filter List
             let records = data.list || [];
@@ -447,7 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     card.style.background = 'rgba(100, 150, 255, 0.1)';
                     card.style.border = '1px solid rgba(255,255,255,0.06)';
 
-                    const level = rec.level || 1;
+                    const recLevel = rec.level || 1;
                     const commission = (rec.bet * 0.0001).toFixed(2);
                     const dateOnly = rec.time.split(' ')[0];
 
@@ -462,7 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div style="display: flex; flex-direction: column; gap: 8px;">
                             <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px;">
                                 <span style="color: rgba(255,255,255,0.6);">Level</span>
-                                <span style="color: rgba(255,255,255,0.6); font-weight: 500;">${level}</span>
+                                <span style="color: rgba(255,255,255,0.6); font-weight: 500;">${recLevel}</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px;">
                                 <span style="color: rgba(255,255,255,0.6);">Deposit amount</span>
